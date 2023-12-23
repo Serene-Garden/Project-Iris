@@ -54,8 +54,12 @@
 "Settings.passcode.change" = "Change passcode";
 "Settings.passcode.delete" = "Delete passcode";
 "Settings.passcode.discription" = "If you set a passcode, it will be required when you access histories and Bing API key.";
-"Settings.about" = "About";
-
+"Settings.about" = "About & Credit";
+"Settings.about.785.age&grade" = "12 years old, grade 7";
+"Settings.about.785.developer" = "Main developer";
+"Settings.about.MEMZ.grade" = "grade 9";
+"Settings.about.MEMZ.contribution" = "Given codes about accessing websites";
+"Setting.about.appreciation" = "Appreciate you for using Project Iris, and appreaciate you for watching this credit. Glad if you have any suggestions.";
 //密码 Passcode
 "Passcode.digit.1" = "Digit 1";
 "Passcode.digit.2" = "Digit 2";

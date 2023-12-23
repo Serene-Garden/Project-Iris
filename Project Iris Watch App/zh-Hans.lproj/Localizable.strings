@@ -54,7 +54,12 @@
 "Settings.passcode.change" = "更改密码";
 "Settings.passcode.delete" = "删除密码";
 "Settings.passcode.discription" = "启用后，访问历史记录或Bing密钥将会要求密码。";
-"Settings.about" = "关于";
+"Settings.about" = "关于与致谢";
+"Settings.about.785.age&grade" = "12岁，初一";
+"Settings.about.785.developer" = "主要开发者";
+"Settings.about.MEMZ.grade" = "初三";
+"Settings.about.MEMZ.contribution" = "提供了网页访问相关代码";
+"Setting.about.appreciation" = "感谢你使用Project Iris，也感谢你看到这里。欢迎提出任何意见。";
 
 //密码 Passcode
 "Passcode.digit.1" = "第一位";

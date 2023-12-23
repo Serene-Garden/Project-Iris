@@ -104,11 +104,41 @@ struct SettingsView: View {
             Section {
                 NavigationLink(destination: {
                     List {
-                        VStack {
-                            Text("Project Iris")
+                        VStack(alignment: .leading) {
+                            HStack {
+                                //TODO: Add an image here
+                                Text("Project Iris")
+                                Spacer()
+                            }
                                 .bold()
+                            Text("v0.1.1 Beta")
                         }
-                        //TODO: Expand & Decorate
+                        VStack(alignment: .leading) {
+                            Text("ThreeManager785")
+                                .bold()
+                            HStack {
+                                Image(systemName: "graduationcap")
+                                Text("Settings.about.785.age&grade")
+                            }
+                            HStack {
+                                Image(systemName: "person")
+                                Text("Settings.about.785.developer")
+                            }
+                            Text("mallets02.plums@icloud.com")
+                        }
+                        VStack(alignment: .leading) {
+                            Text("WindowsMEMZ")
+                                .bold()
+                            HStack {
+                                Image(systemName: "graduationcap")
+                                Text("Settings.about.MEMZ.grade")
+                            }
+                            HStack {
+                                Image(systemName: "person")
+                                Text("Settings.about.MEMZ.contribution")
+                            }
+                        }
+                        Text("Setting.about.appreciation")
                     }
                 }, label: {
                     Label("Settings.about", systemImage: "info.circle")
