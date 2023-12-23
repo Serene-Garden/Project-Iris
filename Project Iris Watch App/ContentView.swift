@@ -9,13 +9,15 @@ import SwiftUI
 import AuthenticationServices
 
 struct ContentView: View {
-    let tintColor: Color = Color(hue: 275/360, saturation: 60/100, brightness: 100/100)
+    let tintColor: Color = Color(hue: 275/360, saturation: 40/100, brightness: 100/100)
     @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
     @AppStorage("isPrivateModePinned") var isPrivateModePinned = false
     @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
     @AppStorage("isSettingsButtonPinned") var isSettingsButtonPinned = false
     @AppStorage("searchEngineSelection") var searchEngineSelection = "Bing"
     @AppStorage("customizedSearchEngine") var customizedSearchEngine = ""
+    @AppStorage("tintSaturation") var tintSaturation: Int = 40
+    @AppStorage("tintBrightness") var tintBrightness: Int = 100
     @State var searchField = ""
     @State var isURL = false
     public var BingAbility = 4
@@ -106,8 +108,8 @@ struct ContentView: View {
                                 .foregroundStyle(lightColors[BingAbility])
                                 .padding(.trailing, 7)
                         }
-                        .disabled(BingAbility > 3 || BingAbility < 0)
                     })
+                    .disabled(BingAbility > 3 || BingAbility < 0)
                 }
             }
             .navigationTitle("Home.Iris")

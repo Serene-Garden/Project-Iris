@@ -15,9 +15,13 @@ struct SettingsView: View {
     @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
     @AppStorage("isSettingsButtonPinned") var isSettingsButtonPinned = false
     @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
+    @AppStorage("tintSaturation") var tintSaturation: Int = 40
+    @AppStorage("tintBrightness") var tintBrightness: Int = 100
     @AppStorage("searchEngineSelection") var searchEngineSelection = "Bing"
     @AppStorage("customizedSearchEngine") var customizedSearchEngine = ""
+    @State var tintColor = Color(hue: 275/360, saturation: 40/100, brightness: 100/100)
     @State var isCustomizeSearchEngineSheetDisplaying = false
+    @State var isTintColorSheetDisplaying = false
     var body: some View {
         List {
             Section("Settings.search-engine") {
@@ -112,6 +116,9 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
+        .onAppear {
+            tintColor = Color(hue: 275/360, saturation: Double(tintSaturation/100), brightness: Double(tintBrightness/100))
+        }
         .sheet(isPresented: $isCustomizeSearchEngineSheetDisplaying) {
             List {
                 HStack {
