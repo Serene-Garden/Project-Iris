@@ -16,3 +16,7 @@ Some of the part is copied from Darock Browser, allowed by @WindowsMEMZ
 - 自定义搜索引擎        Customize search engine
 - 置顶按钮位置          Pin buttons
 - 设置历史记录密码       Set password for history
+
+## 语言 Languages
+- 简体中文 Simplified Chinese
+- 英文 English
