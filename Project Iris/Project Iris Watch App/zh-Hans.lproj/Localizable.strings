@@ -1,0 +1,79 @@
+/* 
+  Localizable.strings
+  Project Iris
+
+  Created by 雷美淳 on 2023/10/21.
+  
+ "" = "";
+*/
+
+//主页 Home
+"Home.Iris" = "Iris";
+"Home.search-field" = "关键词或URL";
+"Home.open" = "打开";
+"Home.search" = "搜索";
+"Home.bookmarks" = "书签";
+"Home.privacy-mode" = "无痕浏览";
+"Home.history" = "历史记录";
+"Home.settings" = "设置";
+"Home.Bing-API-key" = "Bing API 密钥可用性";
+"Home.Bing-API-key.none" = "无Bing密钥";
+"Home.Bing-API-key.unavailable" = "Bing密钥不可用";
+"Home.Bing-API-key.own" = "个人Bing密钥可用";
+"Home.Bing-API-key.subscription" = "已订阅Bing密钥";
+"Home.Bing-API-key.coming-in-future" = "将来推出";
+
+//设置 Settings
+"Settings" = "设置";
+"Settings.search-engine" = "搜索引擎";
+"Settings.search-engine.default" = "默认搜索引擎";
+"Settings.search-engine.Bing" = "必应";
+"Settings.search-engine.Google" = "谷歌";
+"Settings.search-engine.Baidu" = "百度";
+"Settings.search-engine.Sougou" = "搜狗";
+"Settings.search-engine.customize" = "自定义";
+"Settings.search-engine.customize..." = "自定义...";
+"Search.search-engine.customize.replacement-tip" = "在URL中使用 \\Iris 以表示搜索内容";
+"Search.search-engine.customize.http-tip" = "https:// 或 http:// 是必要的";
+"Search.search-engine.customize.enter" = "在此处输入URL...";
+"Settings.Cookies" = "Cookies";
+"Settings.cookies.allow" = "允许Cookies";
+"Settings.interface" = "界面";
+"Settings.interface.pin-settings-button" = "置顶设置按钮";
+"Settings.tip" = "提示";
+"Settings.tip.confirm" = "轻点以确认提示";
+"Settings.tip.speed" = "提示动画速度";
+"Settings.tip.speed.fast" = "较快";
+"Settings.tip.speed.default" = "默认";
+"Settings.tip.speed.slow" = "较慢";
+"Settings.tip.speed.very-slow" = "极慢";
+"Settings.privacy-mode" = "无痕浏览";
+"Settings.privacy-mode.pin" = "置顶无痕开关";
+"Settings.passcode" = "密码";
+"Settings.passcode.create" = "创建密码";
+"Settings.passcode.change" = "更改密码";
+"Settings.passcode.delete" = "删除密码";
+"Settings.passcode.discription" = "启用后，访问历史记录或Bing密钥将会要求密码。";
+"Settings.about" = "关于";
+
+//密码 Passcode
+"Passcode.digit.1" = "第一位";
+"Passcode.digit.2" = "第二位";
+"Passcode.digit.3" = "第三位";
+"Passcode.digit.4" = "第四位";
+"Passcode.enter" = "输入密码";
+"Passcode.submit" = "确认";
+"Passcode.next-step" = "下一步";
+"Passcode.previous-step" = "上一步";
+"Passcode.incorrect" = "密码不正确";
+"Passcode.mismatch" = "密码不匹配";
+"Passcode.change.old" = "输入旧密码";
+"Passcode.change.new" = "输入新密码";
+"Passcode.change.verify" = "再次输入新密码";
+"Passcode.change.success" = "密码已更改";
+"Passcode.create.new" = "输入密码";
+"Passcode.create.verify" = "再次输入密码";
+"Passcode.create.success" = "密码已创建";
+"Passcode.delete.enter" = "输入密码";
+"Passcode.delete.confirm" = "输入1234以确认";
+"Passcode.delete.success" = "密码已删除";
