@@ -31,7 +31,7 @@ struct ContentView: View {
                     })
                     .onSubmit {
                         if searchField.contains(".com") || searchField.contains(".cn") || searchField.contains(".org") || searchField.contains(".gov") || searchField.contains(".top") || searchField.contains(".vip") ||
-                            searchField.contains(".edu") || searchField.contains(".tv") || searchField.contains("https://") || searchField.contains("http://") {
+                            searchField.contains(".edu") || searchField.contains(".tv") || searchField.hasPrefix("https://") || searchField.hasPrefix("http://") {
                             isURL = true
                         } else {
                             isURL = false
