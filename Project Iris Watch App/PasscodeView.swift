@@ -80,7 +80,7 @@ struct PasscodeView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
-                        if inputCode1 == passcode1 && inputCode2 == passcode2 && inputCode3 == passcode3 && inputCode4 == passcode4 {
+                        if verifyPasscode(input: "\(inputCode1)\(inputCode2)\(inputCode3)\(inputCode4)") {
                             isUnlocked = true
                         } else {
                             showTip("Passcode.incorrect", symbol: "lock")
@@ -186,7 +186,7 @@ struct PasscodeChangeView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
-                    if inputCode1 == passcode1 && inputCode2 == passcode2 && inputCode3 == passcode3 && inputCode4 == passcode4 && step == 1 {
+                    if verifyPasscode(input: "\(inputCode1)\(inputCode2)\(inputCode3)\(inputCode4)") && step == 1 {
                         inputCode1 = 0
                         inputCode2 = 0
                         inputCode3 = 0
@@ -420,7 +420,7 @@ struct PasscodeDeleteView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button {
-                    if inputCode1 == passcode1 && inputCode2 == passcode2 && inputCode3 == passcode3 && inputCode4 == passcode4 && step == 1 {
+                    if verifyPasscode(input: "\(inputCode1)\(inputCode2)\(inputCode3)\(inputCode4)") && step == 1 {
                         inputCode1 = 0
                         inputCode2 = 0
                         inputCode3 = 0
@@ -444,4 +444,12 @@ struct PasscodeDeleteView: View {
             }
         }
     }
+}
+
+private func verifyPasscode(input inp: String) -> {
+    var storedPasscode = ""
+    for i in 1...4 {
+        storedPasscode += String(UserDefaults.standard.int(forKey: "passcode\(i)"))
+    }
+    return storedPasscode == inp
 }
