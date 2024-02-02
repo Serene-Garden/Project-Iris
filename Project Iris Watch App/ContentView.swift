@@ -159,8 +159,10 @@ struct ContentView: View {
             }
             session.prefersEphemeralWebBrowserSession = !isCookiesAllowed && !isPrivateModeOn
             session.start()
-            historyLinks.insert(searchField.urlEncoded(), at: 0)
-            UserDefaults.standard.set(historyLinks, forKey: "HistoryLink")
+            if !isPrivateModeOn {
+                historyLinks.insert(searchField.urlEncoded(), at: 0)
+                UserDefaults.standard.set(historyLinks, forKey: "HistoryLink")
+            }
         } else {
             let session = ASWebAuthenticationSession(
                 url: URL(string: GetWebSearchedURL(searchField))!,
@@ -170,8 +172,10 @@ struct ContentView: View {
             }
             session.prefersEphemeralWebBrowserSession = !isCookiesAllowed && !isPrivateModeOn
             session.start()
-            historyLinks.insert(searchField, at: 0)
-            UserDefaults.standard.set(historyLinks, forKey: "HistoryLink")
+            if !isPrivateModeOn {
+                historyLinks.insert(searchField, at: 0)
+                UserDefaults.standard.set(historyLinks, forKey: "HistoryLink")
+            }
         }
     }
     func GetWebSearchedURL(_ input: String) -> String {

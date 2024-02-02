@@ -28,6 +28,7 @@ struct SettingsView: View {
     @State var isCustomizeSearchEngineSheetDisplaying = false
     @State var isTintColorSheetDisplaying = false
     @State var isPasswordSheetDisplaying = false
+    @State var userCustomizedSearchEngineInput = ""
     var body: some View {
         List {
             Section("Settings.search") {
@@ -156,22 +157,34 @@ struct SettingsView: View {
         .onAppear {
             tintColor = Color(hue: 275/360, saturation: Double(tintSaturation/100), brightness: Double(tintBrightness/100))
         }
-        .sheet(isPresented: $isCustomizeSearchEngineSheetDisplaying) {
+        .sheet(isPresented: $isCustomizeSearchEngineSheetDisplaying, onDismiss: {
+            if !userCustomizedSearchEngineInput.contains("\\Iris") {
+                showTip("Search.search-engine.customize.set.failed", symbol: "exclamationmark.circle.fill")
+            } else {
+                if !userCustomizedSearchEngineInput.hasPrefix("http://") && !userCustomizedSearchEngineInput.hasPrefix("http://") {
+                    userCustomizedSearchEngineInput = "http://" + userCustomizedSearchEngineInput
+                }
+                customizedSearchEngine = userCustomizedSearchEngineInput
+            }
+            userCustomizedSearchEngineInput = ""
+        }) {
             List {
-                if customizedSearchEngine.contains("\\Iris") {
+                if userCustomizedSearchEngineInput.contains("\\Iris") {
                     Label("Search.search-engine.customize.replacement-tip", systemImage: "checkmark.circle")
                 } else {
                     Label("Search.search-engine.customize.replacement-tip", systemImage: "exclamationmark.circle")
-                }
-                if !customizedSearchEngine.contains("https://") && !customizedSearchEngine.contains("http://") {
-                    Label("Search.search-engine.customize.http-tip", systemImage: "exclamationmark.circle")
                 }
                 /* if customizedSearchEngine.isEmpty {
                  Text("Settings.search-engine.customize.none")
                  } else {
                  Text(customizedSearchEngine)
                  } */
-                TextField("Search.search-engine.customize.enter", text: $customizedSearchEngine)
+                // 永远不要觉得所有用户都要听你的话
+                // 要自己给输入做验证
+                TextField("Search.search-engine.customize.enter", text: $userCustomizedSearchEngineInput)
+            }
+            .onAppear {
+                userCustomizedSearchEngineInput = customizedSearchEngine
             }
         }
         .alert("Settings.history.clear", isPresented: $isClearHistoryAlertPresenting, actions: {
