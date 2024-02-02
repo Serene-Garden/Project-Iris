@@ -5,8 +5,19 @@
 //  Created by 雷美淳 on 2023/10/19.
 //
 
-import SwiftUI
+//Iris，我的处女作
+//生于安详的和平
+//你于2024年新春将至之际
+//正式完成开发
 
+//新的一年
+//希望你能安稳的运行
+//度过没有bug的一年
+//感激不尽
+
+//2024.02.03
+
+import SwiftUI
 
 var pShowTipText = ""
 var pShowTipSymbol = ""

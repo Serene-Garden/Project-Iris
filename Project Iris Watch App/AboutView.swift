@@ -54,6 +54,7 @@ struct AboutApp: View {
         }
         .sheet(isPresented: $isEasterEggDisplayed, content: {
             Text("About.easter-egg")
+                .multilineTextAlignment(.center)
         })
     }
 }
@@ -69,8 +70,10 @@ struct AboutCredits: View {
                 Text("ThreeManager785")
                 Text("WindowsMEMZ")
                 NavigationLink(destination: {
-                    Text("About.dear-user.content")
-                        .navigationTitle("About.dear-user")
+                    List {
+                        Text("About.dear-user.content")
+                            .navigationTitle("About.dear-user")
+                    }
                 }, label: {Text("And You")})
             }
         }

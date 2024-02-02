@@ -117,9 +117,6 @@ struct SettingsView: View {
                 Toggle(isOn: $isPrivateModeOn, label: {
                     Label("Settings.privacy-mode", systemImage: "hand.raised")
                 })
-                Toggle(isOn: $isPrivateModePinned, label: {
-                    Label("Settings.privacy-mode.pin", systemImage: "pin")
-                })
                 Button(action: {
                     isClearHistoryAlertPresenting = true
                 }, label: {
@@ -129,7 +126,7 @@ struct SettingsView: View {
             }
             
             Section("Settings.Cookies") {
-                Toggle("Settings.cookies.allow", isOn: $tipConfirmRequired)
+                Toggle("Settings.cookies.allow", isOn: $isCookiesAllowed)
             }
             
             Section("Settings.tip") {
