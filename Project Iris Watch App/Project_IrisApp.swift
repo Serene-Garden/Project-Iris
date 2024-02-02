@@ -24,8 +24,7 @@ struct Project_Iris_Watch_AppApp: App {
     @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
     @State var showTipText = ""
     @State var showTipSymbol = ""
-    @State var tipboxText: LocalizedStringKey
-    = ""
+    @State var tipboxText: LocalizedStringKey = ""
     @State var tipboxSymbol = ""
     @State var tipBoxOffset: CGFloat = 80
     @State var isTipBoxDisplaying = false

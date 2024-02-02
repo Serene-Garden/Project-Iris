@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PasscodeView: View {
     @AppStorage("isPasscodeRequired") var isPasscodeRequired = false
+    @AppStorage("isBookmarkRequiringPassword") var isBookmarkRequiringPassword = false
     @AppStorage("passcode1") var passcode1 = 0
     @AppStorage("passcode2") var passcode2 = 0
     @AppStorage("passcode3") var passcode3 = 0
@@ -20,7 +21,7 @@ struct PasscodeView: View {
     @State var isUnlocked = false
     var destination: Int
     var body: some View {
-        if isPasscodeRequired && !isUnlocked {
+        if isPasscodeRequired && !isUnlocked && (isBookmarkRequiringPassword || destination != 1) {
             VStack {
                 Text("Passcode.enter")
                     .bold()
@@ -94,6 +95,25 @@ struct PasscodeView: View {
         } else {
             if destination == 0 {
                 HistoryView()
+            } else if destination == 1 {
+                BookmarksView()
+            } else if destination == 2 {
+                VStack {
+                    if isBookmarkRequiringPassword {
+                        Image(systemName: "lock")
+                            .font(.largeTitle)
+                        Text("Settings.passcode.bookmarks.required")
+                            .multilineTextAlignment(.center)
+                    } else {
+                        Image(systemName: "lock.open")
+                            .font(.largeTitle)
+                        Text("Settings.passcode.bookmarks.no-require")
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                .onAppear {
+                    isBookmarkRequiringPassword.toggle()
+                }
             }
         }
     }
@@ -123,6 +143,7 @@ struct PasscodeChangeView: View {
                 Text("Passcode.change.new")
                     .offset(x: offset+500)
                 Text("Passcode.change.verify")
+                    .multilineTextAlignment(.center)
                     .offset(x: offset+1000)
                 Text("Passcode.change.success")
                     .offset(x: offset+1500)
@@ -221,6 +242,7 @@ struct PasscodeChangeView: View {
                 } label: {
                     Label("Passcode.next-step", systemImage: "chevron.forward")
                 }
+                .disabled(step == 4)
             }
         }
     }
@@ -335,6 +357,7 @@ struct PasscodeCreateView: View {
                 } label: {
                     Label("Passcode.next-step", systemImage: "chevron.forward")
                 }
+                .disabled(step == 3)
             }
         }
     }
@@ -342,6 +365,7 @@ struct PasscodeCreateView: View {
 
 struct PasscodeDeleteView: View {
     @AppStorage("isPasscodeRequired") var isPasscodeRequired = false
+    @AppStorage("isBookmarkRequiringPassword") var isBookmarkRequiringPassword = false
     @AppStorage("passcode1") var passcode1 = 0
     @AppStorage("passcode2") var passcode2 = 0
     @AppStorage("passcode3") var passcode3 = 0
@@ -430,6 +454,7 @@ struct PasscodeDeleteView: View {
                     } else if inputCode1 == 1 && inputCode2 == 2 && inputCode3 == 3 && inputCode4 == 4 && step == 2 {
                         step = 3
                         isPasscodeRequired = false
+//                        isBookmarkRequiringPassword = false
                         offset = -1000
                     } else {
                         if step == 2 {
@@ -440,7 +465,7 @@ struct PasscodeDeleteView: View {
                     }
                 } label: {
                     Label("Passcode.next-step", systemImage: "chevron.forward")
-                }
+                }.disabled(step == 3)
             }
         }
     }

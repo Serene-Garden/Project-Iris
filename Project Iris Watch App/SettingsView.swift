@@ -14,18 +14,31 @@ struct SettingsView: View {
     @AppStorage("isPasscodeRequired") var isPasscodeRequired = false
     @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
     @AppStorage("isSettingsButtonPinned") var isSettingsButtonPinned = false
+    @AppStorage("isBookmarkRequiringPassword") var isBookmarkRequiringPassword = false
     @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
     @AppStorage("tintSaturation") var tintSaturation: Int = 40
     @AppStorage("tintBrightness") var tintBrightness: Int = 100
     @AppStorage("searchEngineSelection") var searchEngineSelection = "Bing"
+    @AppStorage("searchEngineBackup") var searchEngineBackup = "Google"
     @AppStorage("customizedSearchEngine") var customizedSearchEngine = ""
+    @AppStorage("longPressButtonAction") var longPressButtonAction = 0
+    @State var isClearHistoryAlertPresenting = false
+    @State var isToggling = false
     @State var tintColor = Color(hue: 275/360, saturation: 40/100, brightness: 100/100)
     @State var isCustomizeSearchEngineSheetDisplaying = false
     @State var isTintColorSheetDisplaying = false
+    @State var isPasswordSheetDisplaying = false
     var body: some View {
         List {
-            Section("Settings.search-engine") {
+            Section("Settings.search") {
                 Picker("Settings.search-engine.default", selection: $searchEngineSelection) {
+                    Text("Settings.search-engine.Bing").tag("Bing")
+                    Text("Settings.search-engine.Google").tag("Google")
+                    Text("Settings.search-engine.Baidu").tag("Baidu")
+                    Text("Settings.search-engine.Sougou").tag("Sougou")
+                    Text("Settings.search-engine.customize").tag("Customize")
+                }
+                Picker("Settings.search-engine.backup", selection: $searchEngineBackup) {
                     Text("Settings.search-engine.Bing").tag("Bing")
                     Text("Settings.search-engine.Google").tag("Google")
                     Text("Settings.search-engine.Baidu").tag("Baidu")
@@ -39,29 +52,6 @@ struct SettingsView: View {
                 })
             }
             
-            Section("Settings.tip") {
-                Toggle("Settings.tip.confirm", isOn: $tipConfirmRequired)
-                Picker("Settings.tip.speed", selection: $tipAnimationSpeed) {
-                    Text("Settings.tip.speed.fast")
-                        .tag(0)
-                    Text("Settings.tip.speed.default")
-                        .tag(1)
-                    Text("Settings.tip.speed.slow")
-                        .tag(2)
-                    Text("Settings.tip.speed.very-slow")
-                        .tag(3)
-                }
-            }
-            
-            Section("Settings.privacy-mode") {
-                Toggle(isOn: $isPrivateModeOn, label: {
-                    Label("Settings.privacy-mode", systemImage: "hand.raised")
-                })
-                Toggle(isOn: $isPrivateModePinned, label: {
-                    Label("Settings.privacy-mode.pin", systemImage: "pin")
-                })
-            }
-            
             Section(content: {
                 if !isPasscodeRequired {
                     NavigationLink(destination: {
@@ -70,6 +60,22 @@ struct SettingsView: View {
                         Label("Settings.passcode.create", systemImage: "lock")
                     })
                 } else {
+                    Toggle(isOn: $isBookmarkRequiringPassword, label: {
+                        Label("Settings.passcode.bookmarks", systemImage: "bookmark")
+                    })
+                    .onChange(of: isBookmarkRequiringPassword, {
+                        if !isToggling {
+                            isToggling = true
+                            isBookmarkRequiringPassword.toggle()
+                            isPasswordSheetDisplaying = true
+                        }
+                    })
+                    .onChange(of: isPasswordSheetDisplaying, {
+                        if !isPasswordSheetDisplaying {
+                            isToggling = false
+                        }
+                    })
+                    .sheet(isPresented: $isPasswordSheetDisplaying, content: {PasscodeView(destination: 2)})
                     NavigationLink(destination: {
                         PasscodeChangeView()
                     }, label: {
@@ -85,14 +91,20 @@ struct SettingsView: View {
             }, header: {
                 Text("Settings.passcode")
             }, footer: {
-                Text("Settings.passcode.discription")
+                if isBookmarkRequiringPassword {
+                    Text("Settings.passcode.discription.bookmarks")
+                } else {
+                    Text("Settings.passcode.discription")
+                }
             })
             
-            Section("Settings.Cookies") {
-                Toggle("Settings.cookies.allow", isOn: $tipConfirmRequired)
-            }
-            
             Section("Settings.interface") {
+                Picker("Settings.inteface.long-presss-action", selection: $longPressButtonAction) {
+                    Text("Settings.inteface.long-presss-action.none").tag(0)
+                    Text("Settings.inteface.long-presss-action.backup-engine").tag(1)
+                    Text("Settings.inteface.long-presss-action.select-engine").tag(2)
+                    Text("Settings.inteface.long-presss-action.private-mode").tag(3)
+                }
                 Toggle(isOn: $isSettingsButtonPinned, label: {
                     Label("Settings.interface.pin-settings-button", systemImage: "gear")
                 })
@@ -100,47 +112,42 @@ struct SettingsView: View {
                     Label("Settings.privacy-mode.pin", systemImage: "hand.raised")
                 })
             }
+            
+            Section("Settings.privacy") {
+                Toggle(isOn: $isPrivateModeOn, label: {
+                    Label("Settings.privacy-mode", systemImage: "hand.raised")
+                })
+                Toggle(isOn: $isPrivateModePinned, label: {
+                    Label("Settings.privacy-mode.pin", systemImage: "pin")
+                })
+                Button(action: {
+                    isClearHistoryAlertPresenting = true
+                }, label: {
+                    Label("Settings.privacy.clear-history", systemImage: "trash")
+                        .foregroundStyle(.red)
+                })
+            }
+            
+            Section("Settings.Cookies") {
+                Toggle("Settings.cookies.allow", isOn: $tipConfirmRequired)
+            }
+            
+            Section("Settings.tip") {
+                Toggle("Settings.tip.confirm", isOn: $tipConfirmRequired)
+                Picker("Settings.tip.speed", selection: $tipAnimationSpeed) {
+                    Text("Settings.tip.speed.fast")
+                        .tag(0)
+                    Text("Settings.tip.speed.default")
+                        .tag(1)
+                    Text("Settings.tip.speed.slow")
+                        .tag(2)
+                    Text("Settings.tip.speed.very-slow")
+                        .tag(3)
+                }
+            }
 
             Section {
-                NavigationLink(destination: {
-                    List {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                //TODO: Add an image here
-                                Text("Project Iris")
-                                Spacer()
-                            }
-                                .bold()
-                            Text("v0.1.1 Beta")
-                        }
-                        VStack(alignment: .leading) {
-                            Text("ThreeManager785")
-                                .bold()
-                            HStack {
-                                Image(systemName: "graduationcap")
-                                Text("Settings.about.785.age&grade")
-                            }
-                            HStack {
-                                Image(systemName: "person")
-                                Text("Settings.about.785.developer")
-                            }
-                            Text("mallets02.plums@icloud.com")
-                        }
-                        VStack(alignment: .leading) {
-                            Text("WindowsMEMZ")
-                                .bold()
-                            HStack {
-                                Image(systemName: "graduationcap")
-                                Text("Settings.about.MEMZ.grade")
-                            }
-                            HStack {
-                                Image(systemName: "person")
-                                Text("Settings.about.MEMZ.contribution")
-                            }
-                        }
-                        Text("Setting.about.appreciation")
-                    }
-                }, label: {
+                NavigationLink(destination: AboutView(), label: {
                     Label("Settings.about", systemImage: "info.circle")
                 })
             }
@@ -151,24 +158,39 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $isCustomizeSearchEngineSheetDisplaying) {
             List {
-                HStack {
-                    if customizedSearchEngine.contains("\\Iris") {
-                        Label("Search.search-engine.customize.replacement-tip", systemImage: "checkmark.circle")
-                    } else {
-                        Label("Search.search-engine.customize.replacement-tip", systemImage: "exclamationmark.circle")
-                    }
-                    if !customizedSearchEngine.contains("https://") && !customizedSearchEngine.contains("http://") {
-                        Label("Search.search-engine.customize.http-tip", systemImage: "exclamationmark.circle")
-                    }
+                if customizedSearchEngine.contains("\\Iris") {
+                    Label("Search.search-engine.customize.replacement-tip", systemImage: "checkmark.circle")
+                } else {
+                    Label("Search.search-engine.customize.replacement-tip", systemImage: "exclamationmark.circle")
+                }
+                if !customizedSearchEngine.contains("https://") && !customizedSearchEngine.contains("http://") {
+                    Label("Search.search-engine.customize.http-tip", systemImage: "exclamationmark.circle")
                 }
                 /* if customizedSearchEngine.isEmpty {
-                    Text("Settings.search-engine.customize.none")
-                } else {
-                    Text(customizedSearchEngine)
-                } */
+                 Text("Settings.search-engine.customize.none")
+                 } else {
+                 Text(customizedSearchEngine)
+                 } */
                 TextField("Search.search-engine.customize.enter", text: $customizedSearchEngine)
             }
         }
+        .alert("Settings.history.clear", isPresented: $isClearHistoryAlertPresenting, actions: {
+            Button(role: .destructive, action: {
+                UserDefaults.standard.set([], forKey: "HistoryLink")
+            }, label: {
+                HStack {
+                    Text("Settings.history.confirm")
+                    Spacer()
+                }
+            })
+            Button(action: {
+                
+            }, label: {
+                Text("Settings.history.cancel")
+            })
+        }, message: {
+            Text("Settings.history.message")
+        })
     }
 }
 

@@ -15,11 +15,16 @@ struct ContentView: View {
     @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
     @AppStorage("isSettingsButtonPinned") var isSettingsButtonPinned = false
     @AppStorage("searchEngineSelection") var searchEngineSelection = "Bing"
+    @AppStorage("searchEngineBackup") var searchEngineBackup = "Google"
     @AppStorage("customizedSearchEngine") var customizedSearchEngine = ""
+    @AppStorage("longPressButtonAction") var longPressButtonAction = 0
     @AppStorage("tintSaturation") var tintSaturation: Int = 40
     @AppStorage("tintBrightness") var tintBrightness: Int = 100
+    @State var historyLinks: [Any] = []
+    @State var usingSearchEngine = ""
     @State var searchField = ""
     @State var isURL = false
+    @State var isSelectionSheetDisplaying = false
     public var BingAbility = 4
     var lightColors: [Color] = [.secondary, .orange, .green, .green, .secondary]
     var body: some View {
@@ -38,30 +43,41 @@ struct ContentView: View {
                         }
                     }
                     Button(action: {
-                        if isURL {
-                                if !searchField.hasPrefix("http://") && !searchField.hasPrefix("https://") {
-                                    searchField = "http://" + searchField
-                                }
-                                let session = ASWebAuthenticationSession(
-                                    url: URL(string: searchField.urlEncoded())!,
-                                    callbackURLScheme: nil
-                                ) { _, _ in
-                                    
-                                }
-                                session.prefersEphemeralWebBrowserSession = !isCookiesAllowed && !isPrivateModeOn
-                                session.start()
-                        } else {
-                            let session = ASWebAuthenticationSession(
-                                url: URL(string: GetWebSearchedURL(searchField))!,
-                                callbackURLScheme: nil
-                            ) { _, _ in
-                                
-                            }
-                            session.prefersEphemeralWebBrowserSession = !isCookiesAllowed && !isPrivateModeOn
-                            session.start()
-                        }
+                        searchButtonAction()
                     }, label: {
-                        Label(isURL ? "Home.open" : "Home.search", systemImage: isURL ? "arrow.up.right.square" : "magnifyingglass" )
+                        Label(isURL ? "Home.open" : "Home.search", systemImage: isURL ? "network" : "magnifyingglass" )
+                    })
+                    .onLongPressGesture {
+                        if longPressButtonAction == 1 {
+                            usingSearchEngine = searchEngineBackup
+                            searchButtonAction()
+                        } else if longPressButtonAction == 2 {
+                            isSelectionSheetDisplaying = true
+                        } else if longPressButtonAction == 3 {
+                            
+                            searchButtonAction()
+                        }
+                    }
+                    .sheet(isPresented: $isSelectionSheetDisplaying, content: {
+                        List {
+                            Section(content: {
+                                Picker("Settings.search-engine.temporary", selection: $usingSearchEngine) {
+                                    Text("Settings.search-engine.Bing").tag("Bing")
+                                    Text("Settings.search-engine.Google").tag("Google")
+                                    Text("Settings.search-engine.Baidu").tag("Baidu")
+                                    Text("Settings.search-engine.Sougou").tag("Sougou")
+                                    Text("Settings.search-engine.customize").tag("Customize")
+                                }
+                            }, footer: {
+                                Text("Home.selection.description")
+                            })
+                            Button(action: {
+                                searchButtonAction()
+                                usingSearchEngine = searchEngineSelection
+                            }, label: {
+                                Label("Home.search", systemImage: "magnifyingglass" )
+                            })
+                        }
                     })
                     if isPrivateModePinned {
                         Toggle(isOn: $isPrivateModeOn, label: {
@@ -70,7 +86,7 @@ struct ContentView: View {
                     }
                 }
                 Section {
-                    NavigationLink(destination: {}, label: {
+                    NavigationLink(destination: {PasscodeView(destination: 1)}, label: {
                         Label("Home.bookmarks", systemImage: "bookmark")
                     })
                 }
@@ -89,7 +105,7 @@ struct ContentView: View {
                         })
                     }
                     
-                    NavigationLink(destination: {}, label: {
+                    /* NavigationLink(destination: {}, label: {
                         HStack {
                             if BingAbility == 0 {
                                 Text("Home.Bing-API-key.none")
@@ -109,7 +125,7 @@ struct ContentView: View {
                                 .padding(.trailing, 7)
                         }
                     })
-                    .disabled(BingAbility > 3 || BingAbility < 0)
+                    .disabled(BingAbility > 3 || BingAbility < 0) */
                 }
             }
             .navigationTitle("Home.Iris")
@@ -124,11 +140,43 @@ struct ContentView: View {
                     }
                 }
             }
+            .onAppear {
+                usingSearchEngine = searchEngineSelection
+                historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
+            }
+        }
+    }
+    func searchButtonAction() {
+        if isURL {
+            if !searchField.hasPrefix("http://") && !searchField.hasPrefix("https://") {
+                searchField = "http://" + searchField
+            }
+            let session = ASWebAuthenticationSession(
+                url: URL(string: searchField.urlEncoded())!,
+                callbackURLScheme: nil
+            ) { _, _ in
+                
+            }
+            session.prefersEphemeralWebBrowserSession = !isCookiesAllowed && !isPrivateModeOn
+            session.start()
+            historyLinks.insert(searchField.urlEncoded(), at: 0)
+            UserDefaults.standard.set(historyLinks, forKey: "HistoryLink")
+        } else {
+            let session = ASWebAuthenticationSession(
+                url: URL(string: GetWebSearchedURL(searchField))!,
+                callbackURLScheme: nil
+            ) { _, _ in
+                
+            }
+            session.prefersEphemeralWebBrowserSession = !isCookiesAllowed && !isPrivateModeOn
+            session.start()
+            historyLinks.insert(searchField, at: 0)
+            UserDefaults.standard.set(historyLinks, forKey: "HistoryLink")
         }
     }
     func GetWebSearchedURL(_ input: String) -> String {
         var output = ""
-        switch searchEngineSelection {
+        switch usingSearchEngine {
         case "Bing":
             output = "https://www.bing.com/search?q=\(input.urlEncoded())"
             break
@@ -152,7 +200,7 @@ struct ContentView: View {
     }
 }
 
-extension String {
+public extension String {
     //将原始的url编码为合法的url
     func urlEncoded() -> String {
         let encodeUrlString = self.addingPercentEncoding(withAllowedCharacters:
