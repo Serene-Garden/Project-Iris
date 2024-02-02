@@ -891,13 +891,18 @@
         }
       }
     },
-    "Search.search-engine.customize.http-tip" : {
-      "extractionState" : "stale",
+    "Search.search-engine.customize.failed" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:// or http:// is required"
+            "value" : "\\Iris Mssing"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未包含\\Iris"
           }
         }
       }
@@ -914,22 +919,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在URL中使用 \\Iris 以表示搜索内容"
-          }
-        }
-      }
-    },
-    "Search.search-engine.customize.set.failed" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Insert tag not found"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未找到插入标记"
           }
         }
       }

@@ -156,7 +156,7 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $isCustomizeSearchEngineSheetDisplaying, onDismiss: {
             if !userCustomizedSearchEngineInput.contains("\\Iris") {
-                showTip("Search.search-engine.customize.set.failed", symbol: "exclamationmark.circle.fill")
+                showTip("Search.search-engine.customize.failed", symbol: "exclamationmark.circle.fill")
             } else {
                 if !userCustomizedSearchEngineInput.hasPrefix("http://") && !userCustomizedSearchEngineInput.hasPrefix("http://") {
                     userCustomizedSearchEngineInput = "http://" + userCustomizedSearchEngineInput
