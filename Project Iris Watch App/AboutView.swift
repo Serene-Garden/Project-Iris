@@ -30,6 +30,7 @@ struct AboutView: View {
 }
 
 struct AboutApp: View {
+    @State var isEasterEggDisplayed = false
     let AppIconLength: CGFloat = 70
     var body: some View {
         VStack(alignment: .center) {
@@ -41,12 +42,19 @@ struct AboutApp: View {
                 .bold()
                 .font(.title3)
             Group {
+                Text("ThreeManager785")
                 Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
             }
             .font(.caption)
             .monospaced()
             .foregroundStyle(.secondary)
         }
+        .onTapGesture(count: 3) {
+            isEasterEggDisplayed = true
+        }
+        .sheet(isPresented: $isEasterEggDisplayed, content: {
+            Text("About.easter-egg")
+        })
     }
 }
 
@@ -58,11 +66,12 @@ struct AboutCredits: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    Text("ThreeManager785")
-                    Text("WindowsMEMZ")
-                    Text("And You")
-                }
+                Text("ThreeManager785")
+                Text("WindowsMEMZ")
+                NavigationLink(destination: {
+                    Text("About.dear-user.content")
+                        .navigationTitle("About.dear-user")
+                }, label: {Text("And You")})
             }
         }
     }

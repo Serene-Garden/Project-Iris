@@ -203,6 +203,54 @@
         }
       }
     },
+    "About.dear-user" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dear User"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "致用户"
+          }
+        }
+      }
+    },
+    "About.dear-user.content" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never thought of this is clickable? :D Thank you for choosing Proejct Iris. This project is my first project if we don't count the rubbishes in. Everything is perfect for me except App icon. I think you don't wanna hear me talk a lot, so, anyways, thank you for downloading Project Iris."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没想到这里能点进来吧？诶嘿。感谢你选择使用Project Iris。不算那些拿不出手的半成品的话，这个可以算是我的处女作了。除了美工很差，其他我都非常满意。相信你也不是来看我唠叨的，所以，总之，感谢你下载了Proejct Iris。"
+          }
+        }
+      }
+    },
+    "About.easter-egg" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Also try Darock Browser!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "也试试暗礁浏览器吧！"
+          }
+        }
+      }
+    },
     "And You" : {
       "localizations" : {
         "en" : {
