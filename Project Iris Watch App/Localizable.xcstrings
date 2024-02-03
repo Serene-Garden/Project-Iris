@@ -608,7 +608,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Re-enter New Password"
+            "value" : "Re-enter New Passcode"
           }
         },
         "zh-Hans" : {
@@ -624,7 +624,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter Password"
+            "value" : "Enter Passcode"
           }
         },
         "zh-Hans" : {
@@ -640,7 +640,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Password Created"
+            "value" : "Passcode Created"
           }
         },
         "zh-Hans" : {
@@ -656,7 +656,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Re-enter Password"
+            "value" : "Re-enter Passcode"
           }
         },
         "zh-Hans" : {
