@@ -21,6 +21,13 @@ struct BookmarksView: View {
         NavigationStack {
             if bookmarkLinks.count > 0 {
                 List {
+                    if #available(watchOS 10.0, *) {} else {
+                        Button(action: {
+                            isNewBookmarkPresenting = true
+                        }, label: {
+                            Label("Bookmarks.add", systemImage: "plus")
+                        })
+                    }
                     Section(content: {
                         ForEach(0..<bookmarkLinks.count, id: \.self) {bookmark in
                             Button(action: {
@@ -81,14 +88,16 @@ struct BookmarksView: View {
         }
         .navigationTitle("Bookmarks")
         .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isNewBookmarkPresenting = true
-                    }, label: {
-                        Image(systemName: "plus")
-                    })
+            if #available(watchOS 10.0, *) {
+                ToolbarItem(placement: .bottomBar) {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            isNewBookmarkPresenting = true
+                        }, label: {
+                            Image(systemName: "plus")
+                        })
+                    }
                 }
             }
         }

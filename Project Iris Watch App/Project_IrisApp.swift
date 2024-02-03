@@ -44,9 +44,14 @@ struct Project_Iris_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
+                if #available(watchOS 10.0, *) {
                 ContentView()
                     .privacySensitive(isPrivateModeOn)
                     .containerBackground(Color(red: 166/255, green: 132/255, blue: 234/255).gradient, for: .navigation)
+                } else {
+                    ContentView()
+                        .privacySensitive(isPrivateModeOn)
+                }
                 VStack {
                     Spacer()
                     HStack {

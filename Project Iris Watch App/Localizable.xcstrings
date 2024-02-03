@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : ""
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
         }
       }
     },
@@ -251,6 +257,118 @@
         }
       }
     },
+    "About.logs" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logs"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本记录"
+          }
+        }
+      }
+    },
+    "About.version.1.1.0" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.0"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.0"
+          }
+        }
+      }
+    },
+    "About.version.1.1.0.details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supports bookmarks & history\nOptimizes user interface\nAdds App icon\nOptimizes code"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持书签与历史记录\n微调用户界面\n添加App图标\n代码优化"
+          }
+        }
+      }
+    },
+    "About.version.1.1.1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.1"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.1"
+          }
+        }
+      }
+    },
+    "About.version.1.1.1.details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fix typos\nAdd privacy declare\n"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复错误文本\n添加隐私声明\n优化细节"
+          }
+        }
+      }
+    },
+    "About.version.1.1.2" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.2"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.2"
+          }
+        }
+      }
+    },
+    "About.version.1.1.2.details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supports watchOS 9\nAdds update log"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持watchOS 9\n新增更新日志"
+          }
+        }
+      }
+    },
     "And You" : {
       "localizations" : {
         "en" : {
@@ -427,6 +545,22 @@
         }
       }
     },
+    "Home.bookmarks.unavailable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarks Unavailable"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "书签不可用"
+          }
+        }
+      }
+    },
     "Home.history" : {
       "localizations" : {
         "en" : {
@@ -439,6 +573,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "历史记录"
+          }
+        }
+      }
+    },
+    "Home.history.unavailable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History Unavailable"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "历史记录不可用"
           }
         }
       }
@@ -1307,6 +1457,22 @@
         }
       }
     },
+    "Settings.passcode.unsupport" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "watchOS 9 do not support passcode"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "watchOS 9版本不支持密码"
+          }
+        }
+      }
+    },
     "Settings.privacy" : {
       "localizations" : {
         "en" : {
@@ -1655,6 +1821,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "极慢"
+          }
+        }
+      }
+    },
+    "Settings.watchOS9" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "watchOS 9 is not recommended since some features are missing. Better update to watchOS 10 or further versions as soon as possible."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不建议使用watchOS 9版本，功能有所缺失。建议尽快升级至watchOS 10或更高版本。"
           }
         }
       }

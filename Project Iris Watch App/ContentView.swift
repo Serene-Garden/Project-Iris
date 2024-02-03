@@ -29,120 +29,216 @@ struct ContentView: View {
     var lightColors: [Color] = [.secondary, .orange, .green, .green, .secondary]
     var body: some View {
         NavigationStack {
-            List {
-                Section {
-                    TextField(text: $searchField, label: {
-                        Text("Home.search-field")
-                    })
-                    .onSubmit {
-                        if searchField.contains(".com") || searchField.contains(".cn") || searchField.contains(".org") || searchField.contains(".gov") || searchField.contains(".top") || searchField.contains(".vip") ||
-                            searchField.contains(".edu") || searchField.contains(".tv") || searchField.contains("https://") || searchField.contains("http://") {
-                            isURL = true
-                        } else {
-                            isURL = false
-                        }
-                    }
-                    Button(action: {
-                        searchButtonAction()
-                    }, label: {
-                        Label(isURL ? "Home.open" : "Home.search", systemImage: isURL ? "network" : "magnifyingglass" )
-                    })
-                    .onLongPressGesture {
-                        if longPressButtonAction == 1 {
-                            usingSearchEngine = searchEngineBackup
-                            searchButtonAction()
-                        } else if longPressButtonAction == 2 {
-                            isSelectionSheetDisplaying = true
-                        } else if longPressButtonAction == 3 {
-                            
-                            searchButtonAction()
-                        }
-                    }
-                    .sheet(isPresented: $isSelectionSheetDisplaying, content: {
-                        List {
-                            Section(content: {
-                                Picker("Settings.search-engine.temporary", selection: $usingSearchEngine) {
-                                    Text("Settings.search-engine.Bing").tag("Bing")
-                                    Text("Settings.search-engine.Google").tag("Google")
-                                    Text("Settings.search-engine.Baidu").tag("Baidu")
-                                    Text("Settings.search-engine.Sougou").tag("Sougou")
-                                    Text("Settings.search-engine.customize").tag("Customize")
-                                }
-                            }, footer: {
-                                Text("Home.selection.description")
-                            })
-                            Button(action: {
-                                searchButtonAction()
-                                usingSearchEngine = searchEngineSelection
-                            }, label: {
-                                Label("Home.search", systemImage: "magnifyingglass" )
-                            })
-                        }
-                    })
-                    if isPrivateModePinned {
-                        Toggle(isOn: $isPrivateModeOn, label: {
-                            Label("Home.privacy-mode", systemImage: "hand.raised")
+            if #available(watchOS 10.0, *) {
+                List {
+                    Section {
+                        TextField(text: $searchField, label: {
+                            Text("Home.search-field")
                         })
-                    }
-                }
-                Section {
-                    NavigationLink(destination: {PasscodeView(destination: 1)}, label: {
-                        Label("Home.bookmarks", systemImage: "bookmark")
-                    })
-                }
-                Section {
-                    if !isPrivateModePinned {
-                        Toggle(isOn: $isPrivateModeOn, label: {
-                            Label("Home.privacy-mode", systemImage: "hand.raised")
-                        })
-                    }
-                    NavigationLink(destination: PasscodeView(destination: 0), label: {
-                        Label("Home.history", systemImage: "clock")
-                    })
-                    if !isSettingsButtonPinned {
-                        NavigationLink(destination: SettingsView(), label: {
-                            Label("Home.settings", systemImage: "gear")
-                        })
-                    }
-                    
-                    /* NavigationLink(destination: {}, label: {
-                        HStack {
-                            if BingAbility == 0 {
-                                Text("Home.Bing-API-key.none")
-                            } else if BingAbility == 1 {
-                                Text("Home.Bing-API-key.unavailable")
-                            } else if BingAbility == 2 {
-                                Text("Home.Bing-API-key.own")
-                            } else if BingAbility == 3 {
-                                Text("Home.Bing-API-key.subscription")
+                        .onSubmit {
+                            if searchField.contains(".com") || searchField.contains(".cn") || searchField.contains(".org") || searchField.contains(".gov") || searchField.contains(".top") || searchField.contains(".vip") ||
+                                searchField.contains(".edu") || searchField.contains(".tv") || searchField.contains("https://") || searchField.contains("http://") {
+                                isURL = true
                             } else {
-                                Text("Home.Bing-API-key.coming-in-future")
+                                isURL = false
                             }
-                            Spacer()
-                            Circle()
-                                .frame(width: 10)
-                                .foregroundStyle(lightColors[BingAbility])
-                                .padding(.trailing, 7)
                         }
-                    })
-                    .disabled(BingAbility > 3 || BingAbility < 0) */
-                }
-            }
-            .navigationTitle("Home.Iris")
-            .containerBackground(tintColor.gradient, for: .navigation)
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                if isSettingsButtonPinned {
-                    ToolbarItem(placement: .topBarLeading) {
-                        NavigationLink(destination: {SettingsView()}, label: {
-                            Image(systemName: "gear")
+                        Button(action: {
+                            searchButtonAction()
+                        }, label: {
+                            Label(isURL ? "Home.open" : "Home.search", systemImage: isURL ? "network" : "magnifyingglass" )
+                        })
+                        .onLongPressGesture {
+                            if longPressButtonAction == 1 {
+                                usingSearchEngine = searchEngineBackup
+                                searchButtonAction()
+                            } else if longPressButtonAction == 2 {
+                                isSelectionSheetDisplaying = true
+                            } else if longPressButtonAction == 3 {
+                                
+                                searchButtonAction()
+                            }
+                        }
+                        .sheet(isPresented: $isSelectionSheetDisplaying, content: {
+                            List {
+                                Section(content: {
+                                    Picker("Settings.search-engine.temporary", selection: $usingSearchEngine) {
+                                        Text("Settings.search-engine.Bing").tag("Bing")
+                                        Text("Settings.search-engine.Google").tag("Google")
+                                        Text("Settings.search-engine.Baidu").tag("Baidu")
+                                        Text("Settings.search-engine.Sougou").tag("Sougou")
+                                        Text("Settings.search-engine.customize").tag("Customize")
+                                    }
+                                }, footer: {
+                                    Text("Home.selection.description")
+                                })
+                                Button(action: {
+                                    searchButtonAction()
+                                    usingSearchEngine = searchEngineSelection
+                                }, label: {
+                                    Label("Home.search", systemImage: "magnifyingglass" )
+                                })
+                            }
+                        })
+                        if isPrivateModePinned {
+                            Toggle(isOn: $isPrivateModeOn, label: {
+                                Label("Home.privacy-mode", systemImage: "hand.raised")
+                            })
+                        }
+                    }
+                    Section {
+                        NavigationLink(destination: {PasscodeView(destination: 1)}, label: {
+                            Label("Home.bookmarks", systemImage: "bookmark")
                         })
                     }
+                    Section {
+                        if !isPrivateModePinned {
+                            Toggle(isOn: $isPrivateModeOn, label: {
+                                Label("Home.privacy-mode", systemImage: "hand.raised")
+                            })
+                        }
+                        NavigationLink(destination: PasscodeView(destination: 0), label: {
+                            Label("Home.history", systemImage: "clock")
+                        })
+                        if !isSettingsButtonPinned {
+                            NavigationLink(destination: SettingsView(), label: {
+                                Label("Home.settings", systemImage: "gear")
+                            })
+                        }
+                        
+                        /* NavigationLink(destination: {}, label: {
+                         HStack {
+                         if BingAbility == 0 {
+                         Text("Home.Bing-API-key.none")
+                         } else if BingAbility == 1 {
+                         Text("Home.Bing-API-key.unavailable")
+                         } else if BingAbility == 2 {
+                         Text("Home.Bing-API-key.own")
+                         } else if BingAbility == 3 {
+                         Text("Home.Bing-API-key.subscription")
+                         } else {
+                         Text("Home.Bing-API-key.coming-in-future")
+                         }
+                         Spacer()
+                         Circle()
+                         .frame(width: 10)
+                         .foregroundStyle(lightColors[BingAbility])
+                         .padding(.trailing, 7)
+                         }
+                         })
+                         .disabled(BingAbility > 3 || BingAbility < 0) */
+                    }
                 }
-            }
-            .onAppear {
-                usingSearchEngine = searchEngineSelection
-                historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
+                .navigationTitle("Home.Iris")
+                .containerBackground(tintColor.gradient, for: .navigation)
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    if isSettingsButtonPinned {
+                        ToolbarItem(placement: .topBarLeading) {
+                            NavigationLink(destination: {SettingsView()}, label: {
+                                Image(systemName: "gear")
+                            })
+                        }
+                    }
+                }
+                .onAppear {
+                    usingSearchEngine = searchEngineSelection
+                    historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
+                }
+            } else {
+                List {
+                    Section {
+                        TextField(text: $searchField, label: {
+                            Text("Home.search-field")
+                        })
+                        .onSubmit {
+                            if searchField.contains(".com") || searchField.contains(".cn") || searchField.contains(".org") || searchField.contains(".gov") || searchField.contains(".top") || searchField.contains(".vip") ||
+                                searchField.contains(".edu") || searchField.contains(".tv") || searchField.contains("https://") || searchField.contains("http://") {
+                                isURL = true
+                            } else {
+                                isURL = false
+                            }
+                        }
+                        Button(action: {
+                            searchButtonAction()
+                        }, label: {
+                            Label(isURL ? "Home.open" : "Home.search", systemImage: isURL ? "network" : "magnifyingglass" )
+                        })
+                        .onLongPressGesture {
+                            if longPressButtonAction == 1 {
+                                usingSearchEngine = searchEngineBackup
+                                searchButtonAction()
+                            } else if longPressButtonAction == 2 {
+                                isSelectionSheetDisplaying = true
+                            } else if longPressButtonAction == 3 {
+                                
+                                searchButtonAction()
+                            }
+                        }
+                        .sheet(isPresented: $isSelectionSheetDisplaying, content: {
+                            List {
+                                Section(content: {
+                                    Picker("Settings.search-engine.temporary", selection: $usingSearchEngine) {
+                                        Text("Settings.search-engine.Bing").tag("Bing")
+                                        Text("Settings.search-engine.Google").tag("Google")
+                                        Text("Settings.search-engine.Baidu").tag("Baidu")
+                                        Text("Settings.search-engine.Sougou").tag("Sougou")
+                                        Text("Settings.search-engine.customize").tag("Customize")
+                                    }
+                                }, footer: {
+                                    Text("Home.selection.description")
+                                })
+                                Button(action: {
+                                    searchButtonAction()
+                                    usingSearchEngine = searchEngineSelection
+                                }, label: {
+                                    Label("Home.search", systemImage: "magnifyingglass" )
+                                })
+                            }
+                        })
+                        if isPrivateModePinned {
+                            Toggle(isOn: $isPrivateModeOn, label: {
+                                Label("Home.privacy-mode", systemImage: "hand.raised")
+                            })
+                        }
+                    }
+                    Section {
+                        if #available(watchOS 10.0, *) {
+                            NavigationLink(destination: {PasscodeView(destination: 1)}, label: {
+                                Label("Home.bookmarks", systemImage: "bookmark")
+                            })
+                        } else {
+                            NavigationLink(destination: {PasscodeView(destination: 1)}, label: {
+                                Label("Home.bookmarks.unavailable", systemImage: "bookmark")
+                            })
+                            .disabled(true)
+                        }
+                    }
+                    Section {
+                        if !isPrivateModePinned {
+                            Toggle(isOn: $isPrivateModeOn, label: {
+                                Label("Home.privacy-mode", systemImage: "hand.raised")
+                            })
+                        }
+                        if #available(watchOS 10.0, *) {
+                            NavigationLink(destination: PasscodeView(destination: 0), label: {
+                                Label("Home.history", systemImage: "clock")
+                            })
+                        } else {
+                            NavigationLink(destination: PasscodeView(destination: 0), label: {
+                                Label("Home.history.unavailable", systemImage: "clock")
+                            })
+                            .disabled(true)
+                        }
+                        if !isSettingsButtonPinned {
+                            NavigationLink(destination: SettingsView(), label: {
+                                Label("Home.settings", systemImage: "gear")
+                            })
+                        }
+                    }
+                }
+                .navigationTitle("Home.Iris")
+                .navigationBarTitleDisplayMode(.large)
             }
         }
     }
@@ -203,6 +299,7 @@ struct ContentView: View {
         return output
     }
 }
+
 
 public extension String {
     //将原始的url编码为合法的url

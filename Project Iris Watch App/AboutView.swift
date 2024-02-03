@@ -15,6 +15,8 @@ struct AboutView: View {
                         .navigationTitle("About")
                     AboutCredits()
                         .navigationTitle("About.credits")
+                    AboutVersions()
+                        .navigationTitle("About.logs")
                 }
                 .tabViewStyle(.verticalPage)
             } else {
@@ -23,6 +25,8 @@ struct AboutView: View {
                         .navigationTitle("About")
                     AboutCredits()
                         .navigationTitle("About.credits")
+                    AboutVersions()
+                        .navigationTitle("About.logs")
                 }
             }
         }
@@ -75,6 +79,30 @@ struct AboutCredits: View {
                             .navigationTitle("About.dear-user")
                     }
                 }, label: {Text("And You")})
+            }
+        }
+    }
+}
+
+struct AboutVersions: View {
+    var body: some View {
+        NavigationStack {
+            List {
+                VStack {
+                    Text("About.version.1.1.2")
+                        .bold()
+                    Text("About.version.1.1.2.details")
+                }
+                VStack {
+                    Text("About.version.1.1.1")
+                        .bold()
+                    Text("About.version.1.1.1.details")
+                }
+                VStack {
+                    Text("About.version.1.1.0")
+                        .bold()
+                    Text("About.version.1.1.0.details")
+                }
             }
         }
     }

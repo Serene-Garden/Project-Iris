@@ -54,48 +54,55 @@ struct SettingsView: View {
             }
             
             Section(content: {
-                if !isPasscodeRequired {
-                    NavigationLink(destination: {
-                        PasscodeCreateView()
-                    }, label: {
-                        Label("Settings.passcode.create", systemImage: "lock")
-                    })
+                if #available(watchOS 10.0, *) {
+                    if !isPasscodeRequired {
+                        NavigationLink(destination: {
+                            PasscodeCreateView()
+                        }, label: {
+                            Label("Settings.passcode.create", systemImage: "lock")
+                        })
+                    } else {
+                        Toggle(isOn: $isBookmarkRequiringPassword, label: {
+                            Label("Settings.passcode.bookmarks", systemImage: "bookmark")
+                        })
+                        .onChange(of: isBookmarkRequiringPassword, {
+                            if !isToggling {
+                                isToggling = true
+                                isBookmarkRequiringPassword.toggle()
+                                isPasswordSheetDisplaying = true
+                            }
+                        })
+                        .onChange(of: isPasswordSheetDisplaying, {
+                            if !isPasswordSheetDisplaying {
+                                isToggling = false
+                            }
+                        })
+                        .sheet(isPresented: $isPasswordSheetDisplaying, content: {PasscodeView(destination: 2)})
+                        NavigationLink(destination: {
+                            PasscodeChangeView()
+                        }, label: {
+                            Label("Settings.passcode.change", systemImage: "lock.open")
+                        })
+                        NavigationLink(destination: {
+                            PasscodeDeleteView()
+                        }, label: {
+                            Label("Settings.passcode.delete", systemImage: "lock.slash")
+                                .foregroundStyle(.red)
+                        })
+                    }
                 } else {
-                    Toggle(isOn: $isBookmarkRequiringPassword, label: {
-                        Label("Settings.passcode.bookmarks", systemImage: "bookmark")
-                    })
-                    .onChange(of: isBookmarkRequiringPassword, {
-                        if !isToggling {
-                            isToggling = true
-                            isBookmarkRequiringPassword.toggle()
-                            isPasswordSheetDisplaying = true
-                        }
-                    })
-                    .onChange(of: isPasswordSheetDisplaying, {
-                        if !isPasswordSheetDisplaying {
-                            isToggling = false
-                        }
-                    })
-                    .sheet(isPresented: $isPasswordSheetDisplaying, content: {PasscodeView(destination: 2)})
-                    NavigationLink(destination: {
-                        PasscodeChangeView()
-                    }, label: {
-                        Label("Settings.passcode.change", systemImage: "lock.open")
-                    })
-                    NavigationLink(destination: {
-                        PasscodeDeleteView()
-                    }, label: {
-                        Label("Settings.passcode.delete", systemImage: "lock.slash")
-                            .foregroundStyle(.red)
-                    })
+                    Text("Settings.passcode.unsupport")
+                        .foregroundStyle(.secondary)
                 }
             }, header: {
                 Text("Settings.passcode")
             }, footer: {
-                if isBookmarkRequiringPassword {
-                    Text("Settings.passcode.discription.bookmarks")
-                } else {
-                    Text("Settings.passcode.discription")
+                if #available(watchOS 10.0, *) {
+                    if isBookmarkRequiringPassword {
+                        Text("Settings.passcode.discription.bookmarks")
+                    } else {
+                        Text("Settings.passcode.discription")
+                    }
                 }
             })
             
@@ -106,9 +113,11 @@ struct SettingsView: View {
                     Text("Settings.inteface.long-presss-action.select-engine").tag(2)
                     Text("Settings.inteface.long-presss-action.private-mode").tag(3)
                 }
-                Toggle(isOn: $isSettingsButtonPinned, label: {
-                    Label("Settings.interface.pin-settings-button", systemImage: "gear")
-                })
+                if #available(watchOS 10.0, *) {
+                    Toggle(isOn: $isSettingsButtonPinned, label: {
+                        Label("Settings.interface.pin-settings-button", systemImage: "gear")
+                    })
+                }
                 Toggle(isOn: $isPrivateModePinned, label: {
                     Label("Settings.privacy-mode.pin", systemImage: "hand.raised")
                 })
@@ -149,6 +158,9 @@ struct SettingsView: View {
                 NavigationLink(destination: AboutView(), label: {
                     Label("Settings.about", systemImage: "info.circle")
                 })
+                if #available(watchOS 10.0, *) {} else {
+                    Text("Settings.watchOS9")
+                }
             }
         }
         .navigationTitle("Settings")
