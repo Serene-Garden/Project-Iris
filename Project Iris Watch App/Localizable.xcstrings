@@ -223,7 +223,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Never thought of this is clickable? :D Thank you for choosing Project Iris. This project is my first complete project. Everything is perfect for me except App icon. I think you don't wanna hear me talk a lot, so, anyways, thank you for downloading Project Iris."
           }
         },
@@ -895,8 +895,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "\\Iris Mssing"
+            "state" : "translated",
+            "value" : "\\Iris Missing"
           }
         },
         "zh-Hans" : {
@@ -1367,6 +1367,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除历史记录"
+          }
+        }
+      }
+    },
+    "Settings.privacy.declare" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iris will not collect or share any data"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iris不会收集或分享任何数据"
           }
         }
       }

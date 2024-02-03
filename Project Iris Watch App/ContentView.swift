@@ -81,7 +81,7 @@ struct ContentView: View {
                     })
                     if isPrivateModePinned {
                         Toggle(isOn: $isPrivateModeOn, label: {
-                            Label("Home.privacy-mode", systemImage: "hand.raised.fill")
+                            Label("Home.privacy-mode", systemImage: "hand.raised")
                         })
                     }
                 }
@@ -93,7 +93,7 @@ struct ContentView: View {
                 Section {
                     if !isPrivateModePinned {
                         Toggle(isOn: $isPrivateModeOn, label: {
-                            Label("Home.privacy-mode", systemImage: "hand.raised.fill")
+                            Label("Home.privacy-mode", systemImage: "hand.raised")
                         })
                     }
                     NavigationLink(destination: PasscodeView(destination: 0), label: {

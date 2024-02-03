@@ -124,6 +124,7 @@ struct SettingsView: View {
                     Label("Settings.privacy.clear-history", systemImage: "trash")
                         .foregroundStyle(.red)
                 })
+                Text("Settings.privacy.declare")
             }
             
             Section("Settings.Cookies") {
@@ -176,8 +177,6 @@ struct SettingsView: View {
                  } else {
                  Text(customizedSearchEngine)
                  } */
-                // 永远不要觉得所有用户都要听你的话
-                // 要自己给输入做验证
                 TextField("Search.search-engine.customize.enter", text: $userCustomizedSearchEngineInput)
             }
             .onAppear {
