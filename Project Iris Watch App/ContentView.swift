@@ -25,6 +25,7 @@ struct ContentView: View {
     @State var searchField = ""
     @State var isURL = false
     @State var isSelectionSheetDisplaying = false
+    @State var latestVer = ""
     public var BingAbility = 4
     var lightColors: [Color] = [.secondary, .orange, .green, .green, .secondary]
     var body: some View {
@@ -105,28 +106,17 @@ struct ContentView: View {
                                 Label("Home.settings", systemImage: "gear")
                             })
                         }
-                        
-                        /* NavigationLink(destination: {}, label: {
-                         HStack {
-                         if BingAbility == 0 {
-                         Text("Home.Bing-API-key.none")
-                         } else if BingAbility == 1 {
-                         Text("Home.Bing-API-key.unavailable")
-                         } else if BingAbility == 2 {
-                         Text("Home.Bing-API-key.own")
-                         } else if BingAbility == 3 {
-                         Text("Home.Bing-API-key.subscription")
-                         } else {
-                         Text("Home.Bing-API-key.coming-in-future")
-                         }
-                         Spacer()
-                         Circle()
-                         .frame(width: 10)
-                         .foregroundStyle(lightColors[BingAbility])
-                         .padding(.trailing, 7)
-                         }
-                         })
-                         .disabled(BingAbility > 3 || BingAbility < 0) */
+                        NavigationLink(destination: CarinaView(), label: {
+                            Label("Settings.carina", systemImage: "bubble.left.and.exclamationmark.bubble.right")
+                        })
+                        .disabled(true)
+                        if latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String {
+                            if latestVer == "Error" {
+                                Text("Home.update.error")
+                            } else {
+                                Text("Home.update.\(latestVer)")
+                            }
+                        }
                     }
                 }
                 .navigationTitle("Home.Iris")
@@ -144,6 +134,14 @@ struct ContentView: View {
                 .onAppear {
                     usingSearchEngine = searchEngineSelection
                     historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
+                    fetchWebPageContent(urlString: "https://api.darock.top/iris/newver") { result in
+                        switch result {
+                        case .success(let content):
+                            latestVer = content.components(separatedBy: "\"")[1]
+                        case .failure(_):
+                            latestVer = "Failed"
+                        }
+                    }
                 }
             } else {
                 List {
@@ -235,10 +233,33 @@ struct ContentView: View {
                                 Label("Home.settings", systemImage: "gear")
                             })
                         }
+                        NavigationLink(destination: CarinaView(), label: {
+                            Label("Settings.carina", systemImage: "bubble.left.and.exclamationmark.bubble.right")
+                        })
+                        .disabled(true)
+                        if latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String {
+                            if latestVer == "Error" {
+                                Text("Home.update.error")
+                            } else {
+                                Text("Home.update.\(latestVer)")
+                            }
+                        }
                     }
                 }
                 .navigationTitle("Home.Iris")
                 .navigationBarTitleDisplayMode(.large)
+                .onAppear {
+                    usingSearchEngine = searchEngineSelection
+                    historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
+                    fetchWebPageContent(urlString: "https://api.darock.top/iris/newver") { result in
+                        switch result {
+                        case .success(let content):
+                            latestVer = content
+                        case .failure(let error):
+                            latestVer = "Failed"
+                        }
+                    }
+                }
             }
         }
     }
@@ -300,6 +321,33 @@ struct ContentView: View {
     }
 }
 
+public func fetchWebPageContent(urlString: String, completion: @escaping (Result<String, Error>) -> Void) {
+    guard let url = URL(string: urlString) else {
+        completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+        return
+    }
+    let session = URLSession.shared
+    let task = session.dataTask(with: url) { data, response, error in
+        if let error = error {
+            completion(.failure(error))
+            return
+        }
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
+            return
+        }
+        guard let data = data else {
+            completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
+            return
+        }
+        if let content = String(data: data, encoding: .utf8) {
+            completion(.success(content))
+        } else {
+            completion(.failure(NSError(domain: "Unable to parse data", code: 0, userInfo: nil)))
+        }
+    }
+    task.resume()
+}
 
 public extension String {
     //将原始的url编码为合法的url

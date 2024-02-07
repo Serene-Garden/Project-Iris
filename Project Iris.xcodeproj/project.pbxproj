@@ -13,6 +13,9 @@
 		E25EA8312B6BEC0B00BFEC6E /* BookmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */; };
 		E25EA8332B6C013500BFEC6E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E25EA8322B6C013500BFEC6E /* Localizable.xcstrings */; };
 		E25EA8352B6C028200BFEC6E /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA8342B6C028200BFEC6E /* AboutView.swift */; };
+		E25EA83D2B713FF700BFEC6E /* CarinaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA83C2B713FF700BFEC6E /* CarinaView.swift */; };
+		E25EA83F2B71423A00BFEC6E /* CarinaNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */; };
+		E25EA8412B72013100BFEC6E /* CarinaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA8402B72013100BFEC6E /* CarinaProgressView.swift */; };
 		E2B2A4E92AE16A4C005E73AB /* Project Iris Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E2B2A4EE2AE16A4C005E73AB /* Project_IrisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A4ED2AE16A4C005E73AB /* Project_IrisApp.swift */; };
 		E2B2A4F02AE16A4C005E73AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A4EF2AE16A4C005E73AB /* ContentView.swift */; };
@@ -68,6 +71,9 @@
 		E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		E25EA8322B6C013500BFEC6E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E25EA8342B6C028200BFEC6E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		E25EA83C2B713FF700BFEC6E /* CarinaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaView.swift; sourceTree = "<group>"; };
+		E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaNewView.swift; sourceTree = "<group>"; };
+		E25EA8402B72013100BFEC6E /* CarinaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaProgressView.swift; sourceTree = "<group>"; };
 		E2B2A4E22AE16A4C005E73AB /* Project Iris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Iris.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Iris Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B2A4ED2AE16A4C005E73AB /* Project_IrisApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_IrisApp.swift; sourceTree = "<group>"; };
@@ -137,6 +143,9 @@
 				E25EA8342B6C028200BFEC6E /* AboutView.swift */,
 				E20406C22AE3A83000A740B2 /* HistoryView.swift */,
 				E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */,
+				E25EA83C2B713FF700BFEC6E /* CarinaView.swift */,
+				E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */,
+				E25EA8402B72013100BFEC6E /* CarinaProgressView.swift */,
 				E25EA8322B6C013500BFEC6E /* Localizable.xcstrings */,
 				E2B2A4F12AE16A4D005E73AB /* Assets.xcassets */,
 				E2B2A4F32AE16A4D005E73AB /* Preview Content */,
@@ -333,9 +342,12 @@
 				E25EA8352B6C028200BFEC6E /* AboutView.swift in Sources */,
 				E20406C12AE3A62600A740B2 /* SettingsView.swift in Sources */,
 				E20406BF2AE3A0FF00A740B2 /* PasscodeView.swift in Sources */,
+				E25EA83D2B713FF700BFEC6E /* CarinaView.swift in Sources */,
 				E20406C32AE3A83000A740B2 /* HistoryView.swift in Sources */,
 				E25EA8312B6BEC0B00BFEC6E /* BookmarksView.swift in Sources */,
+				E25EA8412B72013100BFEC6E /* CarinaProgressView.swift in Sources */,
 				E2B2A4EE2AE16A4C005E73AB /* Project_IrisApp.swift in Sources */,
+				E25EA83F2B71423A00BFEC6E /* CarinaNewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,7 +513,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
@@ -511,8 +523,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris.watchkitapp";
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -531,7 +543,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
@@ -541,8 +553,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris.watchkitapp";
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -559,11 +571,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
-				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris";
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -575,11 +587,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
-				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris";
+				MARKETING_VERSION = 1.1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -594,10 +606,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris-Watch-AppTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris-Watch-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -615,10 +627,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris-Watch-AppTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris-Watch-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -636,10 +648,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris-Watch-AppUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris-Watch-AppUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -656,10 +668,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2349P84DA3;
+				DEVELOPMENT_TEAM = B57D8PP775;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arctic.Project-Iris-Watch-AppUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris-Watch-AppUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;

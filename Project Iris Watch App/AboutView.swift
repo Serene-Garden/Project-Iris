@@ -88,22 +88,32 @@ struct AboutVersions: View {
     var body: some View {
         NavigationStack {
             List {
-                VStack {
-                    Text("About.version.1.1.2")
-                        .bold()
-                    Text("About.version.1.1.2.details")
-                }
-                VStack {
-                    Text("About.version.1.1.1")
-                        .bold()
-                    Text("About.version.1.1.1.details")
-                }
-                VStack {
-                    Text("About.version.1.1.0")
-                        .bold()
-                    Text("About.version.1.1.0.details")
-                }
+                Section(content: {
+                    VStack(alignment: .leading) {
+                        Text("About.version.1.1.3")
+                            .bold()
+                        Text("About.version.1.1.3.details")
+                    }
+                    VStack(alignment: .leading) {
+                        Text("About.version.1.1.2")
+                            .bold()
+                        Text("About.version.1.1.2.details")
+                    }
+                    VStack(alignment: .leading) {
+                        Text("About.version.1.1.1")
+                            .bold()
+                        Text("About.version.1.1.1.details")
+                    }
+                    VStack(alignment: .leading) {
+                        Text("About.version.1.1.0")
+                            .bold()
+                        Text("About.version.1.1.0.details")
+                    }
+                }, footer: {
+                    Text("About.version.footer")
+                })
             }
+            .multilineTextAlignment(.leading)
         }
     }
 }

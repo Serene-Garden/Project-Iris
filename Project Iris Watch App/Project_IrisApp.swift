@@ -122,3 +122,4 @@ public func showTip(_ text: LocalizedStringKey, symbol: String = "", time: Doubl
         }
     }
 }
+
