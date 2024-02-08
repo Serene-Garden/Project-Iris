@@ -90,6 +90,11 @@ struct AboutVersions: View {
             List {
                 Section(content: {
                     VStack(alignment: .leading) {
+                        Text("About.version.1.1.4")
+                            .bold()
+                        Text("About.version.1.1.4.details")
+                    }
+                    VStack(alignment: .leading) {
                         Text("About.version.1.1.3")
                             .bold()
                         Text("About.version.1.1.3.details")

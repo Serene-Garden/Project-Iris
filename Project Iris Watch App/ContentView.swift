@@ -201,16 +201,9 @@ struct ContentView: View {
                         }
                     }
                     Section {
-                        if #available(watchOS 10.0, *) {
-                            NavigationLink(destination: {PasscodeView(destination: 1)}, label: {
+                            NavigationLink(destination: {BookmarksView()}, label: {
                                 Label("Home.bookmarks", systemImage: "bookmark")
                             })
-                        } else {
-                            NavigationLink(destination: {PasscodeView(destination: 1)}, label: {
-                                Label("Home.bookmarks.unavailable", systemImage: "bookmark")
-                            })
-                            .disabled(true)
-                        }
                     }
                     Section {
                         if !isPrivateModePinned {
@@ -218,16 +211,9 @@ struct ContentView: View {
                                 Label("Home.privacy-mode", systemImage: "hand.raised")
                             })
                         }
-                        if #available(watchOS 10.0, *) {
-                            NavigationLink(destination: PasscodeView(destination: 0), label: {
+                            NavigationLink(destination: HistoryView(), label: {
                                 Label("Home.history", systemImage: "clock")
                             })
-                        } else {
-                            NavigationLink(destination: PasscodeView(destination: 0), label: {
-                                Label("Home.history.unavailable", systemImage: "clock")
-                            })
-                            .disabled(true)
-                        }
                         if !isSettingsButtonPinned {
                             NavigationLink(destination: SettingsView(), label: {
                                 Label("Home.settings", systemImage: "gear")
@@ -254,7 +240,7 @@ struct ContentView: View {
                     fetchWebPageContent(urlString: "https://api.darock.top/iris/newver") { result in
                         switch result {
                         case .success(let content):
-                            latestVer = content
+                            latestVer = content.components(separatedBy: "\"")[1]
                         case .failure(let error):
                             latestVer = "Failed"
                         }

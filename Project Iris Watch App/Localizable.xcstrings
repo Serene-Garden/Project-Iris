@@ -449,6 +449,38 @@
         }
       }
     },
+    "About.version.1.1.4" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.4"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1.4"
+          }
+        }
+      }
+    },
+    "About.version.1.1.4.details" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Optimizes watchOS 9 experince"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- watchOS9问题修复"
+          }
+        }
+      }
+    },
     "About.version.footer" : {
       "localizations" : {
         "en" : {
@@ -1441,22 +1473,6 @@
         }
       }
     },
-    "Home.bookmarks.unavailable" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bookmarks Unavailable"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "书签不可用"
-          }
-        }
-      }
-    },
     "Home.history" : {
       "localizations" : {
         "en" : {
@@ -1469,22 +1485,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "历史记录"
-          }
-        }
-      }
-    },
-    "Home.history.unavailable" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "History Unavailable"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "历史记录不可用"
           }
         }
       }
@@ -2406,7 +2406,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "watchOS 9 do not support passcode"
+            "value" : "watchOS 9 Do Not Support Passcode"
           }
         },
         "zh-Hans" : {

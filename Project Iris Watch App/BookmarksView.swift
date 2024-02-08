@@ -80,10 +80,20 @@ struct BookmarksView: View {
                     })
                 }
             } else {
-                Text("Bookmarks.nothing")
-                    .bold()
-                    .foregroundStyle(.secondary)
-                    .font(.title3)
+                if #available(watchOS 10.0, *) {
+                    Text("Bookmarks.nothing")
+                        .bold()
+                        .foregroundStyle(.secondary)
+                        .font(.title3)
+                } else {
+                    List {
+                        Button(action: {
+                            isNewBookmarkPresenting = true
+                        }, label: {
+                            Label("Bookmarks.add", systemImage: "plus")
+                        })
+                    }
+                }
             }
         }
         .navigationTitle("Bookmarks")
