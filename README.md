@@ -5,7 +5,12 @@ Some of the part is learned from Darock Browser, allowed by @WindowsMEMZ
 
 Thanks for @WindowsMEMZ for guiding me, and thank for everyone who use Iris.
 
-*This is my first project*
+https://apps.apple.com/cn/app/project-iris/id6477305403?l=en-GB
+
+开源版本不提供Carina反馈。
+Open-source version do not provide Carina Feedback.
+
+*ThreeManager785's First Project*
 
 ## 功能 Features
 - 自动分辨关键词和URL       Distinguish keywords and URL
@@ -17,6 +22,7 @@ Thanks for @WindowsMEMZ for guiding me, and thank for everyone who use Iris.
 - 置顶按钮位置              Pin buttons
 - 设置历史记录（与书签）密码  Set password for history (and bookmarks)
 - 自定义长按搜索按钮         Customize long press search button action
+- Carina反馈               Carina Feedback
 
 ## 语言 Languages
 - 简体中文 Simplified Chinese
