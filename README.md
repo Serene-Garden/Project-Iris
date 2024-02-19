@@ -5,13 +5,12 @@ Some of the part is learned from Darock Browser, allowed by @WindowsMEMZ
 
 Thanks for @WindowsMEMZ for guiding me, and thank for everyone who use Iris.
 
-*This is my first project*
-
 https://apps.apple.com/cn/app/project-iris/id6477305403?l=en-GB
 
 开源版本不提供Carina反馈。
 Open-source version do not provide Carina Feedback.
 
+*ThreeManager785's First Project*
 
 ## 功能 Features
 - 自动分辨关键词和URL       Distinguish keywords and URL
