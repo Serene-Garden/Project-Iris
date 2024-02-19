@@ -47,7 +47,7 @@ struct AboutApp: View {
                 .font(.title3)
             Group {
                 Text("ThreeManager785")
-                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)").monospaced() + Text(" · ") + Text("GPL-3.0").monospaced()
+                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)+").monospaced() + Text(" · ") + Text("GPL-3.0").monospaced()
             }
             .font(.caption)
             .foregroundStyle(.secondary)
