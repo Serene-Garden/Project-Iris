@@ -47,18 +47,22 @@ struct AboutApp: View {
                 .font(.title3)
             Group {
                 Text("ThreeManager785")
-                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+                Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)").monospaced() + Text(" · ") + Text("GPL-3.0").monospaced()
             }
             .font(.caption)
-            .monospaced()
             .foregroundStyle(.secondary)
         }
         .onTapGesture(count: 3) {
             isEasterEggDisplayed = true
         }
         .sheet(isPresented: $isEasterEggDisplayed, content: {
-            Text("About.easter-egg")
-                .multilineTextAlignment(.center)
+            VStack {
+                Text("About.easter-egg")
+                    .multilineTextAlignment(.center)
+                Text("About.easter-egg.image-footer")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
         })
     }
 }

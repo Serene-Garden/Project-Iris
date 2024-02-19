@@ -89,7 +89,7 @@ struct CarinaProgressView: View {
                 }
             }
             .navigationTitle("#\(carinaID)")
-            .onAppear {
+            /*.onAppear {
                 fetchWebPageContent(urlString: "\(carinaPullFeedbackAPI)\(carinaID)") { result in
                     switch result {
                     case .success(let content):
@@ -116,7 +116,7 @@ struct CarinaProgressView: View {
                         package = "Error"
                     }
                 }
-            }
+            } */
         }
     }
 }

@@ -321,6 +321,22 @@
         }
       }
     },
+    "About.easter-egg.image-footer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Developed by Darock"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App归暗礁所有"
+          }
+        }
+      }
+    },
     "About.logs" : {
       "localizations" : {
         "en" : {
@@ -1317,7 +1333,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "We can still receive your feedback."
           }
         },
@@ -1585,6 +1601,16 @@
         }
       }
     },
+    "GPL-3.0" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GPL-3.0"
+          }
+        }
+      }
+    },
     "History" : {
       "localizations" : {
         "en" : {
@@ -1681,6 +1707,22 @@
         }
       }
     },
+    "Home.open-source-version-tip" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open-source version does not provide features which requires Darock Server"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开源版本不提供需要连接Darock服务器的功能"
+          }
+        }
+      }
+    },
     "Home.privacy-mode" : {
       "localizations" : {
         "en" : {
@@ -1757,38 +1799,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "设置"
-          }
-        }
-      }
-    },
-    "Home.update.%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ Version Available"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@版本已可用"
-          }
-        }
-      }
-    },
-    "Home.update.error" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Failed Fetching Latest Version Info"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未能获取最新版本信息"
           }
         }
       }
@@ -2193,18 +2203,18 @@
         }
       }
     },
-    "Settings.carina" : {
+    "Settings.carina.unavailable" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Carina Feedback"
+            "value" : "Carina Unavailable"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Carina反馈"
+            "value" : "Carina不可用"
           }
         }
       }

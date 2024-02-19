@@ -107,15 +107,10 @@ struct ContentView: View {
                             })
                         }
                         NavigationLink(destination: CarinaView(), label: {
-                            Label("Settings.carina", systemImage: "bubble.left.and.exclamationmark.bubble.right")
+                            Label("Settings.carina.unavailable", systemImage: "bubble.left.and.exclamationmark.bubble.right")
                         })
-                        if latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String {
-                            if latestVer == "Error" || latestVer == "Failed" || latestVer.isEmpty {
-                                Text("Home.update.error")
-                            } else {
-                                Text("Home.update.\(latestVer)")
-                            }
-                        }
+                        .disabled(true)
+                        Text("Home.open-source-version-tip")
                     }
                 }
                 .navigationTitle("Home.Iris")
@@ -133,14 +128,6 @@ struct ContentView: View {
                 .onAppear {
                     usingSearchEngine = searchEngineSelection
                     historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
-                    fetchWebPageContent(urlString: irisVersionAPI) { result in
-                        switch result {
-                        case .success(let content):
-                            latestVer = content.components(separatedBy: "\"")[1]
-                        case .failure(_):
-                            latestVer = "Failed"
-                        }
-                    }
                 }
             } else {
                 List {
@@ -219,15 +206,10 @@ struct ContentView: View {
                             })
                         }
                         NavigationLink(destination: CarinaView(), label: {
-                            Label("Settings.carina", systemImage: "bubble.left.and.exclamationmark.bubble.right")
+                            Label("Settings.carina.unavailable", systemImage: "bubble.left.and.exclamationmark.bubble.right")
                         })
-                        if latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String {
-                            if latestVer == "Error" || latestVer == "Failed" || latestVer.isEmpty {
-                                Text("Home.update.error")
-                            } else {
-                                Text("Home.update.\(latestVer)")
-                            }
-                        }
+                        .disabled(true)
+                        Text("Home.open-source-version-tip")
                     }
                 }
                 .navigationTitle("Home.Iris")
@@ -235,14 +217,7 @@ struct ContentView: View {
                 .onAppear {
                     usingSearchEngine = searchEngineSelection
                     historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
-                    fetchWebPageContent(urlString: irisVersionAPI) { result in
-                        switch result {
-                        case .success(let content):
-                            latestVer = content.components(separatedBy: "\"")[1]
-                        case .failure(let error):
-                            latestVer = "Failed"
-                        }
-                    }
+                    
                 }
             }
         }

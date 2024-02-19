@@ -98,14 +98,7 @@ struct CarinaView: View {
         .navigationTitle("Carina")
         .onAppear {
             personalFeedbacks = UserDefaults.standard.array(forKey: "personalFeedbacks") ?? []
-            fetchWebPageContent(urlString: irisVersionAPI) { result in
-                switch result {
-                case .success(let content):
-                    latestVer = content.components(separatedBy: "\"")[1]
-                case .failure(let error):
-                    latestVer = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-                }
-            }
+            latestVer = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         }
     }
 }

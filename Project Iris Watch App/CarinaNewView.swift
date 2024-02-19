@@ -110,14 +110,14 @@ Content：\(content.isEmpty ? "none" : content)
 Version：\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)\(is_watchOS10 ? "" : "!")
 """
                     encodedPackage = package.data(using: .utf8)?.base64EncodedString() ?? ""
-                    fetchWebPageContent(urlString: "\(carinaPushFeedbackAPI)\(encodedPackage)") { result in
-                        switch result {
-                        case .success(let content):
-                            CarinaID = Int(content) ?? -1
-                        case .failure(let error):
-                            CarinaID = -2
-                        }
-                    }
+//                    fetchWebPageContent(urlString: "\(carinaPushFeedbackAPI)\(encodedPackage)") { result in
+//                        switch result {
+//                        case .success(let content):
+//                            CarinaID = Int(content) ?? -1
+//                        case .failure(let error):
+//                            CarinaID = -2
+//                        }
+//                    }
                     sent = true
                 }, label: {
                     if sending {
