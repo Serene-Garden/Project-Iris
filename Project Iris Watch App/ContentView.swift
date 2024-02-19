@@ -109,9 +109,8 @@ struct ContentView: View {
                         NavigationLink(destination: CarinaView(), label: {
                             Label("Settings.carina", systemImage: "bubble.left.and.exclamationmark.bubble.right")
                         })
-                        .disabled(true)
                         if latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String {
-                            if latestVer == "Error" {
+                            if latestVer == "Error" || latestVer == "Failed" || latestVer.isEmpty {
                                 Text("Home.update.error")
                             } else {
                                 Text("Home.update.\(latestVer)")
@@ -134,7 +133,7 @@ struct ContentView: View {
                 .onAppear {
                     usingSearchEngine = searchEngineSelection
                     historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
-                    fetchWebPageContent(urlString: "https://api.darock.top/iris/newver") { result in
+                    fetchWebPageContent(urlString: irisVersionAPI) { result in
                         switch result {
                         case .success(let content):
                             latestVer = content.components(separatedBy: "\"")[1]
@@ -222,9 +221,8 @@ struct ContentView: View {
                         NavigationLink(destination: CarinaView(), label: {
                             Label("Settings.carina", systemImage: "bubble.left.and.exclamationmark.bubble.right")
                         })
-                        .disabled(true)
                         if latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String {
-                            if latestVer == "Error" {
+                            if latestVer == "Error" || latestVer == "Failed" || latestVer.isEmpty {
                                 Text("Home.update.error")
                             } else {
                                 Text("Home.update.\(latestVer)")
@@ -237,7 +235,7 @@ struct ContentView: View {
                 .onAppear {
                     usingSearchEngine = searchEngineSelection
                     historyLinks = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
-                    fetchWebPageContent(urlString: "https://api.darock.top/iris/newver") { result in
+                    fetchWebPageContent(urlString: irisVersionAPI) { result in
                         switch result {
                         case .success(let content):
                             latestVer = content.components(separatedBy: "\"")[1]

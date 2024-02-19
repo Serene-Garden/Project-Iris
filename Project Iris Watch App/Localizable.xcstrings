@@ -65,6 +65,22 @@
         }
       }
     },
+    "%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
     "0" : {
       "localizations" : {
         "en" : {
@@ -470,13 +486,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "- Optimizes watchOS 9 experince"
+            "value" : "- Optimizes for watchOS 9\n- Opened Carina\n- Optimized version checks"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "- watchOS9问题修复"
+            "value" : "- 优化watchOS 9\n- 实装Carina\n- 优化版本检查"
           }
         }
       }
@@ -646,13 +662,93 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Content"
+            "value" : "Details"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "内容"
+          }
+        }
+      }
+    },
+    "Carina.failed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed Sending Feedback"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送失败"
+          }
+        }
+      }
+    },
+    "Carina.failed-fetching" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed Fetching Info"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能获取信息"
+          }
+        }
+      }
+    },
+    "Carina.info.load" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在加载"
+          }
+        }
+      }
+    },
+    "Carina.loading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在加载…"
+          }
+        }
+      }
+    },
+    "Carina.loading.footer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darock Server may ran into a problem if loading is too long and you're sure that you had connected to the Internet."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在确保已连接互联网的情况下仍加载过慢，可能是Darock服务器出现问题"
           }
         }
       }
@@ -710,13 +806,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Content/ Tell Details"
+            "value" : "Details (optional)"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在内容中讲解问题"
+            "value" : "细节（选填）"
           }
         }
       }
@@ -726,29 +822,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Details"
+            "value" : "Describe"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "细节"
-          }
-        }
-      }
-    },
-    "Carina.new.no-repeat-tip" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check if there are any same problems reported"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "查看问题是否已经有记载"
+            "value" : "描述"
           }
         }
       }
@@ -769,18 +849,34 @@
         }
       }
     },
-    "Carina.new.title" : {
+    "Carina.new.sending" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Title/ Briefly Conclude"
+            "value" : "Sending"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在标题中简要概括"
+            "value" : "正在发送"
+          }
+        }
+      }
+    },
+    "Carina.new.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title - describe issue"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在标题中概述问题"
           }
         }
       }
@@ -797,6 +893,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要更新"
+          }
+        }
+      }
+    },
+    "Carina.none" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Feedback"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有反馈"
           }
         }
       }
@@ -854,7 +966,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Carina Feedback"
+            "value" : "Carina"
           }
         },
         "zh-Hans" : {
@@ -961,6 +1073,22 @@
         }
       }
     },
+    "Carina.sending" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending Feedback"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在发送"
+          }
+        }
+      }
+    },
     "Carina.sent" : {
       "localizations" : {
         "en" : {
@@ -982,7 +1110,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check Problem"
+            "value" : "View Problem"
           }
         },
         "zh-Hans" : {
@@ -1137,6 +1265,22 @@
         }
       }
     },
+    "Carina.state.not-ready-yet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You may not get the latest state because Darock Radar's Reply is not yet enabled."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由于Darock Radar尚未启用回复功能，您在1.1.4版本可能无法获取反馈的最新动态。"
+          }
+        }
+      }
+    },
     "Carina.state.shelved" : {
       "localizations" : {
         "en" : {
@@ -1165,6 +1309,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "问题已经收到，但短时间内可能不会修复。"
+          }
+        }
+      }
+    },
+    "Carina.state.still-receiveable" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "We can still receive your feedback."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们仍然可以收到您的反馈。"
           }
         }
       }
@@ -1414,13 +1574,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update is required to report or suggest"
+            "value" : "Update to Request"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "需要更新以继续反馈或提议"
+            "value" : "更新以继续反馈"
           }
         }
       }

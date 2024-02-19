@@ -8,56 +8,97 @@
 import SwiftUI
 
 struct CarinaView: View {
-    @State var isNewFeedbackDisplaying = false
+    @State var personalFeedbacks: [Any] = []
     @State var latestVer = ""
     var body: some View {
-        NavigationStack {                
-            if #available(watchOS 10.0, *) {
-                List {
-                    NavigationLink(destination: {CarinaProgressView(title: "Title", content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", carinaID: 0, type: 0, place: 0, state: 0, version: "v.1.1.2!")
-                    }, label: {
-                        Text("1")
-                    })
-                    Text("Carina.powered-by-radar")
-                        .foregroundStyle(.secondary)
-                        .font(.caption)
-                }
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar, content: {
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                isNewFeedbackDisplaying = true
-                            }, label: {
-                                Image(systemName:  Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "plus" : "plus.slash")
-                                    .foregroundStyle(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? Color.accentColor : Color.secondary)
-                            })
+        NavigationStack {
+            List {
+                if #available(watchOS 10.0, *) {} else {
+                    NavigationLink(destination: {
+                        if Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer {
+                            CarinaNewView()
+                        } else {
+                            VStack {
+                                Image(systemName: "chevron.right.2")
+                                    .font(.largeTitle)
+                                Text("Carina.update")
+                                HStack {
+                                    Text("\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+                                        .monospaced()
+                                    Image(systemName: "chevron.forward")
+                                    //Image(systemName: "arrow.right")
+                                    Text("\(latestVer)")
+                                        .monospaced()
+                                }
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            }
                         }
-                    })
+                    }) {
+                        Label(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "Carina.new" : "Carina.new.update-required", systemImage: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "plus" : "chevron.right.2")
+                    }
                 }
-            } else {
-                List {
-                    Button(action: {
-                        isNewFeedbackDisplaying = true
-                    }, label: {
-                        Label(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "Carina.new" : "Carina.new.update-required", systemImage: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "plus" : "plus.slash")
-                    })
-                    Text("Carina.powered-by-radar")
+                if personalFeedbacks.isEmpty {
+                    Text("Carina.none")
+                        .bold()
                         .foregroundStyle(.secondary)
-                        .font(.caption)
+                } else {
+                    ForEach(0..<personalFeedbacks.count, id: \.self) { feedback in
+                        NavigationLink(destination: {
+                            CarinaProgressView(carinaID: personalFeedbacks[feedback] as! Int)
+                        }, label: {
+                            Text("#\(personalFeedbacks[feedback] as! Int)")
+                        })
+                    }
+                    .onDelete(perform: { feedback in
+                        personalFeedbacks.remove(atOffsets: feedback)
+                        UserDefaults.standard.set(personalFeedbacks, forKey: "personalFeedbacks")
+                    })
                 }
+                Text("Carina.powered-by-radar")
+                    .foregroundStyle(.secondary)
+                    .font(.caption)
+            }
+            
+        }
+        .toolbar {
+            if #available(watchOS 10.0, *) {
+                ToolbarItem(placement: .bottomBar, content: {
+                    HStack {
+                        Spacer()
+                        NavigationLink(destination: {
+                            if Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer {
+                                CarinaNewView()
+                            } else {
+                                VStack {
+                                    Image(systemName: "arrowshape.up.fill")
+                                        .font(.largeTitle)
+                                        .bold()
+                                    Text("Carina.update")
+                                    HStack {
+                                        Text("\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+                                            .monospaced()
+                                        Image(systemName: "chevron.forward")
+                                        //Image(systemName: "arrow.right")
+                                        Text("\(latestVer.isEmpty ? "[ERROR]" : latestVer)")
+                                            .monospaced()
+                                    }
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                }
+                            }
+                        }, label: {
+                            Image(systemName:  Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "plus" : "arrowshape.up.fill")
+                                .foregroundStyle(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? Color.accentColor : Color.gray)
+                        })
+                    }
+                })
             }
         }
         .navigationTitle("Carina")
-        .sheet(isPresented: $isNewFeedbackDisplaying, content: {
-            if Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer {
-                CarinaNewView()
-            } else {
-                Text("Carina.update")
-            }
-        })
         .onAppear {
-            fetchWebPageContent(urlString: "https://api.darock.top/iris/newver") { result in
+            personalFeedbacks = UserDefaults.standard.array(forKey: "personalFeedbacks") ?? []
+            fetchWebPageContent(urlString: irisVersionAPI) { result in
                 switch result {
                 case .success(let content):
                     latestVer = content.components(separatedBy: "\"")[1]
