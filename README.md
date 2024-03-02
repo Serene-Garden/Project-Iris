@@ -1,6 +1,8 @@
 # Project Iris
 A simple watchOS browser, created by @ThreeManager785(@Atlantic75).
 
+![:name](https://count.getloli.com/get/@Garden785-Iris?theme=rule34)
+
 Some of the part is learned from Darock Browser, allowed by @WindowsMEMZ 
 
 Thanks for @WindowsMEMZ for guiding me, and thank for everyone who use Iris.
