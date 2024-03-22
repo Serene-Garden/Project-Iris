@@ -26,58 +26,8 @@ struct PasscodeView: View {
                 VStack {
                     Text("Passcode.enter")
                         .bold()
-                    HStack {
-                        Picker("Passcode.digit.1", selection: $inputCode1) {
-                            Text("0").tag(0)
-                            Text("1").tag(1)
-                            Text("2").tag(2)
-                            Text("3").tag(3)
-                            Text("4").tag(4)
-                            Text("5").tag(5)
-                            Text("6").tag(6)
-                            Text("7").tag(7)
-                            Text("8").tag(8)
-                            Text("9").tag(9)
-                        }
-                        Picker("Passcode.digit.2", selection: $inputCode2) {
-                            Text("0").tag(0)
-                            Text("1").tag(1)
-                            Text("2").tag(2)
-                            Text("3").tag(3)
-                            Text("4").tag(4)
-                            Text("5").tag(5)
-                            Text("6").tag(6)
-                            Text("7").tag(7)
-                            Text("8").tag(8)
-                            Text("9").tag(9)
-                        }
-                        Picker("Passcode.digit.3", selection: $inputCode3) {
-                            Text("0").tag(0)
-                            Text("1").tag(1)
-                            Text("2").tag(2)
-                            Text("3").tag(3)
-                            Text("4").tag(4)
-                            Text("5").tag(5)
-                            Text("6").tag(6)
-                            Text("7").tag(7)
-                            Text("8").tag(8)
-                            Text("9").tag(9)
-                        }
-                        Picker("Passcode.digit.4", selection: $inputCode4) {
-                            Text("0").tag(0)
-                            Text("1").tag(1)
-                            Text("2").tag(2)
-                            Text("3").tag(3)
-                            Text("4").tag(4)
-                            Text("5").tag(5)
-                            Text("6").tag(6)
-                            Text("7").tag(7)
-                            Text("8").tag(8)
-                            Text("9").tag(9)
-                        }
-                    }
-                    .bold()
-                    .labelsHidden()
+                        .multilineTextAlignment(.center)
+                  PasscodeInputView(digit1: $inputCode1, digit2: $inputCode2, digit3: $inputCode3, digit4: $inputCode4)
                 }
                 .toolbar {
                     ToolbarItemGroup(placement: .topBarTrailing) {
@@ -142,8 +92,10 @@ struct PasscodeChangeView: View {
             VStack {
                 ZStack {
                     Text("Passcode.change.old")
+                        .multilineTextAlignment(.center)
                         .offset(x: offset)
                     Text("Passcode.change.new")
+                        .multilineTextAlignment(.center)
                         .offset(x: offset+500)
                     Text("Passcode.change.verify")
                         .multilineTextAlignment(.center)
@@ -153,58 +105,7 @@ struct PasscodeChangeView: View {
                 }
                 .bold()
                 .animation(.easeInOut(duration: 0.5), value: offset)
-                HStack {
-                    Picker("Passcode.digit.1", selection: $inputCode1) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.2", selection: $inputCode2) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.3", selection: $inputCode3) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.4", selection: $inputCode4) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                }
-                .bold()
-                .labelsHidden()
+              PasscodeInputView(digit1: $inputCode1, digit2: $inputCode2, digit3: $inputCode3, digit4: $inputCode4)
                 .disabled(step==4)
             }
             .toolbar {
@@ -273,6 +174,7 @@ struct PasscodeCreateView: View {
             VStack {
                 ZStack {
                     Text("Passcode.create.new")
+                        .multilineTextAlignment(.center)
                         .offset(x: offset)
                     Text("Passcode.create.verify")
                         .offset(x: offset+500)
@@ -281,58 +183,7 @@ struct PasscodeCreateView: View {
                 }
                 .bold()
                 .animation(.easeInOut(duration: 0.5), value: offset)
-                HStack {
-                    Picker("Passcode.digit.1", selection: $inputCode1) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.2", selection: $inputCode2) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.3", selection: $inputCode3) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.4", selection: $inputCode4) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                }
-                .bold()
-                .labelsHidden()
+              PasscodeInputView(digit1: $inputCode1, digit2: $inputCode2, digit3: $inputCode3, digit4: $inputCode4)
             }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
@@ -387,66 +238,17 @@ struct PasscodeDeleteView: View {
             VStack {
                 ZStack {
                     Text("Passcode.delete.enter")
+                        .multilineTextAlignment(.center)
                         .offset(x: offset)
                     Text("Passcode.delete.confirm")
+                        .multilineTextAlignment(.center)
                         .offset(x: offset+500)
                     Text("Passcode.delete.success")
                         .offset(x: offset+1000)
                 }
                 .bold()
                 .animation(.easeInOut(duration: 0.5), value: offset)
-                HStack {
-                    Picker("Passcode.digit.1", selection: $inputCode1) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.2", selection: $inputCode2) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.3", selection: $inputCode3) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                    Picker("Passcode.digit.4", selection: $inputCode4) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
-                        Text("5").tag(5)
-                        Text("6").tag(6)
-                        Text("7").tag(7)
-                        Text("8").tag(8)
-                        Text("9").tag(9)
-                    }
-                }
-                .bold()
-                .labelsHidden()
+              PasscodeInputView(digit1: $inputCode1, digit2: $inputCode2, digit3: $inputCode3, digit4: $inputCode4)
             }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
@@ -477,4 +279,73 @@ struct PasscodeDeleteView: View {
             }
         }
     }
+}
+
+struct PasscodeInputView: View {
+  @Binding var digit1: Int
+  @Binding var digit2: Int
+  @Binding var digit3: Int
+  @Binding var digit4: Int
+//  @State var rotation1: Double = 0.0
+  var body: some View {
+    HStack {
+      Picker("Passcode.digit.1", selection: $digit1) {
+        Text("0").tag(0)
+        Text("1").tag(1)
+        Text("2").tag(2)
+        Text("3").tag(3)
+        Text("4").tag(4)
+        Text("5").tag(5)
+        Text("6").tag(6)
+        Text("7").tag(7)
+        Text("8").tag(8)
+        Text("9").tag(9)
+      }
+//      .digitalCrownRotation($rotation1, from: 0.0, through: 9.0, sensitivity: .low)
+      Picker("Passcode.digit.2", selection: $digit2) {
+        Text("0").tag(0)
+        Text("1").tag(1)
+        Text("2").tag(2)
+        Text("3").tag(3)
+        Text("4").tag(4)
+        Text("5").tag(5)
+        Text("6").tag(6)
+        Text("7").tag(7)
+        Text("8").tag(8)
+        Text("9").tag(9)
+      }
+      Picker("Passcode.digit.3", selection: $digit3) {
+        Text("0").tag(0)
+        Text("1").tag(1)
+        Text("2").tag(2)
+        Text("3").tag(3)
+        Text("4").tag(4)
+        Text("5").tag(5)
+        Text("6").tag(6)
+        Text("7").tag(7)
+        Text("8").tag(8)
+        Text("9").tag(9)
+      }
+      Picker("Passcode.digit.4", selection: $digit4) {
+        Text("0").tag(0)
+        Text("1").tag(1)
+        Text("2").tag(2)
+        Text("3").tag(3)
+        Text("4").tag(4)
+        Text("5").tag(5)
+        Text("6").tag(6)
+        Text("7").tag(7)
+        Text("8").tag(8)
+        Text("9").tag(9)
+      }
+    }
+    .bold()
+    .labelsHidden()
+//    .onAppear(perform: {
+//      Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+//          digit1 = Int(rotation1)
+//
+//      }
+//    })
+  }
 }

@@ -19,6 +19,11 @@
 
 import SwiftUI
 
+public let isOpenSource = true
+//Modification to this constant value can lead to accidental fatal error.
+
+let languageCode = Locale.current.language.languageCode
+
 var pShowTipText = ""
 var pShowTipSymbol = ""
 var nTipboxText: LocalizedStringKey = ""

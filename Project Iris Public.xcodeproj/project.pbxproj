@@ -16,7 +16,7 @@
 		E25EA83D2B713FF700BFEC6E /* CarinaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA83C2B713FF700BFEC6E /* CarinaView.swift */; };
 		E25EA83F2B71423A00BFEC6E /* CarinaNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */; };
 		E25EA8412B72013100BFEC6E /* CarinaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25EA8402B72013100BFEC6E /* CarinaProgressView.swift */; };
-		E2B2A4E92AE16A4C005E73AB /* Project Iris Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E2B2A4E92AE16A4C005E73AB /* Project Iris Public Public.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = E2B2A4E82AE16A4C005E73AB /* Project Iris Public Public.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E2B2A4EE2AE16A4C005E73AB /* Project_IrisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A4ED2AE16A4C005E73AB /* Project_IrisApp.swift */; };
 		E2B2A4F02AE16A4C005E73AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A4EF2AE16A4C005E73AB /* ContentView.swift */; };
 		E2B2A4F22AE16A4D005E73AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2B2A4F12AE16A4D005E73AB /* Assets.xcassets */; };
@@ -24,6 +24,7 @@
 		E2B2A4FF2AE16A4D005E73AB /* Project_Iris_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A4FE2AE16A4D005E73AB /* Project_Iris_Watch_AppTests.swift */; };
 		E2B2A5092AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A5082AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift */; };
 		E2B2A50B2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */; };
+		E2EBA8952BADDBA500111D32 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBA8942BADDBA500111D32 /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +58,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				E2B2A4E92AE16A4C005E73AB /* Project Iris Watch App.app in Embed Watch Content */,
+				E2B2A4E92AE16A4C005E73AB /* Project Iris Public Public.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,17 +75,18 @@
 		E25EA83C2B713FF700BFEC6E /* CarinaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaView.swift; sourceTree = "<group>"; };
 		E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaNewView.swift; sourceTree = "<group>"; };
 		E25EA8402B72013100BFEC6E /* CarinaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaProgressView.swift; sourceTree = "<group>"; };
-		E2B2A4E22AE16A4C005E73AB /* Project Iris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Iris.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Iris Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2B2A4E22AE16A4C005E73AB /* Project Iris Public.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Iris Public.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2B2A4E82AE16A4C005E73AB /* Project Iris Public Public.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Iris Public Public.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B2A4ED2AE16A4C005E73AB /* Project_IrisApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_IrisApp.swift; sourceTree = "<group>"; };
 		E2B2A4EF2AE16A4C005E73AB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E2B2A4F12AE16A4D005E73AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B2A4F42AE16A4D005E73AB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E2B2A4FA2AE16A4D005E73AB /* Project Iris Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project Iris Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2B2A4FA2AE16A4D005E73AB /* Project Iris Public Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project Iris Public Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B2A4FE2AE16A4D005E73AB /* Project_Iris_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppTests.swift; sourceTree = "<group>"; };
-		E2B2A5042AE16A4D005E73AB /* Project Iris Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project Iris Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2B2A5042AE16A4D005E73AB /* Project Iris Public Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project Iris Public Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B2A5082AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E2EBA8942BADDBA500111D32 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,10 +127,10 @@
 		E2B2A4E32AE16A4C005E73AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E2B2A4E22AE16A4C005E73AB /* Project Iris.app */,
-				E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */,
-				E2B2A4FA2AE16A4D005E73AB /* Project Iris Watch AppTests.xctest */,
-				E2B2A5042AE16A4D005E73AB /* Project Iris Watch AppUITests.xctest */,
+				E2B2A4E22AE16A4C005E73AB /* Project Iris Public.app */,
+				E2B2A4E82AE16A4C005E73AB /* Project Iris Public Public.app */,
+				E2B2A4FA2AE16A4D005E73AB /* Project Iris Public Watch AppTests.xctest */,
+				E2B2A5042AE16A4D005E73AB /* Project Iris Public Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,6 +143,7 @@
 				E20406C02AE3A62600A740B2 /* SettingsView.swift */,
 				E20406BE2AE3A0FF00A740B2 /* PasscodeView.swift */,
 				E25EA8342B6C028200BFEC6E /* AboutView.swift */,
+				E2EBA8942BADDBA500111D32 /* API.swift */,
 				E20406C22AE3A83000A740B2 /* HistoryView.swift */,
 				E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */,
 				E25EA83C2B713FF700BFEC6E /* CarinaView.swift */,
@@ -181,9 +184,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E2B2A4E12AE16A4C005E73AB /* Project Iris */ = {
+		E2B2A4E12AE16A4C005E73AB /* Project Iris Public */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E2B2A5122AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris" */;
+			buildConfigurationList = E2B2A5122AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public" */;
 			buildPhases = (
 				E2B2A4E02AE16A4C005E73AB /* Resources */,
 				E2B2A5112AE16A4D005E73AB /* Embed Watch Content */,
@@ -193,14 +196,14 @@
 			dependencies = (
 				E2B2A4EB2AE16A4C005E73AB /* PBXTargetDependency */,
 			);
-			name = "Project Iris";
+			name = "Project Iris Public";
 			productName = "Project Iris";
-			productReference = E2B2A4E22AE16A4C005E73AB /* Project Iris.app */;
+			productReference = E2B2A4E22AE16A4C005E73AB /* Project Iris Public.app */;
 			productType = "com.apple.product-type.application.watchapp2-container";
 		};
-		E2B2A4E72AE16A4C005E73AB /* Project Iris Watch App */ = {
+		E2B2A4E72AE16A4C005E73AB /* Project Iris Public Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E2B2A50E2AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Watch App" */;
+			buildConfigurationList = E2B2A50E2AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public Watch App" */;
 			buildPhases = (
 				E2B2A4E42AE16A4C005E73AB /* Sources */,
 				E2B2A4E52AE16A4C005E73AB /* Frameworks */,
@@ -210,14 +213,14 @@
 			);
 			dependencies = (
 			);
-			name = "Project Iris Watch App";
+			name = "Project Iris Public Watch App";
 			productName = "Project Iris Watch App";
-			productReference = E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */;
+			productReference = E2B2A4E82AE16A4C005E73AB /* Project Iris Public Public.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E2B2A4F92AE16A4D005E73AB /* Project Iris Watch AppTests */ = {
+		E2B2A4F92AE16A4D005E73AB /* Project Iris Public Watch AppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E2B2A5152AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Watch AppTests" */;
+			buildConfigurationList = E2B2A5152AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public Watch AppTests" */;
 			buildPhases = (
 				E2B2A4F62AE16A4D005E73AB /* Sources */,
 				E2B2A4F72AE16A4D005E73AB /* Frameworks */,
@@ -228,14 +231,14 @@
 			dependencies = (
 				E2B2A4FC2AE16A4D005E73AB /* PBXTargetDependency */,
 			);
-			name = "Project Iris Watch AppTests";
+			name = "Project Iris Public Watch AppTests";
 			productName = "Project Iris Watch AppTests";
-			productReference = E2B2A4FA2AE16A4D005E73AB /* Project Iris Watch AppTests.xctest */;
+			productReference = E2B2A4FA2AE16A4D005E73AB /* Project Iris Public Watch AppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		E2B2A5032AE16A4D005E73AB /* Project Iris Watch AppUITests */ = {
+		E2B2A5032AE16A4D005E73AB /* Project Iris Public Watch AppUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E2B2A5182AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Watch AppUITests" */;
+			buildConfigurationList = E2B2A5182AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public Watch AppUITests" */;
 			buildPhases = (
 				E2B2A5002AE16A4D005E73AB /* Sources */,
 				E2B2A5012AE16A4D005E73AB /* Frameworks */,
@@ -246,9 +249,9 @@
 			dependencies = (
 				E2B2A5062AE16A4D005E73AB /* PBXTargetDependency */,
 			);
-			name = "Project Iris Watch AppUITests";
+			name = "Project Iris Public Watch AppUITests";
 			productName = "Project Iris Watch AppUITests";
-			productReference = E2B2A5042AE16A4D005E73AB /* Project Iris Watch AppUITests.xctest */;
+			productReference = E2B2A5042AE16A4D005E73AB /* Project Iris Public Watch AppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -277,7 +280,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E2B2A4DF2AE16A4C005E73AB /* Build configuration list for PBXProject "Project Iris" */;
+			buildConfigurationList = E2B2A4DF2AE16A4C005E73AB /* Build configuration list for PBXProject "Project Iris Public" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
@@ -291,10 +294,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E2B2A4E12AE16A4C005E73AB /* Project Iris */,
-				E2B2A4E72AE16A4C005E73AB /* Project Iris Watch App */,
-				E2B2A4F92AE16A4D005E73AB /* Project Iris Watch AppTests */,
-				E2B2A5032AE16A4D005E73AB /* Project Iris Watch AppUITests */,
+				E2B2A4E12AE16A4C005E73AB /* Project Iris Public */,
+				E2B2A4E72AE16A4C005E73AB /* Project Iris Public Watch App */,
+				E2B2A4F92AE16A4D005E73AB /* Project Iris Public Watch AppTests */,
+				E2B2A5032AE16A4D005E73AB /* Project Iris Public Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -338,6 +341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2EBA8952BADDBA500111D32 /* API.swift in Sources */,
 				E2B2A4F02AE16A4C005E73AB /* ContentView.swift in Sources */,
 				E25EA8352B6C028200BFEC6E /* AboutView.swift in Sources */,
 				E20406C12AE3A62600A740B2 /* SettingsView.swift in Sources */,
@@ -373,17 +377,17 @@
 /* Begin PBXTargetDependency section */
 		E2B2A4EB2AE16A4C005E73AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E2B2A4E72AE16A4C005E73AB /* Project Iris Watch App */;
+			target = E2B2A4E72AE16A4C005E73AB /* Project Iris Public Watch App */;
 			targetProxy = E2B2A4EA2AE16A4C005E73AB /* PBXContainerItemProxy */;
 		};
 		E2B2A4FC2AE16A4D005E73AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E2B2A4E72AE16A4C005E73AB /* Project Iris Watch App */;
+			target = E2B2A4E72AE16A4C005E73AB /* Project Iris Public Watch App */;
 			targetProxy = E2B2A4FB2AE16A4D005E73AB /* PBXContainerItemProxy */;
 		};
 		E2B2A5062AE16A4D005E73AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E2B2A4E72AE16A4C005E73AB /* Project Iris Watch App */;
+			target = E2B2A4E72AE16A4C005E73AB /* Project Iris Public Watch App */;
 			targetProxy = E2B2A5052AE16A4D005E73AB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -516,7 +520,6 @@
 				DEVELOPMENT_TEAM = B57D8PP775;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -524,8 +527,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris-public.watchkitapp";
+				PRODUCT_NAME = "Project Iris Public Public";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -546,7 +549,6 @@
 				DEVELOPMENT_TEAM = B57D8PP775;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -554,8 +556,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris-public.watchkitapp";
+				PRODUCT_NAME = "Project Iris Public Public";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -615,7 +617,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Project Iris Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Project Iris Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Project Iris Public Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Project Iris Public Watch App";
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
@@ -636,7 +638,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Project Iris Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Project Iris Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Project Iris Public Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Project Iris Public Watch App";
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
@@ -686,7 +688,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E2B2A4DF2AE16A4C005E73AB /* Build configuration list for PBXProject "Project Iris" */ = {
+		E2B2A4DF2AE16A4C005E73AB /* Build configuration list for PBXProject "Project Iris Public" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2B2A50C2AE16A4D005E73AB /* Debug */,
@@ -695,7 +697,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2B2A50E2AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Watch App" */ = {
+		E2B2A50E2AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2B2A50F2AE16A4D005E73AB /* Debug */,
@@ -704,7 +706,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2B2A5122AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris" */ = {
+		E2B2A5122AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2B2A5132AE16A4D005E73AB /* Debug */,
@@ -713,7 +715,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2B2A5152AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Watch AppTests" */ = {
+		E2B2A5152AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public Watch AppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2B2A5162AE16A4D005E73AB /* Debug */,
@@ -722,7 +724,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2B2A5182AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Watch AppUITests" */ = {
+		E2B2A5182AE16A4D005E73AB /* Build configuration list for PBXNativeTarget "Project Iris Public Watch AppUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E2B2A5192AE16A4D005E73AB /* Debug */,

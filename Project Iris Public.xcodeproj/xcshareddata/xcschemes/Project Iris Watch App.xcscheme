@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2B2A4E72AE16A4C005E73AB"
-               BuildableName = "Project Iris Watch App.app"
-               BlueprintName = "Project Iris Watch App"
-               ReferencedContainer = "container:Project Iris.xcodeproj">
+               BuildableName = "Project Iris Publi Public.app"
+               BlueprintName = "Project Iris Public Watch App"
+               ReferencedContainer = "container:Project Iris Public.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2B2A4E12AE16A4C005E73AB"
-               BuildableName = "Project Iris.app"
-               BlueprintName = "Project Iris"
-               ReferencedContainer = "container:Project Iris.xcodeproj">
+               BuildableName = "Project Iris Public.app"
+               BlueprintName = "Project Iris Public"
+               ReferencedContainer = "container:Project Iris Public.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,9 +49,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2B2A4F92AE16A4D005E73AB"
-               BuildableName = "Project Iris Watch AppTests.xctest"
-               BlueprintName = "Project Iris Watch AppTests"
-               ReferencedContainer = "container:Project Iris.xcodeproj">
+               BuildableName = "Project Iris Public Watch AppTests.xctest"
+               BlueprintName = "Project Iris Public Watch AppTests"
+               ReferencedContainer = "container:Project Iris Public.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -60,9 +60,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2B2A5032AE16A4D005E73AB"
-               BuildableName = "Project Iris Watch AppUITests.xctest"
-               BlueprintName = "Project Iris Watch AppUITests"
-               ReferencedContainer = "container:Project Iris.xcodeproj">
+               BuildableName = "Project Iris Public Watch AppUITests.xctest"
+               BlueprintName = "Project Iris Public Watch AppUITests"
+               ReferencedContainer = "container:Project Iris Public.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E2B2A4E72AE16A4C005E73AB"
-            BuildableName = "Project Iris Watch App.app"
-            BlueprintName = "Project Iris Watch App"
-            ReferencedContainer = "container:Project Iris.xcodeproj">
+            BuildableName = "Project Iris Publi Public.app"
+            BlueprintName = "Project Iris Public Watch App"
+            ReferencedContainer = "container:Project Iris Public.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -100,9 +100,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E2B2A4E72AE16A4C005E73AB"
-            BuildableName = "Project Iris Watch App.app"
-            BlueprintName = "Project Iris Watch App"
-            ReferencedContainer = "container:Project Iris.xcodeproj">
+            BuildableName = "Project Iris Publi Public.app"
+            BlueprintName = "Project Iris Public Watch App"
+            ReferencedContainer = "container:Project Iris Public.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
