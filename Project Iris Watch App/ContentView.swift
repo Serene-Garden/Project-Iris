@@ -52,6 +52,7 @@ struct HomeView: View {
           if longPressButtonAction == 1 {
             usingSearchEngine = searchEngineBackup
             searchButtonAction(isURL: isURL, isPrivateModeOn: isPrivateModeOn, searchField: searchField, isCookiesAllowed: isCookiesAllowed, historys: historyLinks, usingSearchEngine: usingSearchEngine, customizedSearchEngine: customizedSearchEngine)
+            usingSearchEngine = searchEngineSelection // rdar://7117149011
           } else if longPressButtonAction == 2 {
             isSelectionSheetDisplaying = true
           } else if longPressButtonAction == 3 {
