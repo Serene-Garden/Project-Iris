@@ -7,8 +7,6 @@ Thanks for @WindowsMEMZ for guiding me, and thank for everyone who use Iris.
 
 https://apps.apple.com/cn/app/project-iris/id6477305403?l=en-GB
 
-请在App Store上传此闭源版本，不要将此版本上传至无后缀仓库（public）。
-
 *ThreeManager785's First Project*
 
 ## 功能 Features
