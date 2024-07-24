@@ -22,5 +22,4 @@ https://apps.apple.com/cn/app/project-iris/id6477305403?l=en-GB
 - Carina反馈               Carina Feedback
 
 ## 语言 Languages
-- 简体中文 Simplified Chinese
-- 英文 English
+- 20种
