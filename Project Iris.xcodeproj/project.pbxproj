@@ -33,7 +33,6 @@
 		E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E9CE39E82C312B2F00C773A3 /* Cepheus */; };
 		E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */; };
 		E9EBFB8C2C39520C00E16268 /* CreditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EBFB8B2C39520C00E16268 /* CreditView.swift */; };
-		E9F52DEA2C49264A00395759 /* SymbolPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F52DE92C49264A00395759 /* SymbolPickerView.swift */; };
 		E9F619BD2C4104DD00B754A3 /* unlockTip.wav in Resources */ = {isa = PBXBuildFile; fileRef = E9F619BC2C4104DD00B754A3 /* unlockTip.wav */; };
 /* End PBXBuildFile section */
 
@@ -103,7 +102,6 @@
 		E97CF4432C3DAA84006E6A5B /* Project Iris Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Project Iris Watch App.entitlements"; sourceTree = "<group>"; };
 		E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFearturesView.swift; sourceTree = "<group>"; };
 		E9EBFB8B2C39520C00E16268 /* CreditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditView.swift; sourceTree = "<group>"; };
-		E9F52DE92C49264A00395759 /* SymbolPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolPickerView.swift; sourceTree = "<group>"; };
 		E9F619BC2C4104DD00B754A3 /* unlockTip.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = unlockTip.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,13 +171,12 @@
 				E9F619BC2C4104DD00B754A3 /* unlockTip.wav */,
 				E2B2A4ED2AE16A4C005E73AB /* Project_IrisApp.swift */,
 				E2B2A4EF2AE16A4C005E73AB /* ContentView.swift */,
-				E20406C02AE3A62600A740B2 /* SettingsView.swift */,
 				E20406BE2AE3A0FF00A740B2 /* PasscodeView.swift */,
+				E20406C02AE3A62600A740B2 /* SettingsView.swift */,
 				E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */,
 				E25EA8342B6C028200BFEC6E /* AboutView.swift */,
 				E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */,
 				E9EBFB8B2C39520C00E16268 /* CreditView.swift */,
-				E9F52DE92C49264A00395759 /* SymbolPickerView.swift */,
 				E20406C22AE3A83000A740B2 /* HistoryView.swift */,
 				E25EA83C2B713FF700BFEC6E /* CarinaView.swift */,
 				E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */,
@@ -418,7 +415,6 @@
 				E25EA83D2B713FF700BFEC6E /* CarinaView.swift in Sources */,
 				E20406C32AE3A83000A740B2 /* HistoryView.swift in Sources */,
 				E25EA8312B6BEC0B00BFEC6E /* BookmarksView.swift in Sources */,
-				E9F52DEA2C49264A00395759 /* SymbolPickerView.swift in Sources */,
 				E25EA8412B72013100BFEC6E /* CarinaProgressView.swift in Sources */,
 				E2B2A4EE2AE16A4C005E73AB /* Project_IrisApp.swift in Sources */,
 				E25EA83F2B71423A00BFEC6E /* CarinaNewView.swift in Sources */,
