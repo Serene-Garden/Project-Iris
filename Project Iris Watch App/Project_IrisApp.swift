@@ -141,20 +141,26 @@ struct Project_Iris_Watch_AppApp: App {
   }
 }
 
-@MainActor public func showTip(_ text: LocalizedStringResource, symbol: String = "", time: Double = 2.0) {
+@MainActor public func showTip(_ text: LocalizedStringResource, symbol: String = "", time: Double = 2.0, debug: Bool = false) {
+  @AppStorage("debug") var debugMode = false
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
-  nTipboxText = text
-  nTipboxSymbol = symbol
-  nIsTipBoxDisplaying = true
-  
-  if #available(watchOS 10.0, *) {
-    var highPriorityAnnouncement: AttributedString {
-      var highPriorityString = AttributedString(localized: text)
-      highPriorityString.accessibilitySpeechAnnouncementPriority = .high
-      return highPriorityString
+  if !debug || (debug && debugMode)  {
+    nTipboxText = text
+    nTipboxSymbol = symbol
+    nIsTipBoxDisplaying = true
+    if debug {
+      print("[TIPBOX]\(text.key)")
     }
-    AccessibilityNotification.Announcement(highPriorityAnnouncement)
-      .post()
+    
+    if #available(watchOS 10.0, *) {
+      var highPriorityAnnouncement: AttributedString {
+        var highPriorityString = AttributedString(localized: text)
+        highPriorityString.accessibilitySpeechAnnouncementPriority = .high
+        return highPriorityString
+      }
+      AccessibilityNotification.Announcement(highPriorityAnnouncement)
+        .post()
+    }
   }
   if !tipConfirmRequired {
     Timer.scheduledTimer(withTimeInterval: time, repeats: false) { timer in

@@ -892,6 +892,7 @@ struct SettingsInterfaceHomeToolbarPicker: View {
 struct SettingsPrivacyView: View {
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
+  @AppStorage("statsCollectionIsAllowed") var statsCollectionIsAllowed = false
   @State var isClearHistoryAlertPresenting = false
   var body: some View {
     NavigationStack {
@@ -904,6 +905,9 @@ struct SettingsPrivacyView: View {
         }, label: {
           Label("Settings.privacy.clear-history", systemImage: "trash")
             .foregroundStyle(.red)
+        })
+        Toggle(isOn: $statsCollectionIsAllowed, label: {
+          Label("Settings.privacy.allow-stats-collections", systemImage: "chart.bar.xaxis")
         })
         .alert("Settings.history.clear", isPresented: $isClearHistoryAlertPresenting, actions: {
           Button(role: .destructive, action: {

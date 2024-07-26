@@ -29,6 +29,7 @@
 		E2B2A50B2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */; };
 		E2C6CBFA2B87616F00D5CC63 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C6CBF92B87616F00D5CC63 /* API.swift */; };
 		E2ED59C22C305916007F04AD /* Vela in Frameworks */ = {isa = PBXBuildFile; productRef = E2ED59C12C305916007F04AD /* Vela */; };
+		E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E94DE8B12C50EA1D00EE5500 /* Pictor */; };
 		E97CF4422C3D8075006E6A5B /* TopLevelDomainList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E97CF4412C3D8075006E6A5B /* TopLevelDomainList.txt */; };
 		E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E9CE39E82C312B2F00C773A3 /* Cepheus */; };
 		E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */; };
@@ -113,6 +114,7 @@
 				E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */,
 				E2ED59C22C305916007F04AD /* Vela in Frameworks */,
 				E25D1DB92C203C8800C06E19 /* Cepheus in Frameworks */,
+				E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +254,7 @@
 				E25D1DB82C203C8800C06E19 /* Cepheus */,
 				E2ED59C12C305916007F04AD /* Vela */,
 				E9CE39E82C312B2F00C773A3 /* Cepheus */,
+				E94DE8B12C50EA1D00EE5500 /* Pictor */,
 			);
 			productName = "Project Iris Watch App";
 			productReference = E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */;
@@ -349,6 +352,7 @@
 			packageReferences = (
 				E9CE39E62C312A7600C773A3 /* XCLocalSwiftPackageReference "../Vela" */,
 				E9CE39E72C312B2F00C773A3 /* XCLocalSwiftPackageReference "../Cepheus" */,
+				E94DE8B02C50EA1D00EE5500 /* XCLocalSwiftPackageReference "../Pictor" */,
 			);
 			productRefGroup = E2B2A4E32AE16A4C005E73AB /* Products */;
 			projectDirPath = "";
@@ -810,6 +814,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		E94DE8B02C50EA1D00EE5500 /* XCLocalSwiftPackageReference "../Pictor" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Pictor;
+		};
 		E9CE39E62C312A7600C773A3 /* XCLocalSwiftPackageReference "../Vela" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Vela;
@@ -828,6 +836,10 @@
 		E2ED59C12C305916007F04AD /* Vela */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Vela;
+		};
+		E94DE8B12C50EA1D00EE5500 /* Pictor */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Pictor;
 		};
 		E9CE39E82C312B2F00C773A3 /* Cepheus */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -11,7 +11,6 @@ import Cepheus
 
 let watchSize = WKInterfaceDevice.current().screenBounds
 
-
 struct HomeView: View {
   @Binding var isPrivateModeOn: Bool
   @Binding var searchField: String

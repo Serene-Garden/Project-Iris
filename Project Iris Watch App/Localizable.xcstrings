@@ -575,6 +575,7 @@
       }
     },
     "%lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1319,6 +1320,7 @@
       }
     },
     "Bookmark.count.%lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "variations" : {
@@ -1701,6 +1703,7 @@
       }
     },
     "Bookmark.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -1824,131 +1827,108 @@
         }
       }
     },
-    "Bookmark.edit.auto-saving" : {
+    "Bookmark.group.default" : {
       "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الحفظ التلقائي"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bearbeitungen automatisch gespeichert"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Edits Auto-Saved"
+            "value" : "Default"
           }
-        },
-        "es" : {
+        }
+      }
+    },
+    "Bookmark.group.edit" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guardar automáticamente"
+            "value" : "Edit Bookmark Group"
           }
-        },
-        "fr" : {
+        }
+      }
+    },
+    "Bookmark.group.emoji" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sauvegarde Automatique"
+            "value" : "Group Emoji"
           }
-        },
-        "hi" : {
+        }
+      }
+    },
+    "Bookmark.group.empty" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "स्वचालित रूप से सहेजे गए संपादन"
+            "value" : "No Bookmark Groups"
           }
-        },
-        "id" : {
+        }
+      }
+    },
+    "Bookmark.group.empty.description" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mengedit Disimpan Secara Otomatis"
+            "value" : "Add a group to put bookmarks in."
           }
-        },
-        "it" : {
+        }
+      }
+    },
+    "Bookmark.group.symbol" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modifiche salvate automaticamente"
+            "value" : "Group Symbol"
           }
-        },
-        "ja" : {
+        }
+      }
+    },
+    "Bookmark.icon.emoji" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自動保存"
+            "value" : "Emoji"
           }
-        },
-        "ko" : {
+        }
+      }
+    },
+    "Bookmark.icon.symbol" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "편집 자동 저장"
+            "value" : "Symbol"
           }
-        },
-        "nl" : {
+        }
+      }
+    },
+    "Bookmark.item.empty" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bewerkingen automatisch opgeslagen"
+            "value" : "No Bookmarks"
           }
-        },
-        "pl" : {
+        }
+      }
+    },
+    "Bookmark.item.empty.description" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Edycje Automatycznie Zapisane"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edições salvas automaticamente"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автоматическое сохранение"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แก้ไขบันทึกอัตโนมัติ"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Düzenlemeler Otomatik Kaydedildi"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Düzenlemeler Otomatik Kaydedildi"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chỉnh sửa tự động lưu"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动保存"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "編輯自動儲存"
+            "value" : "Add a bookmark to access websites quickly."
           }
         }
       }
     },
     "Bookmark.link" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2073,6 +2053,7 @@
       }
     },
     "Bookmark.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2197,6 +2178,7 @@
       }
     },
     "Bookmarks.add" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2321,6 +2303,7 @@
       }
     },
     "Bookmarks.edit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -2445,6 +2428,7 @@
       }
     },
     "Bookmarks.nothing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -13116,6 +13100,16 @@
         }
       }
     },
+    "Credit.contacts" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contacts"
+          }
+        }
+      }
+    },
     "Credit.footer.design" : {
       "localizations" : {
         "ar" : {
@@ -17581,7 +17575,7 @@
       }
     },
     "Iris.search.baidu" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17706,7 +17700,7 @@
       }
     },
     "Iris.search.bing" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17831,7 +17825,7 @@
       }
     },
     "Iris.search.google" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -17956,7 +17950,7 @@
       }
     },
     "Iris.search.sogou" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -36806,6 +36800,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隱私"
+          }
+        }
+      }
+    },
+    "Settings.privacy.allow-stats-collections" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Statistic Datas Collection"
           }
         }
       }
