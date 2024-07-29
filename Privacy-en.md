@@ -1,6 +1,8 @@
 # Privacy Policy
 Thank you for choosing and using Iris (Project Iris App). In Serene Garden, we believe that privacy is a basic human right, everyone should have thier rights to know and manage their own datas. We respect users' right of privacy, Iris will not collect unnecessary information, or collect informations when you don't know.
 
+If there is any differences between Privacy Policy's different languages, please follow Simplified Chinese version.
+
 ## History & Bookmarks
 History and bookmarks will be stored locally. Datas will not be sent outside or use to analyze locally.
 
