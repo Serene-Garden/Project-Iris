@@ -16,6 +16,8 @@ The statistics will not be sent to any third-party other than Darock and Serene 
 
 Darock had agreed to not use statistic datas to do anything other than analyze overall-user preferences.
 
+As you agree, statistics data will be allowed to collect by default.
+
 ## Webpages
 Iris can neither read webpage content nor get to know what you're accessing. Thus no data will be collected, stored or shared.
 
