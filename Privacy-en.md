@@ -33,3 +33,7 @@ When replying feedback, your iris version and system version will be send with t
 All informations in feedback is not linked to your identity.
 
 Feedback informations will be send to Darock server and be stored there. They will not be shared to any third-party other than Darock and Serene Garden, or use them to create user image or advertise.
+
+Your app version and time will be sent as well as you reply to a feedback.
+
+When reporting, attachments like Settings Values are able to be attached to the feedback. Attachments can help as analyze and diagnose issue, and will not be used for other usage. Your bookmarks, history and passcode won't be in Settings Values.
