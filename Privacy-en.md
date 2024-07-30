@@ -23,10 +23,10 @@ As you agree, statistics data will be allowed to collect by default. You can dis
 ## Webpages
 Iris can neither read webpage content nor get to know what you're accessing. Thus no data will be collected, stored or shared.
 
-Iris is not responsible for contents on the internet.
+Iris is not responsible for contents on the internet and your actions on internet.
 
 ## Carina Feedback
-When sending new Carina feedback, your system version, Iris version, feedback title, feedback content, feedback type and issue place will be send.
+When sending new Carina feedback, your system version, Iris version, feedback title, feedback content, feedback type, issue place, stored informations and currec time will be send.
 
 When replying feedback, your iris version and system version will be send with the reply message together.
 
