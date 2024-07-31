@@ -732,7 +732,7 @@ struct SettingsInterfaceHomeListEditView: View {
   @State var showBookmarkEditSheet = false
   @State var onFocusEditingItem = 0
   
-  @State var bookmarks = getBookmarkLibrary()
+  @State var bookmarks: [(Bool, String, String, [(Bool, String, String, String)])] = []
 
   @AppStorage("homeToolbar1") var homeToolbar1: String = "nil"
   @AppStorage("homeToolbar2") var homeToolbar2: String = "nil"
@@ -992,6 +992,7 @@ struct SettingsInterfaceHomeListEditView: View {
         homeListValues = UserDefaults.standard.array(forKey: "homeListValues") ?? [Any](repeating: "nil", count: homeList.count)
         homeListEditing = homeList as! [String]
         homeListValuesEditing = homeListValues as! [String]
+        bookmarks = getBookmarkLibrary()
         Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
           showEditTips = false
         }

@@ -599,8 +599,8 @@ struct HomeUpdateIndicatorElement: View {
 struct HomeBookmarkOpenLinkElement: View {
   var isInList: Bool
   var values: String
-  let bookmarks = getBookmarkLibrary()
   
+  @State var bookmarks: [(Bool, String, String, [(Bool, String, String, String)])] = []
   @State var groupIndex = 0
   @State var bookmarkIndex = 0
   @State var linkUnavailable = false
@@ -634,6 +634,7 @@ struct HomeBookmarkOpenLinkElement: View {
     .disabled(linkUnavailable || !linkIsReady)
     .onAppear {
       linkIsReady = false
+      bookmarks = getBookmarkLibrary()
       if values == "nil" || values.isEmpty {
         linkUnavailable = true
       } else {
