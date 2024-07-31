@@ -67,7 +67,7 @@ struct CarinaView: View {
             NavigationLink(destination: {
               CarinaDetailView(carinaID: personalFeedbacks[feedback] as! Int)
             }, label: {
-              Text("#\(personalFeedbacks[feedback] as! Int)")
+              Text("#\(personalFeedbacks[feedback])")
             })
           }
           .onDelete(perform: { feedback in

@@ -145,7 +145,7 @@ struct CarinaDetailView: View {
         }
       })
     }
-    .navigationTitle("#\(carinaID)")
+    .navigationTitle("#\(String(carinaID))")
   }
 }
 
@@ -267,6 +267,15 @@ struct CarinaRepliesView: View {
     }
     .sheet(isPresented: $showSendingSheet, content: {
       CarinaReplySendingView(carinaID: carinaID)
+        .onDisappear {
+          getCarinaReplies(carinaID: carinaID, completion: { result in
+            replies = result
+            for index in 0..<replies.count {
+              repliesExpanded.updateValue(true, forKey: index)
+            }
+            ready = true
+          })
+        }
     })
   }
 }
@@ -281,17 +290,21 @@ struct CarinaReplySendingView: View {
           CepheusKeyboard(input: $message, prompt: "Carina.reply.send.content")
           DismissButton(action: {
             var package = """
-Sender: Iris \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
-Content: \(message)
-Time: \(Date().timeIntervalSince1970)
+Sender：Iris \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
+Content：\(message)
+Time：\(Date().timeIntervalSince1970)
 """
-            var encodedPackage = package.data(using: .utf8)?.base64EncodedString() ?? ""
-            fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/reply/Project%20Iris/\(encodedPackage)", completion: { result in
+            var encodedPackage = (package.data(using: .utf8)?.base64EncodedString() ?? "").replacingOccurrences(of: "/", with: "{slash}")
+            fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/reply/Project Iris/\(carinaID)/\(encodedPackage)", completion: { result in
               switch result {
                 case .success(let content):
-                  showTip("Carina.reply.send.success", symbol: "paperplane")
+                  DispatchQueue.main.async {
+                    showTip("Carina.reply.send.success", symbol: "paperplane")
+                  }
                 case .failure(let error):
-                  showTip("Carina.reply.send.failure", symbol: "xmark")
+                  DispatchQueue.main.async {
+                    showTip("Carina.reply.send.failure", symbol: "xmark")
+                  }
               }
             })
           }, label: {
@@ -310,7 +323,7 @@ Time: \(Date().timeIntervalSince1970)
 
 func getCarinaInformations(carinaID: Int, getTitle: Bool = true, completion: @escaping ([String: String]?) -> Void) {
   var output: [String: String] = [:]
-  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project%20Iris/\(carinaID)") { result in
+  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project Iris/\(carinaID)") { result in
     switch result {
       case .success(let content):
         getDictionary(content, completion: { result in
@@ -326,7 +339,7 @@ func getCarinaInformations(carinaID: Int, getTitle: Bool = true, completion: @es
 
 func getCarinaReplies(carinaID: Int, completion: @escaping ([[String: String]]) -> Void) {
   var output: [[String: String]] = []
-  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project%20Iris/\(carinaID)") { result in
+  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project Iris/\(carinaID)") { result in
     switch result {
       case .success(let content):
         var originalContent = content

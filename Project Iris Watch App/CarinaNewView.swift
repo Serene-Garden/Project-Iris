@@ -71,7 +71,7 @@ struct CarinaNewView: View {
           Image(systemName: "paperplane")
             .font(.system(size: 50))
           //.bold()
-          Text("Carina.sent") + Text(" · ") + Text("#\(CarinaID)").monospaced()
+          Text("Carina.sent") + Text(" · ") + Text("#\(String(CarinaID))").monospaced()
           Group {
             Text(carinaTypes[type] ?? "Carina.type.other") + Text(" · ") + Text(carinaPlaces[place] ?? "Carina.place.other") + Text(" · ") + Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
           }
@@ -195,7 +195,6 @@ struct CarinaNewView: View {
     CarinaID = 0
     package = """
 \(title)
-
 CarinaType：\(type)
 IrisPlace：\(place)
 State：0
@@ -206,19 +205,22 @@ OS：\(systemVersion)
 Settings：\(sendAllSettingsValue ? (settingsValues ?? "nil") : "toggled-off")
 Sender：Iris
 """
-    encodedPackage = package.data(using: .utf8)?.base64EncodedString() ?? ""
-    fetchWebPageContent(urlString: "https://fapi.darock.top:65535/feedback/submit/anony/Project%20Iris/\(encodedPackage)") { result in
+    encodedPackage = (package.data(using: .utf8)?.base64EncodedString() ?? "").replacingOccurrences(of: "/", with: "{slash}")
+    fetchWebPageContent(urlString: "https://fapi.darock.top:65535/feedback/submit/anony/Project Iris/\(encodedPackage)") { result in
       switch result {
         case .success(let content):
           CarinaID = Int(content) ?? -1
+          sending = false
+          sent = true
         case .failure(let error):
           CarinaID = -2
+          sending = false
+          sent = true
       }
-      sending = false
     }
-    sent = true
   }
 }
+
 
 #Preview {
   CarinaNewView()

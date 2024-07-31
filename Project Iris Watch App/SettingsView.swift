@@ -1101,8 +1101,6 @@ func HomeListTipDescription(_ error: String) -> LocalizedStringKey {
   }
 }
 
-
-
 struct SettingsInterfaceHomeToolbarPicker: View {
   @Binding var toolbar: String
   var body: some View {
@@ -1370,6 +1368,11 @@ struct DebugView: View {
         CarinaDetailView(carinaID: Int(newCarinaId) ?? 0)
       }, label: {
         Label("Debug.carina.view", systemImage: "exclamationmark.bubble")
+      })
+      Button(action: {
+        showTip("Debug.debug")
+      }, label: {
+        Label(String("tip"), systemImage: "sparkles")
       })
     }
     .navigationTitle("Debug")
