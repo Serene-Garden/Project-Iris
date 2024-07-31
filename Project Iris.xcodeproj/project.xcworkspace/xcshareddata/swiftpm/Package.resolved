@@ -1,0 +1,33 @@
+{
+  "originHash" : "606da9156a75046d744f17a29971c3820e3fd100cb330d37b3aa63f97218d787",
+  "pins" : [
+    {
+      "identity" : "cepheus",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Serene-Garden/Cepheus",
+      "state" : {
+        "branch" : "main",
+        "revision" : "fbcef88f6f2d004fa4ac13e1fb1ff915a30fb800"
+      }
+    },
+    {
+      "identity" : "pictor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Serene-Garden/Pictor",
+      "state" : {
+        "branch" : "main",
+        "revision" : "7daae590a27cb35275ccb4a8288590fc7570769c"
+      }
+    },
+    {
+      "identity" : "vela",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Serene-Garden/Vela",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6e350f917b779e7a16fb5240de4b0420e24b5050"
+      }
+    }
+  ],
+  "version" : 3
+}
