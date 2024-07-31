@@ -9,7 +9,9 @@ import SwiftUI
 
 struct CreditView: View {
   @AppStorage("poemIsDiscovered") var poemIsDiscovered = false
+  @AppStorage("statsCollectionIsAllowed") var statsCollectionIsAllowed = false
   @AppStorage("debug") var debug = false
+  @State var showContacts = false
   var body: some View {
     NavigationStack {
       List {
@@ -39,6 +41,16 @@ struct CreditView: View {
             Text(verbatim: "Linecom")
             HStack {
               Image(systemName: "building.columns.fill")
+              Image(systemName: "lightbulb.max")
+              Spacer()
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+          VStack(alignment: .leading) {
+            Text(verbatim: "qwasd")
+            HStack {
+              Image(systemName: "lightbulb.max")
               Spacer()
             }
             .font(.caption)
@@ -74,6 +86,11 @@ struct CreditView: View {
             .font(.caption)
             .foregroundStyle(.secondary)
           }
+          Button(action: {
+            showContacts = true
+          }, label: {
+            Text("Credit.contacts")
+          })
         }, footer: {
           VStack(alignment: .leading) {
             Label("Credit.footer.development", systemImage: "hammer")
@@ -113,12 +130,68 @@ struct CreditView: View {
           .contentShape(Rectangle())
           .navigationTitle("Settings.credits")
           .onChange(of: poemIsDiscovered, perform: { value in
-            fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_poem_1/\(Date.now.timeIntervalSince1970)") { result in
+            if statsCollectionIsAllowed {
+              fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_poem_1/\(Date.now.timeIntervalSince1970)") { result in
+              }
             }
           })
         }
       }
     }
+    .navigationTitle("Settings.credits")
+    .sheet(isPresented: $showContacts, content: {
+      List {
+        Group {
+          VStack(alignment: .leading) {
+            Text(verbatim: "ThreeManager785")
+            HStack {
+//              Image(systemName: "envelope")
+              Text(verbatim: "mallets02.plums@icloud.com")
+              Spacer()
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+        }
+        Group {
+          VStack(alignment: .leading) {
+            Text(verbatim: "WindowsMEMZ")
+            HStack {
+//              Image(systemName: "envelope")
+              Text(verbatim: "0.wits.tempo@icloud.com")
+              Spacer()
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+        }
+        Group {
+          VStack(alignment: .leading) {
+            Text(verbatim: "Linecom")
+            HStack {
+//              Image(systemName: "envelope")
+              Text(verbatim: "linecom@linecom.net.cn")
+              Spacer()
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+        }
+        Group {
+          VStack(alignment: .leading) {
+            Text(verbatim: "qwasd")
+            HStack {
+//              Image(systemName: "envelope")
+              Text(verbatim: "sjbstudio233@gmail.com")
+              Spacer()
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+        }
+      }
+      .navigationTitle("Credit.contacts")
+    })
   }
 }
 

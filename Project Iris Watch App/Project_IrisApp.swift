@@ -39,6 +39,7 @@ struct Project_Iris_Watch_AppApp: App {
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
   @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
+  @AppStorage("appFont") var appFont = 0
   @State var showTipText = ""
   @State var showTipSymbol = ""
   @State var tipboxText: LocalizedStringResource = ""
@@ -49,112 +50,124 @@ struct Project_Iris_Watch_AppApp: App {
   @State var tintColorValues: [Any] = [275, 40, 100]
   @State var tintColor = Color(hue: 275/359, saturation: 40/100, brightness: 100/100)
   let tipAnimations = [0.2, 0.35, 0.65, 1]
+  let globalFont: [Font.Design?] = [nil, .rounded, .serif]
   var body: some Scene {
     WindowGroup {
-      ZStack {
-        if #available(watchOS 10.0, *) {
-          ContentView()
-            .privacySensitive(isPrivateModeOn)
-            .containerBackground(tintColor.gradient, for: .navigation)
-        } else {
-          ContentView()
-            .privacySensitive(isPrivateModeOn)
-        }
-        VStack {
-          Spacer()
-          HStack {
+      Group {
+        ZStack {
+          if #available(watchOS 10.0, *) {
+            ContentView()
+              .privacySensitive(isPrivateModeOn)
+              .containerBackground(tintColor.gradient, for: .navigation)
+          } else {
+            ContentView()
+              .privacySensitive(isPrivateModeOn)
+          }
+          VStack {
             Spacer()
-            ZStack {
-              Capsule()
-                .foregroundStyle(Color(red: 32/255, green: 32/255, blue: 33/255))
-                .frame(height: 50)
-                .shadow(radius: 15)
-              Capsule()
-                .strokeBorder(Color.primary, style: StrokeStyle(lineWidth: 2))
-                .frame(height: 50)
-              //TODO: Smaller version
-              Group {
-                if tipboxSymbol.isEmpty {
-                  Text(tipboxText)
+            HStack {
+              Spacer()
+              ZStack {
+                Capsule()
+                  .foregroundStyle(Color(red: 32/255, green: 32/255, blue: 33/255))
+                  .frame(height: 50)
+                  .shadow(radius: 15)
+                if #available(watchOS 10, *) {
+                  Capsule()
+                    .strokeBorder(Color.primary, style: StrokeStyle(lineWidth: 2))
+                    .frame(height: 50)
+                }
+                //TODO: Smaller version
+                Group {
+                  if tipboxSymbol.isEmpty {
+                    Text(tipboxText)
+                      .multilineTextAlignment(.center)
+                      .lineLimit(1)
+                      .offset(y: offset-25)
+                  } else {
+                    HStack {
+                      Spacer()
+                      Image(systemName: tipboxSymbol)
+                      Text(tipboxText)
+                      Spacer()
+                    }
+                    //                  Label(tipboxText, systemImage: tipboxSymbol)
                     .multilineTextAlignment(.center)
                     .lineLimit(1)
                     .offset(y: offset-25)
-                } else {
-                  HStack {
-                    Spacer()
-                    Image(systemName: tipboxSymbol)
-                    Text(tipboxText)
-                    Spacer()
                   }
-                  //                  Label(tipboxText, systemImage: tipboxSymbol)
-                  .multilineTextAlignment(.center)
-                  .lineLimit(1)
-                  .offset(y: offset-25)
+                }
+                //              .focused($isTipBoxDisplaying)
+              }
+              .accessibilityHidden(!isTipBoxDisplaying)
+              Spacer()
+            }
+          }
+          .padding()
+          .offset(y: offset)
+          //                    .opacity(opacityEaseInOut)
+          .animation(.easeInOut(duration: tipAnimations[tipAnimationSpeed]), value: offset)
+          .onTapGesture {
+            if tipConfirmRequired {
+              nIsTipBoxDisplaying = false
+              isTipBoxDisplaying = false
+            }
+          }
+          .onAppear {
+            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+              DispatchQueue.main.async {
+                tipboxText = nTipboxText
+                tipboxSymbol = nTipboxSymbol
+                isTipBoxDisplaying = nIsTipBoxDisplaying
+                //Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
+                //  tipBoxOffset = pTipBoxOffset
+                //  timer.invalidate()
+                //}
+                if isTipBoxDisplaying {
+                  offset = 25
+                } else {
+                  offset = 110
                 }
               }
-              //              .focused($isTipBoxDisplaying)
             }
-            .accessibilityHidden(!isTipBoxDisplaying)
-            Spacer()
           }
-        }
-        .padding()
-        .offset(y: offset)
-        //                    .opacity(opacityEaseInOut)
-        .animation(.easeInOut(duration: tipAnimations[tipAnimationSpeed]), value: offset)
-        .onTapGesture {
-          if tipConfirmRequired {
-            nIsTipBoxDisplaying = false
-            isTipBoxDisplaying = false
-          }
+          // .environment(\.locale, .init(identifier: "zh_CN"))
         }
         .onAppear {
-          Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
-            DispatchQueue.main.async {
-              tipboxText = nTipboxText
-              tipboxSymbol = nTipboxSymbol
-              isTipBoxDisplaying = nIsTipBoxDisplaying
-              //Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
-              //  tipBoxOffset = pTipBoxOffset
-              //  timer.invalidate()
-              //}
-              if isTipBoxDisplaying {
-                offset = 25
-              } else {
-                offset = 110
-              }
-            }
+          if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
+            UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
           }
+          tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? [275, 40, 100]
+          tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
         }
-        // .environment(\.locale, .init(identifier: "zh_CN"))
+        //      .tint(tintColor)
+        //      .accentColor(tintColor)
       }
-      .onAppear {
-        if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
-          UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
-        }
-        tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? [275, 40, 100]
-        tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
-      }
-//      .tint(tintColor)
-//      .accentColor(tintColor)
+      .fontDesign(globalFont[appFont])
     }
   }
 }
 
-@MainActor public func showTip(_ text: LocalizedStringResource, symbol: String = "", time: Double = 2.0) {
+@MainActor public func showTip(_ text: LocalizedStringResource, symbol: String = "", time: Double = 2.0, debug: Bool = false) {
+  @AppStorage("debug") var debugMode = false
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
-  nTipboxText = text
-  nTipboxSymbol = symbol
-  nIsTipBoxDisplaying = true
-  
-  if #available(watchOS 10.0, *) {
-    var highPriorityAnnouncement: AttributedString {
-      var highPriorityString = AttributedString(localized: text)
-      highPriorityString.accessibilitySpeechAnnouncementPriority = .high
-      return highPriorityString
+  if !debug || (debug && debugMode)  {
+    nTipboxText = text
+    nTipboxSymbol = symbol
+    nIsTipBoxDisplaying = true
+    if debug {
+      print("[TIPBOX]\(text.key)")
     }
-    AccessibilityNotification.Announcement(highPriorityAnnouncement)
-      .post()
+    
+    if #available(watchOS 10.0, *) {
+      var highPriorityAnnouncement: AttributedString {
+        var highPriorityString = AttributedString(localized: text)
+        highPriorityString.accessibilitySpeechAnnouncementPriority = .high
+        return highPriorityString
+      }
+      AccessibilityNotification.Announcement(highPriorityAnnouncement)
+        .post()
+    }
   }
   if !tipConfirmRequired {
     Timer.scheduledTimer(withTimeInterval: time, repeats: false) { timer in

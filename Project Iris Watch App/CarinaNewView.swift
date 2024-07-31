@@ -8,20 +8,29 @@
 import SwiftUI
 import Cepheus
 
+let systemVersion = WKInterfaceDevice.current().systemVersion
+
 struct CarinaNewView: View {
   @State var personalFeedbacks: [Any] = []
   @State var type = 0
-  @State var place = 7
+  @State var place = 3000
   @State var title = ""
   @State var content = ""
   @State var sent = false
   @State var CarinaID = 0
-  @State var is_watchOS10 = false
   @State var sending = false
   @State var package = """
 """
   @State var encodedPackage = ""
   @State var isAddedToList = false
+  
+  @State var typesPicker: [Int] = []
+  @State var placesPicker: [Int] = []
+  
+  @State var settingsValues: String? = ""
+  @State var sendAllSettingsValue = true
+  @State var showSettingsDisablingAlert = false
+  
   var body: some View {
     if sent {
       if CarinaID == -1 || CarinaID == -2 {
@@ -30,7 +39,7 @@ struct CarinaNewView: View {
             .font(.system(size: 50))
           Text("Carina.failed")
           Group {
-            Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) + Text(is_watchOS10 ? "" : "!") + Text(" · ") + Text(CarinaID == -1 ? "Carina.failed.fetching" : "Carina.failed.connecting")
+            Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) + Text(" · ") + Text(CarinaID == -1 ? "Carina.failed.fetching" : "Carina.failed.connecting")
           }
           .foregroundStyle(.secondary)
           Button(action: {
@@ -39,7 +48,7 @@ struct CarinaNewView: View {
             if !sending {
               Label("Carina.failed.resend", systemImage: "arrow.clockwise")
             } else {
-                ProgressView()
+              ProgressView()
             }
           })
           .disabled(sending)
@@ -52,49 +61,52 @@ struct CarinaNewView: View {
             .font(.system(size: 50))
           Text("Carina.sending")
           Group {
-            Text(carinaTypes[type]) + Text(" · ") + Text(carinaPlaces[place]) + Text(" · ") + Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) + Text(is_watchOS10 ? "" : "!")
+            Text(carinaTypes[type] ?? "Carina.type.other") + Text(" · ") + Text(carinaPlaces[place] ?? "Carina.place.other") + Text(" · ") + Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
           }
           .foregroundStyle(.secondary)
-        }.multilineTextAlignment(.center)
-      } else  {
+        }
+        .multilineTextAlignment(.center)
+      } else {
         VStack {
           Image(systemName: "paperplane")
             .font(.system(size: 50))
           //.bold()
           Text("Carina.sent") + Text(" · ") + Text("#\(CarinaID)").monospaced()
           Group {
-            Text(carinaTypes[type]) + Text(" · ") + Text(carinaPlaces[place]) + Text(" · ") + Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) + Text(is_watchOS10 ? "" : "!")
+            Text(carinaTypes[type] ?? "Carina.type.other") + Text(" · ") + Text(carinaPlaces[place] ?? "Carina.place.other") + Text(" · ") + Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
           }
           .foregroundStyle(.secondary)
+          .font(.caption)
           //.multilineTextAlignment(.center)
           NavigationLink(destination: {
-            CarinaProgressView(carinaID: CarinaID)
+            CarinaDetailView(carinaID: CarinaID)
           }, label: {
             Label("Carina.sent.view", systemImage: "doc.text.image")
           })
-        }.multilineTextAlignment(.center)
-          .onAppear {
-            if !isAddedToList {
-              personalFeedbacks.append(CarinaID)
-              UserDefaults.standard.set(personalFeedbacks, forKey: "personalFeedbacks")
-              isAddedToList = true
-            }
+        }
+        .multilineTextAlignment(.center)
+        .onAppear {
+          if !isAddedToList {
+            personalFeedbacks.append(CarinaID)
+            UserDefaults.standard.set(personalFeedbacks, forKey: "personalFeedbacks")
+            isAddedToList = true
           }
+        }
       }
     } else {
       List {
         Section("Carina.new.app") {
-          Text("Project Iris \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)\(is_watchOS10 ? "" : "!")")
+          Text("Project Iris \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
         }
         Section(content: {
           Picker("Carina.type", selection: $type) {
-            ForEach(carinaTypes.indices) { typeIndex in
-              Text(carinaTypes[typeIndex]).tag(typeIndex)
+            ForEach(0..<typesPicker.count, id: \.self) { typeIndex in
+              Text(carinaTypes[typesPicker[typeIndex]] ?? "Carina.type.other").tag(typesPicker[typeIndex])
             }
           }
           Picker("Carina.place", selection: $place) {
-            ForEach(carinaPlaces.indices) { placeIndex in
-              Text(carinaPlaces[placeIndex]).tag(placeIndex)
+            ForEach(0..<placesPicker.count, id: \.self) { placeIndex in
+              Text(carinaPlaces[placesPicker[placeIndex]] ?? "Carina.place.other").tag(placesPicker[placeIndex])
             }
           }
         }, header: {
@@ -114,6 +126,33 @@ struct CarinaNewView: View {
           CepheusKeyboard(input: $title, prompt: "Carina.new.title")
           CepheusKeyboard(input: $content, prompt: "Carina.new.content")
         }
+        Section(content: {
+          Toggle(isOn: $sendAllSettingsValue, label: {
+            Text("Carina.new.attachments.settings")
+          })
+          .onChange(of: sendAllSettingsValue, perform: { value in
+            showSettingsDisablingAlert = !sendAllSettingsValue
+          })
+          .alert("Carina.new.attachments.settings.alert.title", isPresented: $showSettingsDisablingAlert, actions: {
+            Button(role: .cancel, action: {
+              sendAllSettingsValue = true
+            }, label: {
+              Text("Carina.new.attachments.settings.alert.cancel")
+            })
+            Button(role: .destructive, action: {
+              sendAllSettingsValue = false
+            }, label: {
+              Text("Carina.new.attachments.settings.alert.confirm")
+            })
+            .foregroundStyle(.red)
+          }, message: {
+            Text("Carina.new.attachments.settings.alert.message")
+          })
+        }, header: {
+          Text("Carina.new.attachments")
+        }, footer: {
+          Text("Carina.new.attachments.description")
+        })
         Button(action: {
           sendCarina()
         }, label: {
@@ -132,11 +171,21 @@ struct CarinaNewView: View {
       }
       .navigationTitle("Carina.new")
       .onAppear {
-        if #available(watchOS 10.0, *) {
-          is_watchOS10 = true
+        settingsValues = getSettingsForAppdiagnose { data in
+          data.removeValue(forKey: "correctPasscode")
         }
+        
         personalFeedbacks = UserDefaults.standard.array(forKey: "personalFeedbacks") ?? []
         isAddedToList = false
+        
+        for (key, value) in carinaTypes {
+          typesPicker.append(key)
+        }
+        for (key, value) in carinaPlaces {
+          placesPicker.append(key)
+        }
+        typesPicker.sort()
+        placesPicker.sort()
       }
     }
     
@@ -146,22 +195,27 @@ struct CarinaNewView: View {
     CarinaID = 0
     package = """
 \(title)
-Type：\(type)
-Place：\(place)
-/Users/tom/Xcode/Project Iris/Project Iris Watch App/CarinaNewView.swiftState：0
-Content：\(content.isEmpty ? "none" : content)
-Version：\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)\(is_watchOS10 ? "" : "!")
+
+CarinaType：\(type)
+IrisPlace：\(place)
+State：0
+Body：\(content.isEmpty ? "none" : content)
+Version：\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
+CarinaTime：\(Date().timeIntervalSince1970)
+OS：\(systemVersion)
+Settings：\(sendAllSettingsValue ? (settingsValues ?? "nil") : "toggled-off")
+Sender：Iris
 """
     encodedPackage = package.data(using: .utf8)?.base64EncodedString() ?? ""
-    fetchWebPageContent(urlString: "\(carinaPushFeedbackAPI)\(encodedPackage)") { result in
-        switch result {
+    fetchWebPageContent(urlString: "https://fapi.darock.top:65535/feedback/submit/anony/Project%20Iris/\(encodedPackage)") { result in
+      switch result {
         case .success(let content):
           CarinaID = Int(content) ?? -1
         case .failure(let error):
           CarinaID = -2
-        }
-        sending = false
       }
+      sending = false
+    }
     sent = true
   }
 }
