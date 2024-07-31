@@ -11,21 +11,22 @@ struct AboutView: View {
     NavigationStack {
       if #available(watchOS 10, *) {
         TabView {
-          AboutViewOne()
-          SettingsAdvancedView()
+          AboutViewMain()
+          NewFeaturesListView()
+            .navigationTitle("About.whats-new")
         }
         .tabViewStyle(.verticalPage)
       } else {
         ScrollView {
-          AboutViewOne()
-          SettingsAdvancedView()
+          AboutViewMain()
+          NewFeaturesListView()
         }
       }
     }
   }
 }
 
-struct AboutViewOne: View {
+struct AboutViewMain: View {
   @State var isEasterEggDisplayed = false
   @State var isICPSheetDisplaying = false
   let AppIconLength: CGFloat = 70

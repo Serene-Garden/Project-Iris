@@ -11,47 +11,64 @@ import Cepheus
 
 let watchSize = WKInterfaceDevice.current().screenBounds
 
+public let defaultHomeList: [Any] = ["search-field", "search-button", "|", "bookmarks", "privacy", "|", "history", "settings", "carina", "update-indicator"]
+public let defaultHomeListValues: [Any] = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil"]
+public let defaultSearchEngineNames: [Any] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou", "Iris.search.duckduckgo", "Iris.search.yahoo", "Iris.search.yandex", "Iris.search.360"]
+public let defaultSearchEngineLinks: [Any] = ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris", "https://duckduckgo.com/?q=\\Iris", "https://search.yahoo.com/search?p=\\Iris", "https://yandex.eu/search?text=\\Iris", "https://www.so.com/s?q=\\Iris"]
+public let defaultSearchEngineEditable: [Any] = [false, false, false, false, false, false, false, false]
+
 struct HomeView: View {
   @Binding var isPrivateModeOn: Bool
   @Binding var searchField: String
-  @State var homeList: [Any] = ["search-field", "search-button", "|", "bookmarks", "privacy", "|", "history", "settings", "carina", "update-indicator"]
+  @State var homeList: [Any] = defaultHomeList
+  @State var homeListValues: [Any] = ["nil"]
   @State var homeListParsed: [[String]] = [/*["search-field", "search-button"], ["bookmarks"], ["history", "settings", "carina"]*/]
+  @State var homeListValuesParsed: [[String]] = []
   @State var homeListBox: [String] = []
+  @State var homeListValuesBox: [String] = []
   var body: some View {
     List {
       ForEach(0..<homeListParsed.count, id: \.self) { homeListSection in
         Section {
           ForEach(0..<homeListParsed[homeListSection].count, id: \.self) { homeListElement in
-            HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeListParsed[homeListSection][homeListElement], isInList: true)
+            HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeListParsed[homeListSection][homeListElement], isInList: true, values: homeListValuesParsed[homeListSection][homeListElement])
           }
         }
       }
     }
     .onAppear {
       if (UserDefaults.standard.array(forKey: "homeList") ?? []).isEmpty {
-        UserDefaults.standard.set(["search-field", "search-button", "|", "bookmarks", "|", "history", "settings", "carina", "update-indicator"], forKey: "homeList")
+        UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
+        UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
       }
       homeListBox = []
+      homeListValuesBox = []
       homeListParsed = []
-      homeList = UserDefaults.standard.array(forKey: "homeList") ?? ["search-field", "search-button", "|", "bookmarks", "|", "history", "settings", "carina", "update-indicator"]
-      for element in homeList {
-        if ((element as! String) != "|") {
-          homeListBox.append(element as! String)
+      homeListValuesParsed = []
+      homeList = UserDefaults.standard.array(forKey: "homeList") ?? defaultHomeList
+      homeListValues = UserDefaults.standard.array(forKey: "homeListValues") ?? defaultHomeListValues
+      for index in 0..<homeList.count {
+        if ((homeList[index] as! String) != "|") {
+          homeListBox.append(homeList[index] as! String)
+          homeListValuesBox.append(homeListValues[index] as! String)
         } else {
           homeListParsed.append(homeListBox)
+          homeListValuesParsed.append(homeListValuesBox)
           homeListBox = []
+          homeListValuesBox = []
         }
       }
       homeListParsed.append(homeListBox)
+      homeListValuesParsed.append(homeListValuesBox)
       
       if (UserDefaults.standard.array(forKey: "engineNames") ?? []).isEmpty {
-        UserDefaults.standard.set(["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou"], forKey: "engineNames")
+        UserDefaults.standard.set(defaultSearchEngineNames, forKey: "engineNames")
       }
       if (UserDefaults.standard.array(forKey: "engineLinks") ?? []).isEmpty {
-        UserDefaults.standard.set(["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris"], forKey: "engineLinks")
+        UserDefaults.standard.set(defaultSearchEngineLinks, forKey: "engineLinks")
       }
       if (UserDefaults.standard.array(forKey: "engineNameIsEditable") ?? []).isEmpty {
-        UserDefaults.standard.set([false, false, false, false], forKey: "engineNameIsEditable")
+        UserDefaults.standard.set(defaultSearchEngineEditable, forKey: "engineNameIsEditable")
       }
     }
   }
@@ -103,14 +120,14 @@ struct ContentView: View {
           .navigationBarTitleDisplayMode(.large)
           .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-              HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar1, isInList: false)
+              HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar1, isInList: false, values: "")
             }
             ToolbarItem(placement: .topBarTrailing) {
-              HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar2, isInList: false)
+              HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar2, isInList: false, values: "")
             }
             ToolbarItemGroup(placement: .bottomBar) {
               HStack {
-                HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar3, isInList: false)
+                HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar3, isInList: false, values: "")
                 if homeToolbar3 != "nil" {
                   Spacer()
                 }
@@ -125,7 +142,7 @@ struct ContentView: View {
                 if homeToolbar4 != "nil" {
                   Spacer()
                 }
-                HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar4, isInList: false)
+                HomeElementRenderder(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, element: homeToolbar4, isInList: false, values: "")
               }
               .background {
                 if homeToolbarBottomBlur != 0 {
@@ -212,10 +229,12 @@ public extension String {
   }
 }
 
-public func searchButtonAction(isPrivateModeOn: Bool, searchField: String, isCookiesAllowed: Bool, searchEngine: String, isURL: Bool? = nil) {
+@MainActor public func searchButtonAction(isPrivateModeOn: Bool, searchField: String, isCookiesAllowed: Bool, searchEngine: String, isURL: Bool? = nil) {
+  var lastHistoryID = UserDefaults.standard.integer(forKey: "lastHistoryID")
   var optimizedSearchField: String = searchField
   var optimizedSearchEngine: String = searchEngine
-  var history: [Any] = UserDefaults.standard.array(forKey: "HistoryLink") ?? []
+  var history = getHistory()
+  
   var optimizedIsURL: Bool? = isURL
   if optimizedIsURL == nil {
     optimizedIsURL = optimizedSearchField.isURL()
@@ -238,9 +257,10 @@ public func searchButtonAction(isPrivateModeOn: Bool, searchField: String, isCoo
     session.prefersEphemeralWebBrowserSession = !isCookiesAllowed
   }
   session.start()
-  history.insert(optimizedIsURL! ? optimizedSearchField : optimizedSearchField.urlEncoded(), at: 0)
   if !isPrivateModeOn && !optimizedSearchField.isEmpty {
-    UserDefaults.standard.set(history, forKey: "HistoryLink")
+    history.insert((searchField, Date.now, lastHistoryID+1), at: 0)
+    UserDefaults.standard.set(lastHistoryID+1, forKey: "lastHistoryID")
+    updateHistory(history)
   }
 }
 
@@ -249,6 +269,7 @@ struct HomeElementRenderder: View {
   @Binding var searchField: String
   var element: String
   var isInList: Bool
+  var values: String
   var isEditing: Bool = false
   var body: some View {
     if element == "nil" {
@@ -273,6 +294,8 @@ struct HomeElementRenderder: View {
       HomeCarinaLinkElement(isInList: isInList)
     } else if element == "update-indicator" {
       HomeUpdateIndicatorElement(isInList: isInList)
+    } else if element == "bookmark-link" {
+      HomeBookmarkOpenLinkElement(isInList: isInList, values: values)
     }
   }
 }
@@ -291,9 +314,9 @@ struct HomeSearchButtonElement: View {
   @AppStorage("rightSwipeSearchButton") var rightSwipeSearchButton = 3
   @Binding var isPrivateModeOn: Bool
   @Binding var searchField: String
-  @State var engineNames: [String] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou"]
-  @State var engineLinks: [String] = ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris"]
-  @State var engineNameIsEditable: [Bool] = [false, false, false, false]
+  @State var engineNames: [String] = defaultSearchEngineNames as! [String]
+  @State var engineLinks: [String] = defaultSearchEngineLinks as! [String]
+  @State var engineNameIsEditable: [Bool] = defaultSearchEngineEditable as! [Bool]
   @State var configPageIsDisplaying = false
   @State var temporarySearchEngine = 0
   @State var temporaryPrivateMode = false
@@ -310,9 +333,9 @@ struct HomeSearchButtonElement: View {
       }
     })
     .onAppear {
-      engineNames = (UserDefaults.standard.array(forKey: "engineNames") ?? ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou"]) as! [String]
-      engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris"]) as! [String]
-      engineNameIsEditable = (UserDefaults.standard.array(forKey: "engineNameIsEditable") ?? [false, false, false, false]) as! [Bool]
+      engineNames = (UserDefaults.standard.array(forKey: "engineNames") ?? defaultSearchEngineNames) as! [String]
+      engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? defaultSearchEngineLinks) as! [String]
+      engineNameIsEditable = (UserDefaults.standard.array(forKey: "engineNameIsEditable") ?? defaultSearchEngineEditable) as! [Bool]
     }
     .swipeActions(edge: .leading, content: {
       if leftSwipeSearchButton == 1 {
@@ -557,7 +580,7 @@ struct HomeUpdateIndicatorElement: View {
         }
       }
     }.onAppear {
-      fetchWebPageContent(urlString: irisVersionAPI) { result in
+      fetchWebPageContent(urlString: "https://fapi.darock.top:65535/iris/newver") { result in
         switch result {
         case .success(let content):
           latestVer = content.components(separatedBy: "\"")[1]
@@ -572,6 +595,68 @@ struct HomeUpdateIndicatorElement: View {
     }
   }
 }
+
+struct HomeBookmarkOpenLinkElement: View {
+  var isInList: Bool
+  var values: String
+  let bookmarks = getBookmarkLibrary()
+  
+  @State var groupIndex = 0
+  @State var bookmarkIndex = 0
+  @State var linkUnavailable = false
+  @State var valueComponents: [String] = []
+  @State var linkIsReady = false
+  
+  //For accessing web
+  @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
+  @AppStorage("currentEngine") var currentEngine = 0
+  @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
+  @State var engineLinks: [String] = defaultSearchEngineLinks as! [String]
+  var body: some View {
+    Button(action: {
+      searchButtonAction(isPrivateModeOn: isPrivateModeOn, searchField: bookmarks[groupIndex].3[bookmarkIndex].3, isCookiesAllowed: isCookiesAllowed, searchEngine: engineLinks[currentEngine])
+    }, label: {
+      if linkIsReady && !linkUnavailable {
+        HStack {
+          if bookmarks[groupIndex].3[bookmarkIndex].0 { //isEmoji
+            Text(bookmarks[groupIndex].3[bookmarkIndex].1)
+              .font(.title3)
+          } else {
+            Image(systemName: bookmarks[groupIndex].3[bookmarkIndex].1)
+          }
+          Text(bookmarks[groupIndex].3[bookmarkIndex].2)
+          Spacer()
+        }
+      } else {
+        Label("Home.unavailable", systemImage: "bookmark")
+      }
+    })
+    .disabled(linkUnavailable || !linkIsReady)
+    .onAppear {
+      linkIsReady = false
+      if values == "nil" || values.isEmpty {
+        linkUnavailable = true
+      } else {
+        valueComponents = values.components(separatedBy: "/")
+        if let group = arraySafeAccess(valueComponents, element: 0) {
+          groupIndex = Int(group) ?? -1
+          if let bookmark = arraySafeAccess(valueComponents, element: 1) {
+            bookmarkIndex = Int(bookmark) ?? -1
+          } else {
+            linkUnavailable = true
+          }
+        } else {
+          linkUnavailable = true
+        }
+      }
+      if groupIndex == -1 || bookmarkIndex == -1 {
+        linkUnavailable = true
+      }
+      linkIsReady = true
+    }
+  }
+}
+
 
 func getTopLevel(from url: String) -> String? {
   if !url.contains(".") {
@@ -640,15 +725,28 @@ struct LockIndicator: View {
   @AppStorage("correctPasscode") var correctPasscode = ""
   @AppStorage("lockBookmarks") var lockBookmarks = false
   @AppStorage("lockHistory") var lockHistory = true
-  var destination: String
+  var destination: String = "lock"
   var showChevron = false
   var body: some View {
-    if !correctPasscode.isEmpty && ((lockBookmarks && destination == "bookmarks") || (lockHistory && destination == "history")) {
+    if !correctPasscode.isEmpty && ((lockBookmarks && destination == "bookmarks") || (lockHistory && destination == "history") || destination == "history") {
       Image(systemName: "lock")
         .foregroundStyle(.secondary)
     } else if showChevron {
       Image(systemName: "chevron.forward")
         .foregroundStyle(.secondary)
     }
+  }
+}
+
+func arraySafeAccess<T>(_ array: Array<T>, element: Int) -> T? {
+  //This function avoids index out of range error when accessing a range.
+  //If out, then it will return nil instead of throwing an error.
+  //Normally it will just return the content, but in optional.
+  if element >= array.count || element < 0 { //Index out of range
+    return nil
+  } else { //Index in range
+    //    print(array)
+    //    print(element)
+    return array[element]
   }
 }

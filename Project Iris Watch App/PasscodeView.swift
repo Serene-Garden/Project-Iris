@@ -80,7 +80,6 @@ struct PasscodeAddView: View {
       }, expectedNumber: newPasscode, title: "Passcode.add", prompt: "Passcode.add.second", lastEnteredDigits: newPasscode.count)
     }, expectedNumber: "any", title: "Passcode.add", prompt: "Passcode.add.first", broadcastingPasscode: $newPasscode)
     .onChange(of: newPasscode, perform: { value in
-      print(newPasscode)
     })
   }
 }
@@ -161,8 +160,9 @@ struct PasscodeInputView<L: View>: View {
             Spacer()
           }
           .padding(.leading, 7)
-          Spacer()
-            .frame(height: 10)
+          .padding(.bottom, 10)
+//          Spacer()
+//            .frame(height: 10)
           ZStack {
             Text(dotsByInt(lastEnteredDigits))
               .offset(x: offset - 500)
@@ -180,9 +180,10 @@ struct PasscodeInputView<L: View>: View {
                 }
               }
             }
-            .flipsForRightToLeftLayoutDirection(false)
+//            .flipsForRightToLeftLayoutDirection(false)
             .offset(x: offset)
           }
+          .font(.caption)
           Grid {
             GridRow {
               Button(action: {
@@ -208,7 +209,7 @@ struct PasscodeInputView<L: View>: View {
             }
             .disabled(enteredPasscode.count >= 10)
             .foregroundStyle(enteredPasscode.count >= 10 ? .secondary : .primary)
-            .flipsForRightToLeftLayoutDirection(false)
+//            .flipsForRightToLeftLayoutDirection(false)
             GridRow {
               Button(action: {
                 enteredPasscode.append("4")
@@ -233,7 +234,7 @@ struct PasscodeInputView<L: View>: View {
             }
             .disabled(enteredPasscode.count >= 10)
             .foregroundStyle(enteredPasscode.count >= 10 ? .secondary : .primary)
-            .flipsForRightToLeftLayoutDirection(false)
+//            .flipsForRightToLeftLayoutDirection(false)
             GridRow {
               Button(action: {
                 enteredPasscode.append("7")
@@ -258,11 +259,14 @@ struct PasscodeInputView<L: View>: View {
             }
             .disabled(enteredPasscode.count >= 10)
             .foregroundStyle(enteredPasscode.count >= 10 ? .secondary : .primary)
-            .flipsForRightToLeftLayoutDirection(false)
+//            .flipsForRightToLeftLayoutDirection(false)
             GridRow {
               if enteredPasscode.isEmpty {
                 DismissButton(action: {}, label: {
                   Image(systemName: "chevron.backward")
+                    .overlay {
+                      Rectangle().opacity(0.02)
+                    }
                 })
                 .buttonStyle(DigitStyle(scaleAnchor: .bottomLeading, removeBackground: true))
               } else {
@@ -273,6 +277,9 @@ struct PasscodeInputView<L: View>: View {
                   }
                 }, label: {
                   Image(systemName: "delete.left")
+                    .overlay {
+                      Rectangle().opacity(0.02)
+                    }
                 })
                 .buttonStyle(DigitStyle(scaleAnchor: .bottomLeading, removeBackground: true))
               }
@@ -301,6 +308,9 @@ struct PasscodeInputView<L: View>: View {
                 }
               }, label: {
                 Image(systemName: "checkmark")
+                  .overlay {
+                    Rectangle().opacity(0.02)
+                  }
               })
               .buttonStyle(DigitStyle(scaleAnchor: .bottomTrailing, removeBackground: true))
               .disabled(enteredPasscode.isEmpty)
@@ -322,10 +332,11 @@ struct PasscodeInputView<L: View>: View {
             }
           })
         }
-        .ignoresSafeArea(.all, edges: .top)
-        .ignoresSafeArea(.all, edges: .bottom)
+//        .ignoresSafeArea(.all, edges: .top)
+//        .ignoresSafeArea(.all, edges: .bottom)
+        .ignoresSafeArea(.all, edges: .vertical)
         .navigationBarBackButtonHidden()
-        .flipsForRightToLeftLayoutDirection(false)
+//        .flipsForRightToLeftLayoutDirection(false)
       }
     }
     .onAppear {

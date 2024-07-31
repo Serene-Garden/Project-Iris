@@ -113,9 +113,9 @@ struct SettingsView: View {
 //MARK: --- Search ---
 
 struct SettingsSearchView: View {
-  @State var engineNames: [String] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou"]
-  @State var engineLinks: [String] = ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris"]
-  @State var engineNameIsEditable: [Bool] = [false, false, false, false]
+  @State var engineNames: [String] = defaultSearchEngineNames as! [String]
+  @State var engineLinks: [String] = defaultSearchEngineLinks as! [String]
+  @State var engineNameIsEditable: [Bool] = defaultSearchEngineEditable as! [Bool]
   @AppStorage("currentEngine") var currentEngine = 0
   
   @State var showEditTips = true
@@ -125,13 +125,9 @@ struct SettingsSearchView: View {
   @State var isIrisKeyIncludedInLink = true
   @State var isLinkValid = true
   @State var editingEngineName = ""
-  
-  @Environment(\.dismiss) var dismiss
+  @State var isAddingSearchEngine = false
   var body: some View {
     List {
-      if #available(watchOS 10.0, *) {} else {
-        
-      }
       ForEach(0..<engineNames.count, id: \.self) { index in
         NavigationLink(destination: {
           List {
@@ -261,63 +257,8 @@ struct SettingsSearchView: View {
                 .offset(y: 20)
             }
             Spacer()
-            NavigationLink(destination: {
-              List {
-                CepheusKeyboard(input: $editingEngineName, prompt: "Settings.search.edit.name")
-                CepheusKeyboard(input: $editingEngineLink, prompt: "Settings.search.edit.link", autoCorrectionIsEnabled: false)
-                if editingEngineLink.isEmpty {
-                  Label("Settings.search.edit.tips.iris-required", systemImage: "character.magnify")
-                } else if !isIrisKeyIncludedInLink {
-                  Label("Settings.search.edit.warning.iris-missing", systemImage: "questionmark.circle")
-                    .foregroundStyle(.yellow)
-                }
-                if !isLinkValid {
-                  Label("Settings.search.edit.error.invalid-link", systemImage: "exclamationmark.circle")
-                    .foregroundStyle(.red)
-                }
-                if editingEngineName.isEmpty {
-                  Label("Settings.search.edit.tips.empty-name", systemImage: "questionmark.circle")
-                    .foregroundStyle(.yellow)
-                }
-                if !editingEngineName.isEmpty && isLinkValid && isIrisKeyIncludedInLink {
-                  Label("Settings.search.edit.tips.perfect", systemImage: "checkmark.circle")
-                    .foregroundStyle(.green)
-                }
-              }
-              .onAppear {
-                editingEngineName = ""
-                editingEngineLink = ""
-                isLinkValid = false
-              }
-              .onChange(of: editingEngineLink, perform: { value in
-                isIrisKeyIncludedInLink = editingEngineLink.lowercased().contains("\\iris")
-                isLinkValid = editingEngineLink.isURL()
-              })
-              .toolbar {
-                if #available(watchOS 10, *) {
-                  ToolbarItemGroup(placement: .bottomBar, content: {
-                    HStack {
-                      Spacer()
-                      DismissButton(action: {
-                        engineNames.append(editingEngineName)
-                        engineLinks.append(editingEngineLink)
-                        engineNameIsEditable.append(true)
-                        UserDefaults.standard.set(engineNames, forKey: "engineNames")
-                        UserDefaults.standard.set(engineLinks, forKey: "engineLinks")
-                        UserDefaults.standard.set(engineNameIsEditable, forKey: "engineNameIsEditable")
-                        showTip("Settings.search.new.succeed", symbol: "checkmark")
-                      }, label: {
-                        Label("Settings.interface.home.toolbar.done", systemImage: "checkmark")
-                        //        Spacer()
-                        //        Image(systemName: "chevron.backward")
-                        //          .foregroundStyle(.secondary)
-                      })
-                      .disabled(!isLinkValid)
-                    }
-                  })
-                }
-              }
-              .navigationTitle("Settings.search.new.title")
+            Button(action: {
+              isAddingSearchEngine = true
             }, label: {
               Image(systemName: "plus")
             })
@@ -327,9 +268,9 @@ struct SettingsSearchView: View {
     }
     .onAppear {
       //      homeList = UserDefaults.standard.array(forKey: "homeList")!
-      engineNames = (UserDefaults.standard.array(forKey: "engineNames") ?? ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou"]) as! [String]
-      engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris"]) as! [String]
-      engineNameIsEditable = (UserDefaults.standard.array(forKey: "engineNameIsEditable") ?? [false, false, false, false]) as! [Bool]
+      engineNames = (UserDefaults.standard.array(forKey: "engineNames") ?? defaultSearchEngineNames) as! [String]
+      engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? defaultSearchEngineLinks) as! [String]
+      engineNameIsEditable = (UserDefaults.standard.array(forKey: "engineNameIsEditable") ?? defaultSearchEngineEditable) as! [Bool]
       Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
         showEditTips = false
       }
@@ -339,6 +280,137 @@ struct SettingsSearchView: View {
       UserDefaults.standard.set(engineLinks, forKey: "engineLinks")
       UserDefaults.standard.set(engineNameIsEditable, forKey: "engineNameIsEditable")
     }
+    .sheet(isPresented: $isAddingSearchEngine, content: {
+      SettingsSearchNewPresetsView(engineNames: $engineNames, engineLinks: $engineLinks, engineNameIsEditable: $engineNameIsEditable)
+    })
+  }
+}
+
+struct SettingsSearchNewPresetsView: View {
+  @Binding var engineNames: [String]
+  @Binding var engineLinks: [String]
+  @Binding var engineNameIsEditable: [Bool]
+  @State var presetAvailable: Bool = false
+  @State var foundPreset: Int = 0
+  @Environment(\.presentationMode) var presentationMode
+  var body: some View {
+    NavigationStack {
+      if presetAvailable {
+        List {
+          NavigationLink(destination: {
+            List {
+              ForEach(0..<defaultSearchEngineLinks.count, id: \.self) { index in
+                DismissButton(action: {
+                  engineNames.append(defaultSearchEngineNames[index] as! String)
+                  engineLinks.append(defaultSearchEngineLinks[index] as! String)
+                  engineNameIsEditable.append(false)
+                  UserDefaults.standard.set(engineNames, forKey: "engineNames")
+                  UserDefaults.standard.set(engineLinks, forKey: "engineLinks")
+                  UserDefaults.standard.set(engineNameIsEditable, forKey: "engineNameIsEditable")
+                  showTip("Settings.search.new.succeed", symbol: "checkmark")
+                  presentationMode.wrappedValue.dismiss()
+                }, label: {
+                  Text(String(localized: LocalizedStringResource(stringLiteral: defaultSearchEngineNames[index] as! String)))
+                })
+                .disabled(engineLinks.contains(defaultSearchEngineLinks[index] as! String))
+              }
+            }
+            .navigationTitle("Settings.search.new.presets")
+          }, label: {
+            Label("Settings.search.new.presets", systemImage: "list.star")
+          })
+          NavigationLink(destination: {
+            SettingsSearchNewCustomizeView(engineNames: $engineNames, engineLinks: $engineLinks, engineNameIsEditable: $engineNameIsEditable)
+              .onDisappear {
+                presentationMode.wrappedValue.dismiss()
+              }
+          }, label: {
+            Label("Settings.search.new.customize", systemImage: "rectangle.and.pencil.and.ellipsis")
+          })
+        }
+      } else {
+        SettingsSearchNewCustomizeView(engineNames: $engineNames, engineLinks: $engineLinks, engineNameIsEditable: $engineNameIsEditable)
+      }
+    }
+    .onAppear {
+      for presetLink in defaultSearchEngineLinks {
+        for engineLink in engineLinks {
+          if engineLink.contains(presetLink as! String) {
+            foundPreset += 1
+            break
+          }
+        }
+      }
+      presetAvailable = (foundPreset < defaultSearchEngineLinks.count)
+    }
+  }
+}
+
+struct SettingsSearchNewCustomizeView: View {
+  @Binding var engineNames: [String]
+  @Binding var engineLinks: [String]
+  @Binding var engineNameIsEditable: [Bool]
+  @State var editingEngineName: String = ""
+  @State var editingEngineLink: String = ""
+  @State var isLinkValid = true
+  @State var isIrisKeyIncludedInLink = false
+  var body: some View {
+    List {
+      CepheusKeyboard(input: $editingEngineName, prompt: "Settings.search.edit.name")
+      CepheusKeyboard(input: $editingEngineLink, prompt: "Settings.search.edit.link", autoCorrectionIsEnabled: false)
+      if editingEngineLink.isEmpty {
+        Label("Settings.search.edit.tips.iris-required", systemImage: "character.magnify")
+      } else if !isIrisKeyIncludedInLink {
+        Label("Settings.search.edit.warning.iris-missing", systemImage: "questionmark.circle")
+          .foregroundStyle(.yellow)
+      }
+      if !isLinkValid {
+        Label("Settings.search.edit.error.invalid-link", systemImage: "exclamationmark.circle")
+          .foregroundStyle(.red)
+      }
+      if editingEngineName.isEmpty {
+        Label("Settings.search.edit.tips.empty-name", systemImage: "questionmark.circle")
+          .foregroundStyle(.yellow)
+      }
+      if !editingEngineName.isEmpty && isLinkValid && isIrisKeyIncludedInLink {
+        Label("Settings.search.edit.tips.perfect", systemImage: "checkmark.circle")
+          .foregroundStyle(.green)
+      }
+    }
+    .onAppear {
+      editingEngineName = ""
+      editingEngineLink = ""
+      isLinkValid = false
+    }
+    .onChange(of: editingEngineLink, perform: { value in
+      isIrisKeyIncludedInLink = editingEngineLink.lowercased().contains("\\iris")
+      isLinkValid = editingEngineLink.isURL()
+    })
+    .toolbar {
+      if #available(watchOS 10, *) {
+        ToolbarItemGroup(placement: .bottomBar, content: {
+          HStack {
+            Spacer()
+            DismissButton(action: {
+              engineNames.append(editingEngineName)
+              engineLinks.append(editingEngineLink)
+              engineNameIsEditable.append(true)
+              UserDefaults.standard.set(engineNames, forKey: "engineNames")
+              UserDefaults.standard.set(engineLinks, forKey: "engineLinks")
+              UserDefaults.standard.set(engineNameIsEditable, forKey: "engineNameIsEditable")
+              showTip("Settings.search.new.succeed", symbol: "checkmark")
+            }, label: {
+              Label("Settings.interface.home.toolbar.done", systemImage: "checkmark")
+              //        Spacer()
+              //        Image(systemName: "chevron.backward")
+              //          .foregroundStyle(.secondary)
+            })
+            .disabled(!isLinkValid)
+          }
+        })
+      }
+    }
+    .navigationTitle("Settings.search.new.title")
   }
 }
 
@@ -347,7 +419,6 @@ struct SettingsSearchView: View {
 struct SettingsInterfaceView: View {
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
   @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
-  @AppStorage("isBookmarkCounterDisplayed") var isBookmarkCounterDisplayed = false
   @AppStorage("homeToolbar1") var homeToolbar1: String = "nil"
   @AppStorage("homeToolbar2") var homeToolbar2: String = "nil"
   @AppStorage("homeToolbar3") var homeToolbar3: String = "nil"
@@ -359,11 +430,12 @@ struct SettingsInterfaceView: View {
   @AppStorage("homeToolbarBottomBlur") var homeToolbarBottomBlur = 0
   @AppStorage("leftSwipeSearchButton") var leftSwipeSearchButton = 0
   @AppStorage("rightSwipeSearchButton") var rightSwipeSearchButton = 3
+  @AppStorage("appFont") var appFont = 0
   @State var tintColorValues: [Any] = [275, 40, 100]
   @State var tintColor = Color(hue: 275/359, saturation: 40/100, brightness: 100/100)
   @State var isToolbarOnSelect = false
   //  @State var editingToolbar = 0
-  @Environment(\.dismiss) var dismiss
+  //  @Environment(\.dismiss) var dismiss
   let fontDesign: [Int: Font.Design] = [0: .default, 1: .rounded, 2: .monospaced, 3: .serif]
   var body: some View {
     NavigationStack {
@@ -466,16 +538,22 @@ struct SettingsInterfaceView: View {
         
         if #available(watchOS 10.0, *) {
           Section("Settings.interface.others") {
-            Toggle(isOn: $isBookmarkCounterDisplayed, label: {
-              Label("Settings.interface.other.display-bookmarks-counter", systemImage: "bookmark")
-            })
             NavigationLink(destination: {
               List {
-                Picker("Settings.interface.home.blur", selection: $homeToolbarBottomBlur) {
-                  Text("Settings.interface.home.blur.none").tag(0)
-                  Text("Settings.interface.home.blur.thin").tag(1)
-                  Text("Settings.interface.home.blur.thick").tag(2)
-                }
+                Section(content: {
+                  Picker("Settings.interface.home.blur", selection: $homeToolbarBottomBlur) {
+                    Text("Settings.interface.home.blur.none").tag(0)
+                    Text("Settings.interface.home.blur.thin").tag(1)
+                    Text("Settings.interface.home.blur.thick").tag(2)
+                  }
+                  Picker("Settings.interface.advanced.font", selection: $appFont) {
+                    Text("Settings.interface.advanced.font.default").tag(0).fontDesign(.default)
+                    Text("Settings.interface.advanced.font.rounded").tag(1).fontDesign(.rounded)
+                    Text("Settings.interface.advanced.font.serif").tag(2).fontDesign(.serif)
+                  }
+                }, footer: {
+                  Text("Settings.interface.advanced.footer")
+                })
               }
               .navigationTitle("Settings.interface.advanced")
             }, label: {
@@ -503,6 +581,8 @@ struct SettingsInterfaceHomeToolbarEditView: View {
   @AppStorage("homeToolbarMonogramFontIsUsingTitle3") var homeToolbarMonogramFontIsUsingTitle3 = false
   @AppStorage("homeToolbarMonogramFontIsCapitalized") var homeToolbarMonogramFontIsCapitalized = true
   @AppStorage("homeToolbarMonogramFontDesign") var homeToolbarMonogramFontDesign = 1
+  @State var homeList: [String] = (UserDefaults.standard.array(forKey: "homeList") ?? defaultHomeList) as! [String]
+  @State var disabledEdits: Int = 0
   let fontDesign: [Int: Font.Design] = [0: .default, 1: .rounded, 2: .monospaced, 3: .serif]
   var body: some View {
     if #available(watchOS 10.0, *) {
@@ -545,9 +625,9 @@ struct SettingsInterfaceHomeToolbarEditView: View {
         }, label: {
           HStack {
             Label("Settings.interface.home.toolbar.done", systemImage: "checkmark")
-                    Spacer()
-                    Image(systemName: "chevron.backward")
-                      .foregroundStyle(.secondary)
+            Spacer()
+            Image(systemName: "chevron.backward")
+              .foregroundStyle(.secondary)
           }
         })
         Button(role: .destructive, action: {
@@ -562,13 +642,16 @@ struct SettingsInterfaceHomeToolbarEditView: View {
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           SettingsInterfaceHomeToolbarPicker(toolbar: $homeToolbar1)
+            .disabled(disabledEdits == 1)
         }
         ToolbarItem(placement: .topBarTrailing) {
           SettingsInterfaceHomeToolbarPicker(toolbar: $homeToolbar2)
+            .disabled(disabledEdits == 2)
         }
         ToolbarItemGroup(placement: .bottomBar) {
           HStack {
             SettingsInterfaceHomeToolbarPicker(toolbar: $homeToolbar3)
+              .disabled(disabledEdits == 3)
             Spacer()
             CepheusKeyboard(input: $homeToolbarMonogram, prompt: "Settings.interface.home.toolbar.monogram.prompt", style: "link", label: {
               Text(homeToolbarMonogram.isEmpty ? "MONOGRAM" : homeToolbarMonogram)
@@ -581,6 +664,7 @@ struct SettingsInterfaceHomeToolbarEditView: View {
             .buttonStyle(.borderless)
             Spacer()
             SettingsInterfaceHomeToolbarPicker(toolbar: $homeToolbar4)
+              .disabled(disabledEdits == 4)
           }
           .background {
             Color.clear.background(Material.ultraThin)
@@ -593,13 +677,48 @@ struct SettingsInterfaceHomeToolbarEditView: View {
           }
         }
       }
+      .onAppear {
+        disabledEdits = whichButtonShouldBeDisabled(homeList, homeToolbar1: homeToolbar1, homeToolbar2: homeToolbar2, homeToolbar3: homeToolbar3, homeToolbar4: homeToolbar4)
+      }
+      .onChange(of: homeToolbar1, perform: { value in
+        disabledEdits = whichButtonShouldBeDisabled(homeList, homeToolbar1: homeToolbar1, homeToolbar2: homeToolbar2, homeToolbar3: homeToolbar3, homeToolbar4: homeToolbar4)
+      })
+      .onChange(of: homeToolbar2, perform: { value in
+        disabledEdits = whichButtonShouldBeDisabled(homeList, homeToolbar1: homeToolbar1, homeToolbar2: homeToolbar2, homeToolbar3: homeToolbar3, homeToolbar4: homeToolbar4)
+      })
+      .onChange(of: homeToolbar3, perform: { value in
+        disabledEdits = whichButtonShouldBeDisabled(homeList, homeToolbar1: homeToolbar1, homeToolbar2: homeToolbar2, homeToolbar3: homeToolbar3, homeToolbar4: homeToolbar4)
+      })
+      .onChange(of: homeToolbar4, perform: { value in
+        disabledEdits = whichButtonShouldBeDisabled(homeList, homeToolbar1: homeToolbar1, homeToolbar2: homeToolbar2, homeToolbar3: homeToolbar3, homeToolbar4: homeToolbar4)
+      })
     }
   }
 }
 
+func whichButtonShouldBeDisabled(_ homeList: [String], homeToolbar1: String, homeToolbar2: String, homeToolbar3: String, homeToolbar4: String) -> Int {
+  if !homeList.contains("settings") {
+    if homeToolbar1 == "settings" && homeToolbar2 != "settings" && homeToolbar3 != "settings" && homeToolbar4 != "settings" {
+      return 1
+    } else if homeToolbar1 != "settings" && homeToolbar2 == "settings" && homeToolbar3 != "settings" && homeToolbar4 != "settings" {
+      return 2
+    } else if homeToolbar1 != "settings" && homeToolbar2 != "settings" && homeToolbar3 == "settings" && homeToolbar4 != "settings" {
+      return 3
+    } else if homeToolbar1 != "settings" && homeToolbar2 != "settings" && homeToolbar3 != "settings" && homeToolbar4 == "settings" {
+      return 4
+    } else {
+      return 0
+    }
+  } else {
+    return 0
+  }
+}
+
 struct SettingsInterfaceHomeListEditView: View {
-  @State var homeList: [Any] = ["Settings"]
-  @State var homeListEditing: [String] = ["Settings"]
+  @State var homeList: [Any] = ["settings"]
+  @State var homeListEditing: [String] = ["settings"]
+  @State var homeListValues: [Any] = ["nil"]
+  @State var homeListValuesEditing: [String] = ["nil"]
   
   @State var homeCurrentlyEditingListElement = 0
   @State var homeListElementIsEditing = false
@@ -610,191 +729,314 @@ struct SettingsInterfaceHomeListEditView: View {
   @State var settingsIsInList = true
   @State var showErrorList = false
   @State var showEditTips = true
+  @State var showBookmarkEditSheet = false
+  @State var onFocusEditingItem = 0
   
+  @State var bookmarks = getBookmarkLibrary()
+
   @AppStorage("homeToolbar1") var homeToolbar1: String = "nil"
   @AppStorage("homeToolbar2") var homeToolbar2: String = "nil"
   @AppStorage("homeToolbar3") var homeToolbar3: String = "nil"
   @AppStorage("homeToolbar4") var homeToolbar4: String = "nil"
   @AppStorage("homeListSettingsIsInList") var homeListSettingsIsInList = true
   
-  let listPickerValue = ["|", "search-field", "search-button", "bookmarks", "history", "privacy", "settings", "carina", "update-indicator"]
-  let listPickerName: [LocalizedStringKey] = ["Settings.interface.home.list.selection.space", "Settings.interface.home.list.selection.search-field", "Settings.interface.home.list.selection.search-button", "Settings.interface.home.list.selection.bookmarks", "Settings.interface.home.list.selection.history", "Settings.interface.home.list.selection.privacy", "Settings.interface.home.list.selection.settings", "Settings.interface.home.list.selection.carina", "Settings.interface.home.list.selection.update-indicator"]
-  let listPickerSymbol = ["arrow.up.and.line.horizontal.and.arrow.down", "character.cursor.ibeam", "magnifyingglass", "bookmark", "clock", "hand.raised", "gear", "exclamationmark.bubble", "clock.badge"]
-  let listElementName: [String: LocalizedStringKey] = ["|": "Settings.interface.home.list.selection.space", "search-field": "Settings.interface.home.list.selection.search-field", "search-button": "Settings.interface.home.list.selection.search-button", "bookmarks": "Settings.interface.home.list.selection.bookmarks", "history": "Settings.interface.home.list.selection.history", "privacy": "Settings.interface.home.list.selection.privacy", "settings": "Settings.interface.home.list.selection.settings", "carina": "Settings.interface.home.list.selection.carina", "update-indicator": "Settings.interface.home.list.selection.update-indicator"]
-  let listElementSymbol = ["|": "arrow.up.and.line.horizontal.and.arrow.down", "search-field": "character.cursor.ibeam", "search-button": "magnifyingglass", "bookmarks": "bookmark", "history": "clock", "privacy": "hand.raised", "settings": "gear", "carina": "exclamationmark.bubble", "update-indicator": "clock.badge"]
+  let listPickerValue = ["|", "search-field", "search-button", "bookmarks", "history", "privacy", "settings", "carina", "update-indicator", "bookmark-link"]
+  let listPickerName: [LocalizedStringKey] = ["Settings.interface.home.list.selection.space", "Settings.interface.home.list.selection.search-field", "Settings.interface.home.list.selection.search-button", "Settings.interface.home.list.selection.bookmarks", "Settings.interface.home.list.selection.history", "Settings.interface.home.list.selection.privacy", "Settings.interface.home.list.selection.settings", "Settings.interface.home.list.selection.carina", "Settings.interface.home.list.selection.update-indicator", "Settings.interface.home.list.selection.bookmark-link"]
+  let listPickerSymbol = ["arrow.up.and.line.horizontal.and.arrow.down", "character.cursor.ibeam", "magnifyingglass", "bookmark", "clock", "hand.raised", "gear", "exclamationmark.bubble", "clock.badge", "books.vertical"]
+  let listElementName: [String: LocalizedStringKey] = ["|": "Settings.interface.home.list.selection.space", "search-field": "Settings.interface.home.list.selection.search-field", "search-button": "Settings.interface.home.list.selection.search-button", "bookmarks": "Settings.interface.home.list.selection.bookmarks", "history": "Settings.interface.home.list.selection.history", "privacy": "Settings.interface.home.list.selection.privacy", "settings": "Settings.interface.home.list.selection.settings", "carina": "Settings.interface.home.list.selection.carina", "update-indicator": "Settings.interface.home.list.selection.update-indicator", "bookmark-link": "Settings.interface.home.list.selection.bookmark-link"]
+  let listElementSymbol = ["|": "arrow.up.and.line.horizontal.and.arrow.down", "search-field": "character.cursor.ibeam", "search-button": "magnifyingglass", "bookmarks": "bookmark", "history": "clock", "privacy": "hand.raised", "settings": "gear", "carina": "exclamationmark.bubble", "update-indicator": "clock.badge", "bookmark-link": "books.vertical"]
   
-  @Environment(\.dismiss) var dismiss
+
   var body: some View {
-    List {
-      ForEach(0..<homeListEditing.count, id: \.self) { index in
-        //        Button(action: {
-        //          homeCurrentlyEditingListElement = index
-        //          homeListElementIsEditing = true
-        //        }, label: {
-        Label(listElementName[homeListEditing[index]] ?? "Settings.interface.home.list.selection.unknown", systemImage: listElementSymbol[homeListEditing[index]] ?? "questionmark")
-        //        })
-      }
-      .onDelete(perform: { index in
-        homeListEditing.remove(atOffsets: index)
-      })
-      .onMove(perform: { oldIndex, newIndex in
-        homeListEditing.move(fromOffsets: oldIndex, toOffset: newIndex)
-      })
-    }
-    .sheet(isPresented: $homeListElementIsEditing, content: {
+    if #available(watchOS 10, *) {
       List {
-        ForEach(0..<listPickerValue.count, id: \.self) { index in
-          DismissButton(action: {
-            homeListEditing[index] = listPickerValue[index]
+        ForEach(0..<homeListEditing.count, id: \.self) { index in
+          //        Button(action: {
+          //          homeCurrentlyEditingListElement = index
+          //          homeListElementIsEditing = true
+          //        }, label: {
+          HStack {
+            Image(systemName: listElementSymbol[homeListEditing[index]] ?? "questionmark")
+            VStack(alignment: .leading) {
+              Text(listElementName[homeListEditing[index]] ?? "Settings.interface.home.list.selection.unknown")
+              if homeListEditing[index] == "bookmark-link" {
+                Text(getBookmarkLinkDisplayNames(arraySafeAccess(homeListValuesEditing, element: index) ?? "nil"))
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+                //              Text("\(arraySafeAccess(homeListValuesEditing[index].components(separatedBy: "/"), element: 0) ?? String(localized: "Settings.interface.home.list.value.unknown"))")
+                //              Text("\(arraySafeAccess(homeListValuesEditing[index].components(separatedBy: "/"), element: 0) ?? "Settings.interface.home.list.value.unknown") - \()")
+              }
+            }
+            Spacer()
+          }
+          .onTapGesture {
+            onFocusEditingItem = index
+            showBookmarkEditSheet = true
+          }
+          //        })
+        }
+        .onDelete(perform: { index in
+          homeListEditing.remove(atOffsets: index)
+          homeListValuesEditing.remove(atOffsets: index)
+        })
+        .onMove(perform: { oldIndex, newIndex in
+          homeListEditing.move(fromOffsets: oldIndex, toOffset: newIndex)
+          homeListValuesEditing.move(fromOffsets: oldIndex, toOffset: newIndex)
+        })
+      }
+      .sheet(isPresented: $showBookmarkEditSheet, content: {
+        NavigationStack {
+          if !bookmarks.isEmpty {
+            List {
+              ForEach(0..<bookmarks.count, id: \.self) { groupIndex in
+                NavigationLink(destination: {
+                  Group {
+                    if !bookmarks[groupIndex].3.isEmpty {
+                      List {
+                        ForEach(0..<bookmarks[groupIndex].3.count, id: \.self) { bookmarkIndex in
+                          Button(action: {
+                            homeListValuesEditing[onFocusEditingItem] = "\(groupIndex)/\(bookmarkIndex)"
+                            showBookmarkEditSheet = false
+                          }, label: {
+                            HStack {
+                              if bookmarks[groupIndex].3[bookmarkIndex].0 { //isEmoji
+                                Text(bookmarks[groupIndex].3[bookmarkIndex].1)
+                                  .font(.title3)
+                              } else {
+                                Image(systemName: bookmarks[groupIndex].3[bookmarkIndex].1)
+                              }
+                              Text(bookmarks[groupIndex].3[bookmarkIndex].2)
+                              Spacer()
+                              if String(groupIndex) == homeListValuesEditing[onFocusEditingItem].components(separatedBy: "/").first && String(bookmarkIndex) == homeListValuesEditing[onFocusEditingItem].components(separatedBy: "/").last {
+                                Image(systemName: "checkmark")
+                              }
+                            }
+                          })
+                        }
+                      }
+                    } else {
+                      ContentUnavailableView {
+                        Label("Bookmark.item.empty", systemImage: "bookmark")
+                      } description: {
+                        Text("Bookmark.item.empty.description")
+                      }
+                    }
+                  }
+                  .navigationTitle(bookmarks[groupIndex].2)
+                }, label: {
+                  HStack {
+                    if bookmarks[groupIndex].0 { //isEmoji
+                      Text(bookmarks[groupIndex].1)
+                        .font(.title3)
+                    } else {
+                      Image(systemName: bookmarks[groupIndex].1)
+                    }
+                    Text(bookmarks[groupIndex].2)
+                    Spacer()
+                  }
+                })
+              }
+            }
+          } else {
+            ContentUnavailableView {
+              Label("Bookmark.group.empty", systemImage: "books.vertical")
+            } description: {
+              Text("Bookmark.group.empty.description")
+            }
+          }
+        }
+        .navigationTitle("Settings.interface.home.list.bookmark-link.select")
+      })
+//      .sheet(isPresented: $homeListElementIsEditing, content: {
+//        List {
+//          ForEach(0..<listPickerValue.count, id: \.self) { index in
+//            DismissButton(action: {
+//              homeListEditing[index] = listPickerValue[index]
+//            }, label: {
+//              Label(listPickerName[index], systemImage: listPickerSymbol[index])
+//            })
+//          }
+//        }
+//      })
+      .sheet(isPresented: $showErrorList, content: {
+        List {
+          Section(content: {
+            ForEach(0..<homeListError.count, id: \.self) { error in
+              Group {
+                VStack(alignment: .leading) {
+                  HStack {
+                    Text(HomeListTipTitle([homeListError[error]]))
+                      .bold()
+                    Spacer()
+                    if homeListErrorLines[error] >= 0 {
+                      Text("#\(homeListErrorLines[error] + 1)")
+                        .foregroundStyle(.secondary)
+                        .fontDesign(.monospaced)
+                    }
+                  }
+                  Text(HomeListTipDescription(homeListError[error]))
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.leading)
+                }
+              }
+            }
+          }, footer: {
+            Text("Settings.interface.home.list.error.footer")
+          })
+          Button(action: {
+            homeListEditing = defaultHomeList as! [String]
+            homeListValuesEditing = defaultHomeListValues as! [String]
           }, label: {
-            Label(listPickerName[index], systemImage: listPickerSymbol[index])
+            Text("Settings.interface.home.list.error.reset")
+              .foregroundStyle(.red)
           })
         }
-      }
-    })
-    .sheet(isPresented: $showErrorList, content: {
-      List {
-        Section(content: {
-          ForEach(0..<homeListError.count, id: \.self) { error in
-            Group {
+        .navigationTitle("Settings.interface.home.list.error")
+      })
+      .toolbar {
+        if #available(watchOS 10.0, *) {
+          ToolbarItem(placement: .bottomBar) {
+            HStack {
               VStack(alignment: .leading) {
-                HStack {
-                  Text(HomeListTipTitle([homeListError[error]]))
-                    .bold()
-                  Spacer()
-                  if homeListErrorLines[error] >= 0 {
-                    Text("#\(homeListErrorLines[error] + 1)")
-                      .foregroundStyle(.secondary)
-                      .fontDesign(.monospaced)
+                Text(showEditTips ? "Settings.interface.home.list.edit-tip.title" : HomeListTipTitle(homeListError))
+                Text(showEditTips ? "Settings.interface.home.list.edit-tip.subtitle" : HomeListTipSubtitle(homeListError))
+                  .font(.caption)
+                  .foregroundStyle(.secondary)
+              }
+              .opacity((!showEditTips && homeListError.isEmpty) ? 0 : 1)
+              .animation(.easeInOut(duration: 0.3))
+              .background {
+                Color.clear.background(Material.ultraThin)
+                  .opacity((!showEditTips && homeListError.isEmpty) ? 0 : 0.8)
+                  .animation(.easeInOut(duration: 0.3))
+                  .brightness(0.1)
+                  .saturation(2.5)
+                  .frame(width: screenWidth+100, height: 100)
+                  .blur(radius: 10)
+                  .offset(y: 20)
+              }
+              .onTapGesture(perform: {
+                if !showEditTips {
+                  showErrorList = true
+                }
+              })
+              Spacer()
+              Button(action: {
+                homeListElementIsAdding = true
+              }, label: {
+                Image(systemName: "plus")
+              })
+              .sheet(isPresented: $homeListElementIsAdding, content: {
+                List {
+                  ForEach(0..<listPickerValue.count, id: \.self) { index in
+                    DismissButton(action: {
+                      homeListEditing.append(listPickerValue[index])
+                      homeListValuesEditing.append("nil")
+                    }, label: {
+                      Label(listPickerName[index], systemImage: listPickerSymbol[index])
+                    })
                   }
                 }
-                Text(HomeListTipDescription(homeListError[error]))
-                  .font(.footnote)
-                  .foregroundColor(.secondary)
-                  .multilineTextAlignment(.leading)
-              }
+              })
             }
-          }
-        }, footer: {
-          Text("Settings.interface.home.list.error.footer")
-        })
-        Button(action: {
-          homeListEditing = ["search-field", "search-button", "|", "bookmarks", "|", "history", "settings", "carina", "update-indicator"]
-        }, label: {
-          Text("Settings.interface.home.list.error.reset")
-            .foregroundStyle(.red)
-        })
-      }
-      .navigationTitle("Settings.interface.home.list.error")
-    })
-    .toolbar {
-      if #available(watchOS 10.0, *) {
-        ToolbarItem(placement: .bottomBar) {
-          HStack {
-            VStack(alignment: .leading) {
-              Text(showEditTips ? "Settings.interface.home.list.edit-tip.title" : HomeListTipTitle(homeListError))
-              Text(showEditTips ? "Settings.interface.home.list.edit-tip.subtitle" : HomeListTipSubtitle(homeListError))
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            }
-            .opacity((!showEditTips && homeListError.isEmpty) ? 0 : 1)
-            .animation(.easeInOut(duration: 0.3))
-            .background {
-              Color.clear.background(Material.ultraThin)
-                .opacity((!showEditTips && homeListError.isEmpty) ? 0 : 0.8)
-                .animation(.easeInOut(duration: 0.3))
-                .brightness(0.1)
-                .saturation(2.5)
-                .frame(width: screenWidth+100, height: 100)
-                .blur(radius: 10)
-                .offset(y: 20)
-            }
-            .onTapGesture(perform: {
-              if !showEditTips {
-                showErrorList = true
-              }
-            })
-            Spacer()
-            Button(action: {
-              homeListElementIsAdding = true
-            }, label: {
-              Image(systemName: "plus")
-            })
-            .sheet(isPresented: $homeListElementIsAdding, content: {
-              List {
-                ForEach(0..<listPickerValue.count, id: \.self) { index in
-                  DismissButton(action: {
-                    homeListEditing.append(listPickerValue[index])
-                  }, label: {
-                    Label(listPickerName[index], systemImage: listPickerSymbol[index])
-                  })
-                }
-              }
-            })
           }
         }
       }
-    }
-    .onChange(of: homeListEditing, perform: { value in
-      //      print(homeListEditing)
-      settingsIsFound = false
-      settingsIsInList = false
-      homeListError = []
-      homeListErrorLines = []
-      for i in 0..<homeListEditing.count {
-        if homeListEditing[i] == "|" {
-          if i == 0 {
-            homeListError.append("top")
-            homeListErrorLines.append(0)
-          } else if i == homeListEditing.count-1 {
-            homeListError.append("bottom")
-            homeListErrorLines.append(i)
-          }
-          if i < homeListEditing.count-1 {
-            if homeListEditing[i+1] == "|" {
-              homeListError.append("close")
+      .onChange(of: homeListEditing, perform: { value in
+        //      print(homeListEditing)
+        settingsIsFound = false
+        settingsIsInList = false
+        homeListError = []
+        homeListErrorLines = []
+        for i in 0..<homeListEditing.count {
+          if homeListEditing[i] == "|" {
+            if i == 0 {
+              homeListError.append("top")
+              homeListErrorLines.append(0)
+            } else if i == homeListEditing.count-1 {
+              homeListError.append("bottom")
               homeListErrorLines.append(i)
             }
+            if i < homeListEditing.count-1 {
+              if homeListEditing[i+1] == "|" {
+                homeListError.append("close")
+                homeListErrorLines.append(i)
+              }
+            }
+          }
+          if homeListEditing[i] == "settings" {
+            settingsIsFound = true
+            //          print(homeListEditing)
+            settingsIsInList = true
           }
         }
-        if homeListEditing[i] == "settings" {
+        if !settingsIsFound {
+          settingsIsInList = false
+        }
+        if homeToolbar1 == "settings" || homeToolbar2 == "settings" || homeToolbar3 == "settings" || homeToolbar4 == "settings" {
           settingsIsFound = true
-          //          print(homeListEditing)
-          settingsIsInList = true
+        }
+        if !settingsIsFound {
+          homeListError.append("settings-missing")
+          homeListErrorLines.append(-1)
+        }
+        if homeListEditing.count > 100 {
+          homeListError.append("too-long")
+          homeListErrorLines.append(100)
+        }
+      })
+      .onAppear {
+        //      homeList = UserDefaults.standard.array(forKey: "homeList")!
+        homeList = UserDefaults.standard.array(forKey: "homeList") ?? defaultHomeList
+        homeListValues = UserDefaults.standard.array(forKey: "homeListValues") ?? [Any](repeating: "nil", count: homeList.count)
+        homeListEditing = homeList as! [String]
+        homeListValuesEditing = homeListValues as! [String]
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+          showEditTips = false
         }
       }
-      if !settingsIsFound {
-        settingsIsInList = false
-      }
-      if homeToolbar1 == "settings" || homeToolbar2 == "settings" || homeToolbar3 == "settings" || homeToolbar4 == "settings" {
-        settingsIsFound = true
-      }
-      if !settingsIsFound {
-        homeListError.append("settings-missing")
-        homeListErrorLines.append(-1)
-      }
-      if homeListEditing.count > 100 {
-        homeListError.append("too-long")
-        homeListErrorLines.append(100)
-      }
-    })
-    .onAppear {
-      //      homeList = UserDefaults.standard.array(forKey: "homeList")!
-      homeList = UserDefaults.standard.array(forKey: "homeList") ?? ["search-field", "search-button", "|", "bookmarks", "|", "history", "settings", "carina", "update-indicator"]
-      homeListEditing = homeList as! [String]
-      Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-        showEditTips = false
-      }
-    }
-    .onDisappear {
-      if homeListError.isEmpty {
-        homeList = homeListEditing as [Any]
-        UserDefaults.standard.set(homeList, forKey: "homeList")
-      } else {
-        showTip("Settings.interface.home.list.failed-saving", symbol: "exclamationmark.circle")
+      .onDisappear {
+        if homeListError.isEmpty {
+          homeList = homeListEditing as [Any]
+          homeListValues = homeListValuesEditing as [Any]
+          print(homeListValuesEditing)
+          print(homeListValues)
+          UserDefaults.standard.set(homeList, forKey: "homeList")
+          UserDefaults.standard.set(homeListValues, forKey: "homeListValues")
+        } else {
+          showTip("Settings.interface.home.list.failed-saving", symbol: "exclamationmark.circle")
+        }
       }
     }
   }
+}
+
+@MainActor func getBookmarkLinkDisplayNames(_ itemValue: String) -> String {
+  var itemValueSeperated = itemValue.components(separatedBy: "/")
+  var bookmarkGroupName = ""
+  var bookmarkItemName = ""
+  let bookmarks = getBookmarkLibrary()
+  if (arraySafeAccess(itemValueSeperated, element: 0) ?? "nil") == "nil" {
+//    print(itemValue)
+//    print(1)
+    return String(localized: "Settings.interface.home.list.value.unknown")
+  } else if Int(itemValueSeperated[0]) != nil  {
+    bookmarkGroupName = bookmarks[Int(itemValueSeperated[0])!].2
+    if arraySafeAccess(itemValueSeperated, element: 1) != nil {
+      bookmarkItemName = bookmarks[Int(itemValueSeperated[0])!].3[Int(itemValueSeperated[1])!].2
+      return "\(bookmarkGroupName) - \(bookmarkItemName)"
+    } else {
+//      print(itemValue)
+//      print(2)
+      return String(localized: "Settings.interface.home.list.value.unknown")
+    }
+  } else {
+//    print(itemValue)
+//    print(3)
+    return String(localized: "Settings.interface.home.list.value.unknown")
+  }
+//  Text("\(arraySafeAccess(homeListValuesEditing[index].components(separatedBy: "/"), element: 0) ?? String(localized: "Settings.interface.home.list.value.unknown"))")
 }
 
 
@@ -892,42 +1134,59 @@ struct SettingsInterfaceHomeToolbarPicker: View {
 struct SettingsPrivacyView: View {
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
-  @AppStorage("statsCollectionIsAllowed") var statsCollectionIsAllowed = false
+  @AppStorage("statsCollectionIsAllowed") var statsCollectionIsAllowed = true
   @State var isClearHistoryAlertPresenting = false
   var body: some View {
     NavigationStack {
       List {
-        Toggle(isOn: $isPrivateModeOn, label: {
-          Label("Settings.privacy.privacy-mode", systemImage: "hand.raised")
-        })
-        Button(action: {
-          isClearHistoryAlertPresenting = true //TODO: Require passcode
-        }, label: {
-          Label("Settings.privacy.clear-history", systemImage: "trash")
-            .foregroundStyle(.red)
-        })
-        Toggle(isOn: $statsCollectionIsAllowed, label: {
-          Label("Settings.privacy.allow-stats-collections", systemImage: "chart.bar.xaxis")
-        })
-        .alert("Settings.history.clear", isPresented: $isClearHistoryAlertPresenting, actions: {
-          Button(role: .destructive, action: {
-            UserDefaults.standard.set([], forKey: "HistoryLink")
-          }, label: {
-            HStack {
-              Text("Settings.history.confirm")
-              Spacer()
-            }
+        Section("Settings.privacy.history") {
+          Toggle(isOn: $isPrivateModeOn, label: {
+            Label("Settings.privacy.history.privacy-mode", systemImage: "hand.raised")
           })
           Button(action: {
-            
+            isClearHistoryAlertPresenting = true
           }, label: {
-            Text("Settings.history.cancel")
+            Label("Settings.privacy.history.clear-history", systemImage: "trash")
+              .foregroundStyle(.red)
           })
-        }, message: {
-          Text("Settings.history.message")
-        })
-        Text("Settings.privacy.declare")
-        Toggle("Settings.cookies.allow", isOn: $isCookiesAllowed)
+          .alert("Settings.privacy.history.clear", isPresented: $isClearHistoryAlertPresenting, actions: {
+            Button(role: .destructive, action: {
+              updateHistory([])
+            }, label: {
+              HStack {
+                Text("Settings.privacy.history.confirm")
+                Spacer()
+              }
+            })
+            Button(role: .cancel, action: {}, label: {
+              Text("Settings.privacy.history.cancel")
+            })
+          }, message: {
+            Text("Settings.privacy.history.message")
+          })
+        }
+        Section("Settings.privacy.data") {
+          Toggle(isOn: $statsCollectionIsAllowed, label: {
+            Label("Settings.privacy.data.allow-collections", systemImage: "chart.bar.xaxis")
+          })
+          Toggle(isOn: $isCookiesAllowed, label: {
+            Label("Settings.privacy.data.allow-cookies", systemImage: "server.rack")
+          })
+          Button(action: {
+            searchButtonAction(isPrivateModeOn: false, searchField: "https://github.com/Serene-Garden/Project-Iris/blob/main/Privacy-\(languageCode!.identifier == "zh" ? "zh-cn" : "en").md", isCookiesAllowed: false, searchEngine: "")
+          }, label: {
+            HStack {
+              Text("Settings.privacy.privacy-policy")
+              Spacer()
+              Image(systemName: "arrow.up.right.circle")
+                .foregroundStyle(.secondary)
+            }
+          })
+          Text("Settings.privacy.responsibility-for-internet")
+        }
+        Section("Settings.privacy.erase") {
+          SettingsEraseElement()
+        }
       }
       .navigationTitle("Settings.privacy")
     }
@@ -936,14 +1195,14 @@ struct SettingsPrivacyView: View {
 
 //MARK: --- Advanced ---
 
-struct SettingsAdvancedView: View {
+struct SettingsEraseElement: View {
   @State var resettingAlertIsPresenting = false
   
   @AppStorage("currentEngine") var currentEngine = 0
   
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
   @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
-  @AppStorage("isBookmarkCounterDisplayed") var isBookmarkCounterDisplayed = false
+  @AppStorage("appFont") var appFont = 0
   
   @AppStorage("homeToolbar1") var homeToolbar1: String = "nil"
   @AppStorage("homeToolbar2") var homeToolbar2: String = "nil"
@@ -959,74 +1218,114 @@ struct SettingsAdvancedView: View {
   @AppStorage("correctPasscode") var correctPasscode = ""
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
+  
+  @Environment(\.presentationMode) var presentationMode
   var body: some View {
-    NavigationStack {
-      List {
-        NavigationLink(destination: NewFearturesView(), label: {
-          Label("Settings.advanced.whats-new", systemImage: "sparkles")
-        })
-        //      Label("Settings.advanced", systemImage: "hammer")
-        Button(role: .destructive, action: {
-          resettingAlertIsPresenting = true
-        }, label: {
-          Label("Settings.advanced.reset", systemImage: "externaldrive.badge.xmark")
-            .foregroundStyle(.red)
-        })
-        .alert("Settings.advanced.reset.title", isPresented: $resettingAlertIsPresenting, actions: {
-          Button(role: .destructive, action: {
-            //Search Engines
-            UserDefaults.standard.set(["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou"], forKey: "engineNames")
-            UserDefaults.standard.set(["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris"], forKey: "engineLinks")
-            UserDefaults.standard.set([false, false, false, false], forKey: "engineNameIsEditable")
-            currentEngine = 0
-            
-            //Home
-            UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
-            UserDefaults.standard.set(["search-field", "search-button", "|", "bookmarks", "|", "history", "settings", "carina", "update-indicator"], forKey: "homeList")
-            homeToolbar1 = "nil"
-            homeToolbar2 = "nil"
-            homeToolbar3 = "nil"
-            homeToolbar4 = "nil"
-            homeToolbarMonogram = ""
-            homeToolbarMonogramFontIsUsingTitle3 = false
-            homeToolbarMonogramFontIsCapitalized = true
-            homeToolbarMonogramFontDesign = 1
-            homeToolbarBottomBlur = 0
-            
-            //Interface
-            tipConfirmRequired = false
-            tipAnimationSpeed = 1
-            isBookmarkCounterDisplayed = false
-            
-            //Privacy
-            correctPasscode = ""
-            isPrivateModeOn = false
-            isCookiesAllowed = false
-            
-            //History
-            UserDefaults.standard.set([], forKey: "HistoryLink")
-            
-            //Bookmarks
-            UserDefaults.standard.set([], forKey: "BookmarkTitle")
-            UserDefaults.standard.set([], forKey: "BookmarkLink")
-            
-            //Feedback
-            UserDefaults.standard.set([], forKey: "personalFeedbacks")
-            
-            showTip("Settings.advanced.reset.done", symbol: "externaldrive.badge.xmark")
-          }, label: {
-            Text(correctPasscode.isEmpty ? "Settings.advanced.reset.confirm" : "Settings.advanced.reset.confirm.disallow")
-          })
-          .disabled(!correctPasscode.isEmpty)
-          Button(role: .cancel, action: {}, label: {
-            Text("Settings.advanced.reset.cancel")
-          })
-        }, message: {
-          Text(correctPasscode.isEmpty ? "Settings.advanced.reset.message" : "Settings.advanced.reset.unable")
-        })
-      }
-      .navigationTitle("Settings.more")
-    }
+//    NavigationLink(destination: {
+//      PasscodeView(destination: {
+//        ScrollView {
+//          VStack {
+//            Text("Settings.privacy.reset.settings.title")
+//              .bold()
+//            Text("Settings.privacy.reset.settings.message")
+//              .multilineTextAlignment(.center)
+//            Button(role: .destructive, action: {
+//              //Search Engines
+//              UserDefaults.standard.set(defaultSearchEngineNames, forKey: "engineNames")
+//              UserDefaults.standard.set(defaultSearchEngineLinks, forKey: "engineLinks")
+//              UserDefaults.standard.set(defaultSearchEngineEditable, forKey: "engineNameIsEditable")
+//              currentEngine = 0
+//              
+//              //Home
+//              UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
+//              UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
+//              homeToolbar1 = "nil"
+//              homeToolbar2 = "nil"
+//              homeToolbar3 = "nil"
+//              homeToolbar4 = "nil"
+//              homeToolbarMonogram = ""
+//              homeToolbarMonogramFontIsUsingTitle3 = false
+//              homeToolbarMonogramFontIsCapitalized = true
+//              homeToolbarMonogramFontDesign = 1
+//              homeToolbarBottomBlur = 0
+//              
+//              //Interface
+//              tipConfirmRequired = false
+//              tipAnimationSpeed = 1
+//              
+//              //Privacy
+//              correctPasscode = ""
+//              isPrivateModeOn = false
+//              isCookiesAllowed = false
+//              presentationMode.wrappedValue.dismiss()
+//            }, label: {
+//              Text("Settings.privacy.reset.confirm")
+//            })
+//          }
+//        }
+//      }, title: "Settings.privacy.reset.settings")
+//    }, label: {
+//      HStack {
+//        Label("Settings.privacy.reset.settings", systemImage: "gear.badge.xmark")
+//        Spacer()
+//        LockIndicator()
+//      }
+//    })
+//    .foregroundStyle(.red)
+    Button(role: .destructive, action: {
+      resettingAlertIsPresenting = true
+    }, label: {
+      Label("Settings.privacy.reset.all", systemImage: "externaldrive.badge.xmark")
+        .foregroundStyle(.red)
+    })
+    .alert("Settings.privacy.reset.all.title", isPresented: $resettingAlertIsPresenting, actions: {
+      Button(role: .destructive, action: {
+        //Search Engines
+        UserDefaults.standard.set(defaultSearchEngineNames, forKey: "engineNames")
+        UserDefaults.standard.set(defaultSearchEngineLinks, forKey: "engineLinks")
+        UserDefaults.standard.set(defaultSearchEngineEditable, forKey: "engineNameIsEditable")
+        currentEngine = 0
+        
+        //Home
+        UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
+        UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
+        homeToolbar1 = "nil"
+        homeToolbar2 = "nil"
+        homeToolbar3 = "nil"
+        homeToolbar4 = "nil"
+        homeToolbarMonogram = ""
+        homeToolbarMonogramFontIsUsingTitle3 = false
+        homeToolbarMonogramFontIsCapitalized = true
+        homeToolbarMonogramFontDesign = 1
+        homeToolbarBottomBlur = 0
+        appFont = 0
+        
+        //Interface
+        tipConfirmRequired = false
+        tipAnimationSpeed = 1
+        
+        //Privacy
+        correctPasscode = ""
+        isPrivateModeOn = false
+        isCookiesAllowed = false
+        
+        //History & Bookmarks
+        UserDefaults.standard.set(0, forKey: "lastHistoryID")
+        updateHistory([])
+        updateBookmarkLibrary([])
+        
+        //Feedback
+        UserDefaults.standard.set([], forKey: "personalFeedbacks")
+        showTip("Settings.privacy.reset.all.done", symbol: "externaldrive.badge.xmark")
+      }, label: {
+        Text("Settings.privacy.reset.confirm")
+      })
+      Button(role: .cancel, action: {}, label: {
+        Text("Settings.privacy.reset.cancel")
+      })
+    }, message: {
+      Text("Settings.privacy.reset.all.message")
+    })
   }
 }
 
@@ -1034,11 +1333,12 @@ struct DebugView: View {
   @AppStorage("debug") var debug = false
   @AppStorage("poemIsDiscovered") var poemIsDiscovered = false
   @AppStorage("userLatestVersion") var userLatestVersion = "0.0.0"
+  @State var newCarinaId: String = ""
   var body: some View {
     List {
       NavigationLink(destination: {
         List {
-          Text(getAllSettingsForAppdiagnose() ?? "Failed")
+          Text(getSettingsForAppdiagnose() ?? "Failed")
             .fontDesign(.monospaced)
         }
       }, label: {
@@ -1056,21 +1356,36 @@ struct DebugView: View {
       }, label: {
         Text(verbatim: "PasscodeInputView")
       })
+      CepheusKeyboard(input: $newCarinaId)
+      Button(action: {
+        var carinaFeedbacks = (UserDefaults.standard.array(forKey: "personalFeedbacks") ?? []) as! [Int]
+        carinaFeedbacks.append(Int(newCarinaId) ?? 0)
+        UserDefaults.standard.set(carinaFeedbacks, forKey: "personalFeedbacks")
+        newCarinaId = ""
+      }, label: {
+        Label("Debug.carina.add", systemImage: "plus")
+      })
+      NavigationLink(destination: {
+        CarinaDetailView(carinaID: Int(newCarinaId) ?? 0)
+      }, label: {
+        Label("Debug.carina.view", systemImage: "exclamationmark.bubble")
+      })
     }
     .navigationTitle("Debug")
   }
 }
 
-func getAllSettingsForAppdiagnose() -> String? {
-  let prefPath = NSHomeDirectory() + "/Library/Preferences/com.Arctic.Project-Iris.watchkitapp.plist"
+func getSettingsForAppdiagnose(dataProcessor: (inout [String: Any]) -> Void = { _ in }) -> String? {
+  let prefPath = NSHomeDirectory() + "/Library/Preferences/\(Bundle.main.infoDictionary?["CFBundleIdentifier"] as! String).plist"
   if let plistData = FileManager.default.contents(atPath: prefPath) {
     do {
-      if let plistObject = try PropertyListSerialization.propertyList(from: plistData, options: [], format: nil) as? [String: Any] {
+      if var plistObject = try PropertyListSerialization.propertyList(from: plistData, options: [], format: nil) as? [String: Any] {
+        dataProcessor(&plistObject)
         let jsonData = try JSONSerialization.data(withJSONObject: plistObject)
         return String(decoding: jsonData, as: UTF8.self)
       }
     } catch {
-      print(error/*, at: "\(#file)-\(#function)-\(#line)"*/)
+      print(error)
     }
   }
   return nil

@@ -42,17 +42,11 @@ struct NewFeaturesTitleView: View {
 struct NewFeaturesListView: View {
   var body: some View {
     List {
-      SingleNewFeature(symbol: "doc.text.image", title: "New.2.0.0.a.customization.title", description: "New.2.0.0.a.customization.description")
-      SingleNewFeature(symbol: "lock.shield", title: "New.2.0.0.a.passcode.title", description: "New.2.0.0.a.passcode.description")
-      SingleNewFeature(symbol: "gear", title: "New.2.0.0.a.settings.title", description: "New.2.0.0.a.settings.description")
-      SingleNewFeature(symbol: "magnifyingglass", title: "New.2.0.0.a.search.title", description: "New.2.0.0.a.search.description")
-      SingleNewFeature(symbol: "fleuron", title: "New.2.0.0.a.credit.title", description: "New.2.0.0.a.credit.description")
-      SingleNewFeature(symbol: "globe.europe.africa", title: "New.2.0.0.a.globalization.title", description: "New.2.0.0.a.globalization.description")
-      SingleNewFeature(symbol: "sparkles", title: "New.2.0.0.a.easter-egg.title", description: "New.2.0.0.a.easter-egg.description")
-      Text("New.2.0.0.b.tip")
-      if #available(watchOS 11, *) {
-        Text("New.2.0.0.a.tip.os11")
-      }
+      SingleNewFeature(symbol: "bookmark", title: "New.2.1.0.bookmarks.title", description: "New.2.1.0.bookmarks.description")
+      SingleNewFeature(symbol: "clock", title: "New.2.1.0.history.title", description: "New.2.1.0.history.description")
+      SingleNewFeature(symbol: "exclamationmark.bubble", title: "New.2.1.0.carina.title", description: "New.2.1.0.carina.description")
+      SingleNewFeature(symbol: "hand.raised", title: "New.2.1.0.privacy.title", description: "New.2.1.0.privacy.description")
+      SingleNewFeature(symbol: "externaldrive.connected.to.line.below", title: "New.2.1.0.data.title", description: "New.2.1.0.data.description")
     }
   }
 }

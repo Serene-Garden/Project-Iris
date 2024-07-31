@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreditView: View {
   @AppStorage("poemIsDiscovered") var poemIsDiscovered = false
+  @AppStorage("statsCollectionIsAllowed") var statsCollectionIsAllowed = false
   @AppStorage("debug") var debug = false
   @State var showContacts = false
   var body: some View {
@@ -129,12 +130,15 @@ struct CreditView: View {
           .contentShape(Rectangle())
           .navigationTitle("Settings.credits")
           .onChange(of: poemIsDiscovered, perform: { value in
-            fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_poem_1/\(Date.now.timeIntervalSince1970)") { result in
+            if statsCollectionIsAllowed {
+              fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_poem_1/\(Date.now.timeIntervalSince1970)") { result in
+              }
             }
           })
         }
       }
     }
+    .navigationTitle("Settings.credits")
     .sheet(isPresented: $showContacts, content: {
       List {
         Group {
