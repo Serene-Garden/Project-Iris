@@ -7,7 +7,7 @@ If there is any differences between Privacy Policy's different languages, please
 History and bookmarks will be stored locally. Datas will not be sent outside or use to analyze locally.
 
 ## Settings
-All settings are stored locally and will not be sent outside or use to analyze locally.
+All settings are stored locally. When sending a feedback, your Settings Values will be packed and be sent when you know, which can help us diagnose the issue. This data does not contains passcode, and can be toggled off manually. Except Feedback, all your settings will not be sent.
 
 ## Statistics
 If you agrees, access action may be recorded when you access some specific pages or vote. The record only contains what page you've accessed or your vote, and the time of your action. No other datas will be sent. These datas will be sent to Darock server and store there in order to count.
