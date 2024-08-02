@@ -371,7 +371,7 @@ struct BookmarksGroupInfosView: View {
       CepheusKeyboard(input: $bookmarkGroupName, prompt: "Bookmark.group.name")
       if bookmarkGroupName.isEmpty {
         Label("Bookmark.group.name.empty", systemImage: "exclamationmark.circle")
-          .foregroundStyle(.yellow)
+          .foregroundStyle(.red)
       }
     }
     .onAppear {
@@ -558,11 +558,11 @@ struct BookmarksItemInfosView: View {
       CepheusKeyboard(input: $bookmarkItemLink, prompt: "Bookmark.item.link", autoCorrectionIsEnabled: false)
       if bookmarkItemName.isEmpty {
         Label("Bookmark.item.name.empty", systemImage: "exclamationmark.circle")
-          .foregroundStyle(.yellow)
+          .foregroundStyle(.red)
       }
       if bookmarkItemLink.isEmpty {
         Label("Bookmark.item.link.empty", systemImage: "exclamationmark.circle")
-          .foregroundStyle(.yellow)
+          .foregroundStyle(.red)
       }
       if !bookmarkItemLink.isEmpty && !bookmarkItemLink.isURL() {
         Label("Bookmark.item.link.invalid", systemImage: "exclamationmark.circle")
@@ -653,6 +653,84 @@ func getDocumentsDirectory() -> URL {
   return paths[0]
 }
 
-
-//      updateBookmarkLibrary([(true, "1", "2", [(true, "2", "e", "!"), (false, "3", "k", "-")]), (false, "3", "4", [(true, "9", "q", "?"), (false, "^", "c", "<")])])
-//      print(getBookmarkLibrary())
+struct BookmarkPickerView: View {
+  @Binding var editorSheetIsDisaplying: Bool
+  @Binding var seletedGroup: Int
+  @Binding var selectedBookmark: Int
+  var groupIndexEqualingGoal: Int
+  var bookmarkIndexEqualingGoal: Int
+  var action: () -> Void
+  @State var bookmarks: [(Bool, String, String, [(Bool, String, String, String)])] = []
+  var body: some View {
+    Group {
+      if #available(watchOS 10, *) {
+        Group {
+          if !bookmarks.isEmpty {
+            List {
+              ForEach(0..<bookmarks.count, id: \.self) { groupIndex in
+                NavigationLink(destination: {
+                  Group {
+                    if !bookmarks[groupIndex].3.isEmpty {
+                      List {
+                        ForEach(0..<bookmarks[groupIndex].3.count, id: \.self) { bookmarkIndex in
+                          Button(action: {
+                            seletedGroup = groupIndex
+                            selectedBookmark = bookmarkIndex
+                            action()
+                            editorSheetIsDisaplying = false
+                          }, label: {
+                            HStack {
+                              if bookmarks[groupIndex].3[bookmarkIndex].0 { //isEmoji
+                                Text(bookmarks[groupIndex].3[bookmarkIndex].1)
+                                  .font(.title3)
+                              } else {
+                                Image(systemName: bookmarks[groupIndex].3[bookmarkIndex].1)
+                              }
+                              Text(bookmarks[groupIndex].3[bookmarkIndex].2)
+                              Spacer()
+                              if groupIndex == groupIndexEqualingGoal && bookmarkIndex == bookmarkIndexEqualingGoal {
+                                Image(systemName: "checkmark")
+                              }
+                            }
+                          })
+                        }
+                      }
+                    } else {
+                      ContentUnavailableView {
+                        Label("Bookmark.item.empty", systemImage: "bookmark")
+                      } description: {
+                        Text("Bookmark.item.empty.description")
+                      }
+                    }
+                  }
+                  .navigationTitle(bookmarks[groupIndex].2)
+                }, label: {
+                  HStack {
+                    if bookmarks[groupIndex].0 { //isEmoji
+                      Text(bookmarks[groupIndex].1)
+                        .font(.title3)
+                    } else {
+                      Image(systemName: bookmarks[groupIndex].1)
+                    }
+                    Text(bookmarks[groupIndex].2)
+                    Spacer()
+                  }
+                })
+              }
+            }
+          } else {
+            ContentUnavailableView {
+              Label("Bookmark.group.empty", systemImage: "books.vertical")
+            } description: {
+              Text("Bookmark.group.empty.description")
+            }
+          }
+        }
+        .navigationTitle("Bookmark.select")
+      }
+    }
+    .onAppear {
+      bookmarks = getBookmarkLibrary()
+    }
+  }
+}

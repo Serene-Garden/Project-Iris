@@ -8,45 +8,73 @@
 import SwiftUI
 
 struct NewFearturesView: View {
+  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
     if #available(watchOS 10, *) {
       TabView {
         NewFeaturesTitleView()
-        NewFeaturesListView()
+        if showDetails {
+          NewFeaturesListView()
+        }
       }
       .tabViewStyle(.verticalPage)
     } else {
       ScrollView {
         NewFeaturesTitleView()
-        NewFeaturesListView()
+        if showDetails {
+          NewFeaturesListView()
+        }
       }
     }
   }
 }
 
 struct NewFeaturesTitleView: View {
+  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
     ScrollView {
       VStack(alignment: .leading) {
         Text("New.title.\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
           .bold()
           .font(.largeTitle)
-        Label("New.title.scroll", systemImage: "chevron.down")
-          .font(.caption)
-          .foregroundStyle(.secondary)
+        Group {
+          if showDetails {
+            Label("New.title.scroll", systemImage: "chevron.down")
+          } else {
+            Label("New.title.minor", systemImage: "ellipsis.circle")
+          }
+        }
       }
     }
   }
 }
 
 struct NewFeaturesListView: View {
+  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
-    List {
-      SingleNewFeature(symbol: "bookmark", title: "New.2.1.0.bookmarks.title", description: "New.2.1.0.bookmarks.description")
-      SingleNewFeature(symbol: "clock", title: "New.2.1.0.history.title", description: "New.2.1.0.history.description")
-      SingleNewFeature(symbol: "exclamationmark.bubble", title: "New.2.1.0.carina.title", description: "New.2.1.0.carina.description")
-      SingleNewFeature(symbol: "hand.raised", title: "New.2.1.0.privacy.title", description: "New.2.1.0.privacy.description")
-      SingleNewFeature(symbol: "externaldrive.connected.to.line.below", title: "New.2.1.0.data.title", description: "New.2.1.0.data.description")
+    if showDetails {
+      List {
+        //      SingleNewFeature(symbol: "bookmark", title: "New.2.1.0.bookmarks.title", description: "New.2.1.0.bookmarks.description")
+        //      SingleNewFeature(symbol: "clock", title: "New.2.1.0.history.title", description: "New.2.1.0.history.description")
+        //      SingleNewFeature(symbol: "exclamationmark.bubble", title: "New.2.1.0.carina.title", description: "New.2.1.0.carina.description")
+        //      SingleNewFeature(symbol: "hand.raised", title: "New.2.1.0.privacy.title", description: "New.2.1.0.privacy.description")
+        //      SingleNewFeature(symbol: "externaldrive.connected.to.line.below", title: "New.2.1.0.data.title", description: "New.2.1.0.data.description")
+        EmptyView()
+      }
+    } else {
+      if #available(watchOS 10, *) {
+        ContentUnavailableView {
+          Label("New.unavailable", systemImage: "list.bullet")
+        } description: {
+          Text("New.unavailable.description")
+        }
+      } else {
+        List {
+          Text("New.unavailable")
+            .bold()
+            .foregroundStyle(.secondary)
+        }
+      }
     }
   }
 }

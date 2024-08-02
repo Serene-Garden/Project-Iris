@@ -52,6 +52,7 @@ struct HistoryView: View {
                       if showVisitingTime {
                         Text(timeFormatter.string(from: historyInDate[historyDates[dateIndex]]![historyIndex].1))
                           .foregroundStyle(.secondary)
+                          .lineLimit(1)
                       }
                     }
                   })
@@ -220,7 +221,7 @@ struct HistoryView: View {
               Text("History.action-sheet.delete.timeframe.last-hour").tag(-3600)
               Text("History.action-sheet.delete.timeframe.today").tag(-86400)
               Text("History.action-sheet.delete.timeframe.today-and-yesterday").tag(-172800)
-              Text("History.action-sheet.delete.timeframe.all").tag(Int64.min)
+              Text("History.action-sheet.delete.timeframe.all").tag(Int32.min)
             })
             Button(action: {
               isAlertPresented = true
@@ -239,7 +240,7 @@ struct HistoryView: View {
                     index += 1
                   }
                 }
-                if clearTimeframe == Int64.min {
+                if clearTimeframe == Int32.min {
                   UserDefaults.standard.set(0, forKey: "lastHistoryID")
                   lastHistoryID = 0
                 }
@@ -302,5 +303,124 @@ struct HistoryStructure: Codable {
   } catch {
     showTip(LocalizedStringResource(stringLiteral: error.localizedDescription), debug: true)
     return []
+  }
+}
+
+struct HistoryPickerView: View {
+  @Binding var pickerSheetIsDisplaying: Bool
+  @Binding var historyLink: String
+  @Binding var historyID: Int
+  var acceptNonLinkHistory: Bool = true
+  var action: () -> Void
+  @State var history: [(String, Date, Int)] = []
+  @State var historyInDate: [String: [(String, Date, Int)]] = [:]
+  @State var historyDates: [String] = []
+  @State var historyDatesAreExpanded: [String: Bool] = [:]
+  @State var date: String = ""
+  @State var tempArray: [(String, Date, Int)] = []
+  @State var expansionCount = 0
+  @State var clearTimeframe = -3600
+  @State var isAlertPresented = false
+  @State var lastHistoryID = UserDefaults.standard.integer(forKey: "lastHistoryID")
+  let dateFormatter = DateFormatter()
+  let timeFormatter = DateFormatter()
+  let displayFormatter = DateFormatter()
+  var body: some View {
+    Group {
+      if !historyDates.isEmpty {
+        List {
+          ForEach(0..<historyDates.count, id: \.self) { dateIndex in
+            Section(content: {
+              if historyDatesAreExpanded[historyDates[dateIndex]]! {
+                ForEach(0..<historyInDate[historyDates[dateIndex]]!.count, id: \.self) { historyIndex in
+                  Button(action: {
+                    historyID = historyInDate[historyDates[dateIndex]]![historyIndex].2
+                    historyLink = historyInDate[historyDates[dateIndex]]![historyIndex].0
+                    action()
+                    pickerSheetIsDisplaying = false
+                  }, label: {
+                    HStack {
+                      Image(systemName: historyInDate[historyDates[dateIndex]]![historyIndex].0.isURL() ? "network" : "magnifyingglass")
+                      Text(historyInDate[historyDates[dateIndex]]![historyIndex].0)
+                        .lineLimit(2)
+                      Spacer()
+                      if historyID == historyInDate[historyDates[dateIndex]]![historyIndex].2 {
+                        Image(systemName: "checkmark")
+                      }
+                    }
+                  })
+                  .disabled(!historyInDate[historyDates[dateIndex]]![historyIndex].0.isURL() && !acceptNonLinkHistory)
+                }
+              }
+            }, header: {
+              HStack {
+                Text(displayFormatter.string(from: dateFormatter.date(from: historyDates[dateIndex]) ?? Date.now))
+                Spacer()
+                Image(systemName: "chevron.forward")
+                  .rotationEffect(Angle(degrees: historyDatesAreExpanded[historyDates[dateIndex]]! ? 90 : 0))
+                  .overlay {
+                    Rectangle()
+                      .opacity(0.02)
+                      .onTapGesture {
+                        withAnimation {
+                          historyDatesAreExpanded[historyDates[dateIndex]]!.toggle()
+                        }
+                      }
+                  }
+              }
+              .font(.caption)
+              .fontWeight(.medium)
+            })
+          }
+        }
+      } else {
+        if #available(watchOS 10, *) {
+          if history.isEmpty {
+            ContentUnavailableView {
+              Label("History.empty", systemImage: "clock")
+            } description: {
+              Text("History.empty.description")
+            }
+          } else {
+            ContentUnavailableView {
+              Label("History.search.empty", systemImage: "magnifyingglass")
+            } description: {
+              Text("History.search.empty.description")
+            }
+          }
+        } else {
+          Text("History.empty")
+            .bold()
+            .foregroundStyle(.secondary)
+        }
+      }
+    }
+    .navigationTitle("History")
+    .onAppear {
+      history = getHistory()
+      timeFormatter.dateFormat = "HH:mm"
+      dateFormatter.dateFormat = "YYYY-MM-DD"
+      displayFormatter.dateStyle = .medium
+      displayFormatter.timeStyle = .none
+      
+      //MARK: Updator
+      var date: String = ""
+      var tempArray: [(String, Date, Int)] = []
+      var expansionCount = 0
+      for singleHistory in history {
+        date = dateFormatter.string(from: singleHistory.1)
+        tempArray = historyInDate[date] ?? []
+        tempArray.append((singleHistory.0, singleHistory.1, singleHistory.2))
+        //        print(tempArray)
+        historyInDate.updateValue(tempArray, forKey: date)
+        if !historyDates.contains(date) {
+          historyDates.append(date)
+          historyDatesAreExpanded.updateValue((expansionCount < 3), forKey: date)
+          if expansionCount < 3 {
+            expansionCount += 1
+          }
+        }
+      }
+    }
   }
 }

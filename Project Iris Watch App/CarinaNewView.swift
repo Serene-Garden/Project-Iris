@@ -8,8 +8,6 @@
 import SwiftUI
 import Cepheus
 
-let systemVersion = WKInterfaceDevice.current().systemVersion
-
 struct CarinaNewView: View {
   @State var personalFeedbacks: [Any] = []
   @State var type = 0
@@ -30,7 +28,23 @@ struct CarinaNewView: View {
   @State var settingsValues: String? = ""
   @State var sendAllSettingsValue = true
   @State var showSettingsDisablingAlert = false
+  @State var showWhatsIncludedSheet = false
+  @State var sendLocaleInformations = false
+  @State var sendDeviceInformations = true
+  @AppStorage("appLanguage") var appLanguage = ""
   
+  @Environment(\.accessibilityEnabled) var accaccessibilityEnabled
+  let languageCode = Locale.current.language.languageCode
+  let countryCode = Locale.current.region!.identifier
+  let watchSize = WKInterfaceDevice.current().screenBounds
+  
+  @State var selectedGroup = 0
+  @State var selectedBookmark = 0
+  @State var attachmentLinksPickingSheetIsDisplaying = false
+  @State var attachmentLinks: [String] = []
+  @State var attachmentCounts = 2
+  @State var historyLink: String = ""
+  @State var historyID: Int = -1
   var body: some View {
     if sent {
       if CarinaID == -1 || CarinaID == -2 {
@@ -126,32 +140,108 @@ struct CarinaNewView: View {
           CepheusKeyboard(input: $title, prompt: "Carina.new.title")
           CepheusKeyboard(input: $content, prompt: "Carina.new.content")
         }
-        Section(content: {
-          Toggle(isOn: $sendAllSettingsValue, label: {
-            Text("Carina.new.attachments.settings")
-          })
-          .onChange(of: sendAllSettingsValue, perform: { value in
-            showSettingsDisablingAlert = !sendAllSettingsValue
-          })
-          .alert("Carina.new.attachments.settings.alert.title", isPresented: $showSettingsDisablingAlert, actions: {
-            Button(role: .cancel, action: {
-              sendAllSettingsValue = true
-            }, label: {
-              Text("Carina.new.attachments.settings.alert.cancel")
+        NavigationLink(destination: {
+          List {
+            Section(content: {
+              Toggle(isOn: $sendAllSettingsValue, label: {
+                Text("Carina.new.attachments.settings")
+              })
+              .onChange(of: sendAllSettingsValue, perform: { value in
+                showSettingsDisablingAlert = !sendAllSettingsValue
+              })
+              .alert("Carina.new.attachments.settings.alert.title", isPresented: $showSettingsDisablingAlert, actions: {
+                Button(role: .cancel, action: {
+                  sendAllSettingsValue = true
+                }, label: {
+                  Text("Carina.new.attachments.settings.alert.cancel")
+                })
+                Button(role: .destructive, action: {
+                  sendAllSettingsValue = false
+                }, label: {
+                  Text("Carina.new.attachments.settings.alert.confirm")
+                })
+                .foregroundStyle(.red)
+              }, message: {
+                Text("Carina.new.attachments.settings.alert.message")
+              })
+              Toggle(isOn: $sendDeviceInformations, label: {
+                Text("Carina.new.attachments.device")
+              })
+              Toggle(isOn: $sendLocaleInformations, label: {
+                Text("Carina.new.attachments.locale")
+              })
+            }, header: {
+              Text("Carina.new.attachments.title")
+            }, footer: {
+              Text("Carina.new.attachments.description")
             })
-            Button(role: .destructive, action: {
-              sendAllSettingsValue = false
-            }, label: {
-              Text("Carina.new.attachments.settings.alert.confirm")
+            
+            Section(content: {
+              Button(action: {
+                attachmentLinksPickingSheetIsDisplaying = true
+              }, label: {
+                Label("Carina.new.attachments.links.add", systemImage: "plus")
+              })
+              .sheet(isPresented: $attachmentLinksPickingSheetIsDisplaying, content: {
+                NavigationStack {
+                  List {
+                    NavigationLink(destination: {
+                      BookmarkPickerView(editorSheetIsDisaplying: $attachmentLinksPickingSheetIsDisplaying, seletedGroup: $selectedGroup, selectedBookmark: $selectedBookmark, groupIndexEqualingGoal: selectedGroup, bookmarkIndexEqualingGoal: selectedBookmark, action: {
+                        attachmentLinks.append(getBookmarkLibrary()[selectedGroup].3[selectedBookmark].3)
+                      })
+                      //
+                    }, label: {
+                      Label("Carina.new.attachments.links.add.bookmark", systemImage: "bookmark")
+                    })
+                    NavigationLink(destination: {
+                      HistoryPickerView(pickerSheetIsDisplaying: $attachmentLinksPickingSheetIsDisplaying, historyLink: $historyLink, historyID: $historyID, acceptNonLinkHistory: false, action: {
+                        attachmentLinks.append(historyLink)
+                      })
+                    }, label: {
+                      Label("Carina.new.attachments.links.add.history", systemImage: "clock")
+                    })
+                  }
+                  .navigationTitle("Carina.new.attachments.links.add")
+                }
+              })
+              if !attachmentLinks.isEmpty {
+                ForEach(0..<attachmentLinks.count, id: \.self) { attachmentIndex in
+                  Text(attachmentLinks[attachmentIndex])
+                }
+                .onDelete(perform: { index in
+                  attachmentLinks.remove(atOffsets: index)
+                })
+              }
+            }, header: {
+              Text("Carina.new.attachments.links.header")
+            }, footer: {
+              Text("Carina.new.attachments.links.footer")
             })
-            .foregroundStyle(.red)
-          }, message: {
-            Text("Carina.new.attachments.settings.alert.message")
-          })
-        }, header: {
-          Text("Carina.new.attachments")
-        }, footer: {
-          Text("Carina.new.attachments.description")
+            Section {
+              Button(action: {
+                showWhatsIncludedSheet = true
+              }, label: {
+                Text("Carina.new.attachments.items")
+              })
+              .sheet(isPresented: $showWhatsIncludedSheet, content: {
+                CarinaAttachmentItemsView(sendSettingsValues: sendAllSettingsValue, sendDeviceInformations: sendDeviceInformations, sendLocaleInformations: sendLocaleInformations)
+              })
+            }
+          }
+          .navigationTitle("Carina.new.attachments")
+          .onDisappear {
+            attachmentCounts = (sendAllSettingsValue ? 1 : 0) + (sendDeviceInformations ? 1 : 0) + (sendLocaleInformations ? 1 : 0) + attachmentLinks.count
+          }
+        }, label: {
+          HStack {
+            Image(systemName: "paperclip")
+            Text("Carina.new.attachments")
+            Spacer()
+            Text("\(attachmentCounts)")
+              .foregroundStyle(.secondary)
+            Image(systemName: "chevron.forward")
+              .foregroundStyle(.secondary)
+          }
         })
         Button(action: {
           sendCarina()
@@ -174,7 +264,6 @@ struct CarinaNewView: View {
         settingsValues = getSettingsForAppdiagnose { data in
           data.removeValue(forKey: "correctPasscode")
         }
-        
         personalFeedbacks = UserDefaults.standard.array(forKey: "personalFeedbacks") ?? []
         isAddedToList = false
         
@@ -188,7 +277,6 @@ struct CarinaNewView: View {
         placesPicker.sort()
       }
     }
-    
   }
   func sendCarina() {
     sending = true
@@ -202,9 +290,36 @@ Body：\(content.isEmpty ? "none" : content)
 Version：\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)
 CarinaTime：\(Date().timeIntervalSince1970)
 OS：\(systemVersion)
-Settings：\(sendAllSettingsValue ? (settingsValues ?? "nil") : "toggled-off")
+AccessibilityEnabled：\(accaccessibilityEnabled)
 Sender：Iris
 """
+    if sendAllSettingsValue {
+      package.append("""
+
+Settings：\(settingsValues ?? "nil")
+""")
+    }
+    if sendDeviceInformations {
+      package.append("""
+
+DeviceSize：\(watchSize)
+AccessibilityIsEnabled：\(accaccessibilityEnabled)
+""")
+    }
+    if sendLocaleInformations {
+      package.append("""
+
+Language：\(languageCode!)
+Region：\(countryCode)
+ModifiedLanguage：\(appLanguage.isEmpty ? "default" : appLanguage)
+""")
+    }
+    if !attachmentLinks.isEmpty {
+      package.append("""
+
+AttachedLinks：\(attachmentLinks)
+""")
+    }
     encodedPackage = (package.data(using: .utf8)?.base64EncodedString() ?? "").replacingOccurrences(of: "/", with: "{slash}")
     fetchWebPageContent(urlString: "https://fapi.darock.top:65535/feedback/submit/anony/Project Iris/\(encodedPackage)") { result in
       switch result {
@@ -221,7 +336,86 @@ Sender：Iris
   }
 }
 
+struct CarinaAttachmentItemsView: View {
+  var sendSettingsValues: Bool
+  var sendDeviceInformations: Bool
+  var sendLocaleInformations: Bool
+  var body: some View {
+    ScrollView {
+      VStack(alignment: .leading) {
+          Section(content: {
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.form", image: "text.rectangle.page")
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.time", image: "clock")
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.watchos-version", image: "applewatch.side.right")
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.app-version", image: "app.badge")
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.device.atttached-link", image: "link")
+          }, header: {
+            Text("Carina.new.attachments.items.basic")
+              .bold()
+          })
+        Spacer()
+          .frame(height: 20)
+        Group {
+          Section(content: {
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.settings.passcode", image: "lock", send: false)
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.settings.bookmark", image: "bookmark", send: false)
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.settings.history", image: "clock.arrow.circlepath", send: false)
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.settings.values", image: "gear", send: sendSettingsValues)
+          }, header: {
+            Text("Carina.new.attachments.items.settings")
+              .bold()
+          })
+        }
+        Spacer()
+          .frame(height: 20)
+        Group {
+          Section(content: {
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.device.watch-size", image: "applewatch.case.sizes", send: sendDeviceInformations)
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.device.accessibility", image: "accessibility", send: sendDeviceInformations)
+          }, header: {
+            Text("Carina.new.attachments.items.device")
+              .bold()
+          })
+        }
+        Spacer()
+          .frame(height: 20)
+        Group {
+          Section(content: {
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.locale.language", image: "globe", send: sendLocaleInformations)
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.locale.region", image: "globe.asia.australia", send: sendLocaleInformations)
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.locale.edited-language", image: "globe.desk", send: sendLocaleInformations)
+//            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.locale.time-zone", image: "calendar.badge.clock", send: false)
+//            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.locale.currency", image: "dollarsign.circle", send: false)
+//            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.locale.measurement-system", image: "ruler", send: false)
+          }, header: {
+            Text("Carina.new.attachments.items.locale")
+              .bold()
+          })
+        }
+      }
+    }
+    .navigationTitle("Carina.new.attachments.items")
+  }
+}
+
+struct CarinaAttachmentSingleItemView: View {
+  var text: LocalizedStringResource
+  var image: String
+  var send: Bool = true
+  var body: some View {
+    HStack {
+      Image(systemName: image)
+      Text(text)
+      Spacer()
+      Image(systemName: send ? "checkmark" : "xmark")
+        .foregroundStyle(send ? .green : .secondary)
+    }
+    .font(.footnote)
+    .padding(.bottom, 1)
+  }
+}
+
 
 #Preview {
-  CarinaNewView()
+  CarinaAttachmentItemsView(sendSettingsValues: true, sendDeviceInformations: true, sendLocaleInformations: true)
 }

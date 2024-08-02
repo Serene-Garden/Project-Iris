@@ -57,6 +57,16 @@ struct CreditView: View {
             .foregroundStyle(.secondary)
           }
           VStack(alignment: .leading) {
+            Text(verbatim: "X Haoruii")
+            HStack {
+              Image(systemName: "globe")
+              Text("Credit.lang.ja")
+              Spacer()
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+          VStack(alignment: .leading) {
             Text(verbatim: "2073")
             HStack {
               Image(systemName: "globe")
@@ -189,6 +199,19 @@ struct CreditView: View {
             .foregroundStyle(.secondary)
           }
         }
+        Group {
+          VStack(alignment: .leading) {
+            Text(verbatim: "X Haoruii")
+            HStack {
+//              Image(systemName: "envelope")
+              Text(verbatim: "chr070805@icloud.com")
+              Spacer()
+            }
+            .font(.caption)
+            .foregroundStyle(.secondary)
+          }
+        }
+        //chr070805@icloud.com
       }
       .navigationTitle("Credit.contacts")
     })

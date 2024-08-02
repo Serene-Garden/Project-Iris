@@ -9,8 +9,6 @@ import SwiftUI
 import AuthenticationServices
 import Cepheus
 
-let watchSize = WKInterfaceDevice.current().screenBounds
-
 public let defaultHomeList: [Any] = ["search-field", "search-button", "|", "bookmarks", "privacy", "|", "history", "settings", "carina", "update-indicator"]
 public let defaultHomeListValues: [Any] = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil"]
 public let defaultSearchEngineNames: [Any] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou", "Iris.search.duckduckgo", "Iris.search.yahoo", "Iris.search.yandex", "Iris.search.360"]

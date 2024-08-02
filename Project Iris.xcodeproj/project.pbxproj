@@ -28,6 +28,7 @@
 		E2B2A5092AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A5082AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift */; };
 		E2B2A50B2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */; };
 		E2ED59C22C305916007F04AD /* Vela in Frameworks */ = {isa = PBXBuildFile; productRef = E2ED59C12C305916007F04AD /* Vela */; };
+		E912A35A2C5BEA9D004D9038 /* SettingsInterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */; };
 		E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E94DE8B12C50EA1D00EE5500 /* Pictor */; };
 		E97CF4422C3D8075006E6A5B /* TopLevelDomainList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E97CF4412C3D8075006E6A5B /* TopLevelDomainList.txt */; };
 		E9BAFE322C5A0FF700B24FDE /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE312C5A0FF700B24FDE /* Pictor */; };
@@ -100,6 +101,7 @@
 		E2B2A5042AE16A4D005E73AB /* Project Iris Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Project Iris Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B2A5082AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInterfaceView.swift; sourceTree = "<group>"; };
 		E97CF4412C3D8075006E6A5B /* TopLevelDomainList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TopLevelDomainList.txt; sourceTree = "<group>"; };
 		E97CF4432C3DAA84006E6A5B /* Project Iris Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Project Iris Watch App.entitlements"; sourceTree = "<group>"; };
 		E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFearturesView.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				E20406C02AE3A62600A740B2 /* SettingsView.swift */,
 				E20406BE2AE3A0FF00A740B2 /* PasscodeView.swift */,
 				E25EA8342B6C028200BFEC6E /* AboutView.swift */,
+				E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */,
 				E9EBFB8B2C39520C00E16268 /* CreditView.swift */,
 				E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */,
 				E20406C22AE3A83000A740B2 /* HistoryView.swift */,
@@ -310,7 +313,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					E2B2A4E12AE16A4C005E73AB = {
 						CreatedOnToolsVersion = 15.0;
@@ -416,6 +419,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */,
+				E912A35A2C5BEA9D004D9038 /* SettingsInterfaceView.swift in Sources */,
 				E9EBFB8C2C39520C00E16268 /* CreditView.swift in Sources */,
 				E2B2A4F02AE16A4C005E73AB /* ContentView.swift in Sources */,
 				E25EA8352B6C028200BFEC6E /* AboutView.swift in Sources */,
@@ -503,6 +507,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -565,6 +570,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -591,7 +597,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Project Iris Watch App/Project Iris Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				ENABLE_PREVIEWS = YES;
@@ -604,7 +610,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -623,7 +629,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Project Iris Watch App/Project Iris Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				ENABLE_PREVIEWS = YES;
@@ -636,7 +642,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -652,13 +658,12 @@
 		E2B2A5132AE16A4D005E73AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -669,13 +674,12 @@
 		E2B2A5142AE16A4D005E73AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -687,7 +691,6 @@
 		E2B2A5162AE16A4D005E73AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -708,7 +711,6 @@
 		E2B2A5172AE16A4D005E73AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -730,7 +732,6 @@
 		E2B2A5192AE16A4D005E73AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MU2GGQV46U;
@@ -750,7 +751,6 @@
 		E2B2A51A2AE16A4D005E73AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MU2GGQV46U;

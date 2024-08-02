@@ -155,13 +155,10 @@ struct CarinaView: View {
   }
 }
 
-#Preview {
-  CarinaView()
-}
 
 @MainActor public let carinaStates: [Int: LocalizedStringKey] = [0: "Carina.state.unmarked", 1: "Carina.state.work-as-intended", 2: "Carina.state.unable-to-fix", 3: "Carina.state.combined", 4: "Carina.state.shelved", 5: "Carina.state.fixing", 6: "Carina.state.fixed-in-future-versions", 7: "Carina.state.fixed", 8: "Carina.info.load", 9: "Carina.state.cannot-reappear", 10: "Carina.state.unrelated", 11: "Carina.state.require-more-details"]
 @MainActor public let carinaStateDescription: [Int: LocalizedStringKey] = [0: "Carina.state.unmarked.description", 1: "Carina.state.work-as-intended.description", 2: "Carina.state.unable-to-fix.description", 3: "Carina.state.combined.description", 4: "Carina.state.shelved.description", 5: "Carina.state.fixing.description", 6: "Carina.state.fixed-in-future-versions.description", 7: "Carina.state.fixed.description", 8: "Carina.info.load", 9: "Carina.state.cannot-reappear.description", 10: "Carina.state.unrelated.description", 11: "Carina.state.require-more-details.description"]
 @MainActor public let carinaStateColors: [Int: Color] = [0: Color.secondary, 1: Color.red, 2: Color.red, 3: Color.red, 4: Color.orange, 5: Color.orange, 6: Color.orange, 7: Color.green, 8: Color.secondary, 9: Color.red, 10: Color.red, 11: Color.orange]
 @MainActor public let carinaStateIcons: [Int: String] = [0: "minus", 1: "curlybraces", 2: "xmark", 3: "arrow.triangle.merge", 4: "books.vertical", 5: "hammer", 6: "clock.badge.checkmark", 7: "checkmark", 8: "ellipsis", 9: "questionmark", 10: "bolt.horizontal", 11: "arrowshape.turn.up.backward.badge.clock"]
 @MainActor public let carinaTypes: [Int: LocalizedStringKey] = [0: "Carina.type.function", 1: "Carina.type.interface", 2: "Carina.type.texts", 3: "Carina.type.suggestion"]
-@MainActor public let carinaPlaces: [Int: LocalizedStringKey] = [0: "Carina.place.about", 1: "Carina.place.bookmarks", 2: "Carina.place.carina", 3: "Carina.place.history", 4: "Carina.place.passcode", 5: "Carina.place.search", 6: "Carina.place.tips", 8: "Carina.place.home", 10: "Carina.place.privacy", 11: "Carina.place.credits", 3000: "Carina.place.other"]
+@MainActor public let carinaPlaces: [Int: LocalizedStringKey] = [0: "Carina.place.about", 1: "Carina.place.bookmarks", 2: "Carina.place.carina", 3: "Carina.place.history", 4: "Carina.place.passcode", 5: "Carina.place.search", 6: "Carina.place.tips", 8: "Carina.place.home", 10: "Carina.place.privacy", 11: "Carina.place.credits", 12: "Carina.place.webpage", 3000: "Carina.place.other"]

@@ -19,8 +19,15 @@
 
 import SwiftUI
 
-let languageCode = Locale.current.language.languageCode
-let countryCode = Locale.current.region!.identifier
+public let languageCode = Locale.current.language.languageCode
+public let countryCode = Locale.current.region!.identifier
+public let watchSize = WKInterfaceDevice.current().screenBounds
+public let systemVersion = WKInterfaceDevice.current().systemVersion
+
+//UNNECESSARY
+public let timeZone = Locale.current.timeZone!.identifier
+public let currencyCode = Locale.current.currency!.identifier
+public let measurementSystem = Locale.current.measurementSystem
 
 //@MainActor var pShowTipText = ""
 //@MainActor var pShowTipSymbol = ""
@@ -36,10 +43,13 @@ let countryCode = Locale.current.region!.identifier
 
 @main
 struct Project_Iris_Watch_AppApp: App {
+  let languageCode = Locale.current.language.languageCode
+  let languageScript = Locale.current.language.script
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
   @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
   @AppStorage("appFont") var appFont = 0
+  @AppStorage("appLanguage") var appLanguage = ""
   @State var showTipText = ""
   @State var showTipSymbol = ""
   @State var tipboxText: LocalizedStringResource = ""
@@ -131,7 +141,6 @@ struct Project_Iris_Watch_AppApp: App {
               }
             }
           }
-          // .environment(\.locale, .init(identifier: "zh_CN"))
         }
         .onAppear {
           if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
@@ -145,6 +154,7 @@ struct Project_Iris_Watch_AppApp: App {
       }
       .fontDesign(globalFont[appFont])
     }
+    .environment(\.locale, .init(identifier: appLanguage.isEmpty ? "\(languageCode!)-\(languageScript!)" : appLanguage))
   }
 }
 

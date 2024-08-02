@@ -14,6 +14,9 @@ struct CarinaDetailView: View {
   @State var carinaInfos: [String: String] = [:]
   @State var contentIsExpanded = false
   let dateFormatter = DateFormatter()
+  //For accessing web
+  @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
+  @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   var body: some View {
     NavigationStack {
       if status == 0 { //Ready
@@ -93,6 +96,28 @@ struct CarinaDetailView: View {
               Image(systemName: "app.badge")
               Text("Iris \(carinaInfos["Version"] ?? String(localized: ("Carina.details.unknown")))")
               Spacer()
+            }
+            if carinaInfos["AttachedLinks"] != nil {
+              NavigationLink(destination: {
+                List {
+                  ForEach(0..<(stringToStringArray(carinaInfos["AttachedLinks"]!)!.count)) { linkIndex in
+                    Button(action: {
+                      searchButtonAction(isPrivateModeOn: isPrivateModeOn, searchField: stringToStringArray(carinaInfos["AttachedLinks"]!)![linkIndex], isCookiesAllowed: isCookiesAllowed, searchEngine: "")
+                    }, label: {
+                      Text(stringToStringArray(carinaInfos["AttachedLinks"]!)![linkIndex])
+                    })
+                  }
+                }
+                .navigationTitle("Carina.new.attachments.links")
+              }, label: {
+                HStack {
+                  Image(systemName: "link")
+                  Text("Carina.new.attachments.links.\(stringToStringArray(carinaInfos["AttachedLinks"]!)!.count)")
+                  Spacer()
+                  Image(systemName: "chevron.forward")
+                    .foregroundStyle(.secondary)
+                }
+              })
             }
           }
         }
@@ -407,4 +432,20 @@ func decodeBase64(string: String) -> String? {
   }
   
   return String(data: data, encoding: .utf8)
+}
+
+func stringToStringArray(_ input: String) -> [String]? {
+  var source = input
+  var output: [String]
+  if source.hasPrefix("[") && source.hasSuffix("]") {
+    source.removeFirst()
+    source.removeLast()
+    output = source.components(separatedBy: ",")
+    for i in 0..<output.count {
+        output[i] = String(output[i].dropFirst().dropLast().dropFirst().dropLast())
+    }
+    return output
+  } else {
+    return nil
+  }
 }
