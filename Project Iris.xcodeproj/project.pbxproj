@@ -85,7 +85,7 @@
 		E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksView.swift; sourceTree = "<group>"; };
 		E25EA8322B6C013500BFEC6E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E25EA8342B6C028200BFEC6E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
-		E25EA83C2B713FF700BFEC6E /* CarinaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaView.swift; sourceTree = "<group>"; };
+		E25EA83C2B713FF700BFEC6E /* CarinaView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CarinaView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaNewView.swift; sourceTree = "<group>"; };
 		E25EA8402B72013100BFEC6E /* CarinaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarinaDetailView.swift; sourceTree = "<group>"; };
 		E29B83D62BB457FE003F1F24 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };

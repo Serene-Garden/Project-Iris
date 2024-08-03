@@ -330,7 +330,7 @@ AttachedLinks：\(attachmentLinks)
 """)
     }
     encodedPackage = (package.data(using: .utf8)?.base64EncodedString() ?? "").replacingOccurrences(of: "/", with: "{slash}")
-    fetchWebPageContent(urlString: "https://fapi.darock.top:65535/feedback/submit/anony/Project Iris/\(encodedPackage)") { result in
+      fetchWebPageContent(urlString: "https://fapi.darock.top:65535/feedback/submit/anony/Project Iris/\(encodedPackage)".urlEncoded()) { result in
       switch result {
         case .success(let content):
           CarinaID = Int(content) ?? -1
