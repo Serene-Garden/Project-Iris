@@ -244,7 +244,7 @@ public extension String {
     optimizedSearchEngine = "http://" + optimizedSearchEngine
   }
   let session = ASWebAuthenticationSession(
-    url: URL(string: (optimizedIsURL! ? optimizedSearchField.urlEncoded() : optimizedSearchEngine.lowercased().replacingOccurrences(of: "\\iris", with: optimizedSearchField)))!,
+    url: URL(string: (optimizedIsURL! ? optimizedSearchField : optimizedSearchEngine.lowercased().replacingOccurrences(of: "\\iris", with: optimizedSearchField)).urlEncoded())!,
     callbackURLScheme: nil
   ) { _, _ in
     

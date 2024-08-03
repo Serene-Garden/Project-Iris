@@ -5290,14 +5290,14 @@
       "localizations" : {
         "ar" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "قضايا الإجماع"
+            "state" : "translated",
+            "value" : "نَشْرة"
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Konsensfragen"
+            "state" : "translated",
+            "value" : "Bulletin"
           }
         },
         "en" : {
@@ -5308,104 +5308,104 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cuestiones de consenso"
+            "state" : "translated",
+            "value" : "Boletín"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Questions de consensus"
+            "state" : "translated",
+            "value" : "Bulletin"
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "आम सहमति के मुद्दे"
+            "state" : "translated",
+            "value" : "बुलेटिन"
           }
         },
         "id" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Masalah Konsensus"
+            "state" : "translated",
+            "value" : "Buletin"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Problemi di consenso"
+            "state" : "translated",
+            "value" : "Bollettino"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "コンセンサスの問題"
+            "state" : "translated",
+            "value" : "会報"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "합의 문제"
+            "state" : "translated",
+            "value" : "공보"
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Consensuskwesties"
+            "state" : "translated",
+            "value" : "Bulletin"
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Kwestie konsensusu"
+            "state" : "translated",
+            "value" : "Biuletyn"
           }
         },
         "pt" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Questões De Consenso"
+            "state" : "translated",
+            "value" : "Boletim"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Консенсусные вопросы"
+            "state" : "translated",
+            "value" : "Бюллетень"
           }
         },
         "th" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ประเด็นฉันทามติ"
+            "state" : "translated",
+            "value" : "แถลงการณ์"
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Konsensüs Sorunları"
+            "state" : "translated",
+            "value" : "Bülten"
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Konsensüs Sorunları"
+            "state" : "translated",
+            "value" : "Бюлетень"
           }
         },
         "vi" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Các vấn đề đồng thuận"
+            "state" : "translated",
+            "value" : "Bản tin"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "共识问题"
+            "state" : "translated",
+            "value" : "公告"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "共識問題"
+            "state" : "translated",
+            "value" : "公告"
           }
         }
       }
@@ -16572,14 +16572,14 @@
       "localizations" : {
         "ar" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "لقد تم عرض مشكلتك في قضايا توافق الآراء، والمتابعة في قضايا توافق الآراء."
+            "state" : "translated",
+            "value" : "تم الإبلاغ عن مشكلتك وتم دمجها الآن."
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ihr Problem wurde in Consensus Issues gezeigt, Follow-up in Consensus Issues."
+            "state" : "translated",
+            "value" : "Ihr Problem wurde gemeldet und jetzt kombiniert."
           }
         },
         "en" : {
@@ -16590,104 +16590,104 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Su problema se había mostrado en Cuestiones de Consenso, seguimiento en Cuestiones de Consenso."
+            "state" : "translated",
+            "value" : "Su problema había sido reportado y ahora se ha combinado."
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Votre problème avait été présenté dans Questions de consensus, suivi dans Questions de consensus."
+            "state" : "translated",
+            "value" : "Votre problème avait été signalé et il a maintenant été combiné."
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "आपकी समस्या को आम सहमति के मुद्दों में दिखाया गया था, आम सहमति के मुद्दों में अनुवर्ती कार्रवाई की गई थी।"
+            "state" : "translated",
+            "value" : "आपकी समस्या की सूचना दी गई थी और अब इसे जोड़ दिया गया है।"
           }
         },
         "id" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Masalah Anda telah ditampilkan dalam Masalah Konsensus, tindak lanjuti dalam Masalah Konsensus."
+            "state" : "translated",
+            "value" : "Masalah Anda telah dilaporkan dan sekarang telah digabungkan."
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Il tuo problema era stato mostrato in Consensus Issues, follow up in Consensus Issues."
+            "state" : "translated",
+            "value" : "Il tuo problema era stato segnalato e ora è stato combinato."
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "あなたの問題はコンセンサスの問題に表示され、コンセンサスの問題でフォローアップされています。"
+            "state" : "translated",
+            "value" : "あなたの問題は報告され、現在は統合されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "당신의 문제는 컨센서스 이슈에 표시되었고, 컨센서스 이슈에서 후속 조치를 취했습니다."
+            "state" : "translated",
+            "value" : "당신의 문제가 보고되었고 이제 통합되었습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Uw probleem was getoond in Consensus Issues, follow-up in Consensus Issues."
+            "state" : "translated",
+            "value" : "Uw probleem was gemeld en het is nu gecombineerd."
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Twój problem został pokazany w Consensus Issues, kontynuuj w Consensus Issues."
+            "state" : "translated",
+            "value" : "Twój problem został zgłoszony i został teraz połączony."
           }
         },
         "pt" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Seu problema foi mostrado em Questões de Consenso, acompanhe em Questões de Consenso."
+            "state" : "translated",
+            "value" : "Seu problema foi relatado e agora foi combinado."
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ваша проблема была показана в Вопросы консенсуса, последую в Вопросы консенсуса."
+            "state" : "translated",
+            "value" : "О вашей проблеме было сообщено, и теперь она объединена."
           }
         },
         "th" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ปัญหาของคุณถูกแสดงในประเด็นที่เป็นเอกฉันท์ ติดตามในประเด็นที่เป็นเอกฉันท์"
+            "state" : "translated",
+            "value" : "ปัญหาของคุณได้รับการรายงานและตอนนี้มันถูกรวมเข้าด้วยกันแล้ว"
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sorununuz Konsensüs Sorunları'nda gösterildi, Konsensüs Sorunları'nda takip edin."
+            "state" : "translated",
+            "value" : "Sorununuz bildirilmişti ve şimdi birleştirildi."
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sorununuz Konsensüs Sorunları'nda gösterildi, Konsensüs Sorunları'nda takip edin."
+            "state" : "translated",
+            "value" : "Про вашу проблему було повідомлено, і тепер вона об'єднана."
           }
         },
         "vi" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vấn đề của bạn đã được thể hiện trong Các vấn đề đồng thuận, hãy theo dõi trong các vấn đề đồng thuận."
+            "state" : "translated",
+            "value" : "Vấn đề của bạn đã được báo cáo và bây giờ nó đã được kết hợp."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "您的问题已经出现在「共识问题」中，在「问题共识」中继续追踪。"
+            "state" : "translated",
+            "value" : "您的问题已被报告过，现已合并。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "您的問題已顯示在共識問題中，在共識問題中跟進。"
+            "state" : "translated",
+            "value" : "您的問題已報告，現已合併。"
           }
         }
       }
@@ -43241,14 +43241,14 @@
       "localizations" : {
         "ar" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "أَكَّدَ"
+            "state" : "translated",
+            "value" : "التأكيد مطلوب"
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bestätigen"
+            "state" : "translated",
+            "value" : "Bestätigung Erforderlich"
           }
         },
         "en" : {
@@ -43259,104 +43259,104 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Confirmar"
+            "state" : "translated",
+            "value" : "Confirmar Requerido"
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Confirmer"
+            "state" : "translated",
+            "value" : "Confirmer requis"
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "सुदृढ़ करना"
+            "state" : "translated",
+            "value" : "आवश्यक पुष्टि करें"
           }
         },
         "id" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Menegaskan"
+            "state" : "translated",
+            "value" : "Konfirmasi Diperlukan"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Confermare"
+            "state" : "translated",
+            "value" : "Conferma richiesto"
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "確認する"
+            "state" : "translated",
+            "value" : "必須の確認"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "확립하다"
+            "state" : "translated",
+            "value" : "필수 확인"
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bevestigen"
+            "state" : "translated",
+            "value" : "Bevestig vereist"
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Potwierdzić"
+            "state" : "translated",
+            "value" : "Wymagane potwierdzenie"
           }
         },
         "pt" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Confirmar"
+            "state" : "translated",
+            "value" : "Confirmar Necessário"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Утверждать, утвердить"
+            "state" : "translated",
+            "value" : "Подтвердить Требуемое"
           }
         },
         "th" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ยืนยัน"
+            "state" : "translated",
+            "value" : "จําเป็นต้องยืนยัน"
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Doğrulamak"
+            "state" : "translated",
+            "value" : "Onay Gerekli"
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Doğrulamak"
+            "state" : "translated",
+            "value" : "Підтвердити обов'язкове"
           }
         },
         "vi" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Xác nhận"
+            "state" : "translated",
+            "value" : "Xác nhận Yêu cầu"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "确认"
+            "state" : "translated",
+            "value" : "手动确认"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "確認"
+            "state" : "translated",
+            "value" : "需要確認"
           }
         }
       }
@@ -44225,131 +44225,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "瞭解更多..."
-          }
-        }
-      }
-    },
-    "Settings.keyboard.unavailable" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لا تدعم لوحة مفاتيح Cepheus watchOS 9."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Cepheus-Tastatur unterstützt watchOS 9 nicht."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus Keyboard doesn't support watchOS 9."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El teclado Cepheus no es compatible con watchOS 9."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le clavier Cepheus ne prend pas en charge watchOS 9."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus कीबोर्ड वॉचओएस 9 का समर्थन नहीं करता है।"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus Papan ketik tidak mendukung watchOS 9."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La tastiera Cepheus non supporta watchOS 9."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus KeyboardはwatchOS 9をサポートしていません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus 키보드는 watchOS 9를 지원하지 않습니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus Toetsenbord ondersteunt watchOS 9 niet."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus Klawiatura nie obsługuje watchOS 9."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus O teclado não suporta o watchOS 9."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Клавиатура Cepheus не поддерживает watchOS 9."
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "คีย์บอร์ด Cepheus ไม่รองรับ watchOS 9"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus Klavye watchOS 9'u desteklemiyor."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus Klavye watchOS 9'u desteklemiyor."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bàn phím Cepheus không hỗ trợ watchOS 9."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus键盘不支持watchOS 9。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cepheus鍵盤不支援watchOS 9。"
           }
         }
       }

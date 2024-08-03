@@ -320,7 +320,7 @@ Content：\(message)
 Time：\(Date().timeIntervalSince1970)
 """
             var encodedPackage = (package.data(using: .utf8)?.base64EncodedString() ?? "").replacingOccurrences(of: "/", with: "{slash}")
-            fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/reply/Project Iris/\(carinaID)/\(encodedPackage)", completion: { result in
+            fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/reply/Project Iris/\(carinaID)/\(encodedPackage)".urlEncoded(), completion: { result in
               switch result {
                 case .success(let content):
                   DispatchQueue.main.async {
@@ -348,7 +348,7 @@ Time：\(Date().timeIntervalSince1970)
 
 func getCarinaInformations(carinaID: Int, getTitle: Bool = true, completion: @escaping ([String: String]?) -> Void) {
   var output: [String: String] = [:]
-  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project Iris/\(carinaID)") { result in
+  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project Iris/\(carinaID)".urlEncoded()) { result in
     switch result {
       case .success(let content):
         getDictionary(content, completion: { result in
@@ -364,7 +364,7 @@ func getCarinaInformations(carinaID: Int, getTitle: Bool = true, completion: @es
 
 func getCarinaReplies(carinaID: Int, completion: @escaping ([[String: String]]) -> Void) {
   var output: [[String: String]] = []
-  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project Iris/\(carinaID)") { result in
+  fetchWebPageContent(urlString: "https://fapi.darock.top:65535/radar/details/Project Iris/\(carinaID)".urlEncoded()) { result in
     switch result {
       case .success(let content):
         var originalContent = content
