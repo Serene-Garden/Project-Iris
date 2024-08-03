@@ -84,24 +84,20 @@ struct SettingsInterfaceView: View {
             }
           })
         }
-        Section(content: {
-          CepheusEnablingToggle(showSymbol: true)
-          if #available(watchOS 10.0, *) {
+        if #available(watchOS 10, *) {
+          Section(content: {
+            CepheusEnablingToggle(showSymbol: true)
             NavigationLink(destination: {
               CepheusSettingsView()
             }, label: {
               Label("Settings.keyboard.learn-more", systemImage: "keyboard.badge.ellipsis")
             })
-          }
-        }, header: {
-          Text("Settings.keyboard")
-        }, footer: {
-          if #available(watchOS 10.0, *) {
-            Text("Powered by Garden Cepheus")
-          } else {
-            Text("Settings.keyboard.unavailable")
-          }
-        })
+          }, header: {
+            Text("Settings.keyboard")
+          }, footer: {
+            Text(verbatim: "Powered by Garden Cepheus")
+          })
+        }
         
         Section("Settings.interface.search-button") {
           Picker("Settings.interface.search-button.swipe.left", selection: $leftSwipeSearchButton) {

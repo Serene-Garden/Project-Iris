@@ -31,7 +31,11 @@ struct CreditView: View {
             Text(verbatim: "WindowsMEMZ")
             HStack {
               Image(systemName: "hammer")
-              Image(systemName: "lightbulb.max")
+              if #available(watchOS 10, *) {
+                Image(systemName: "lightbulb.max")
+              } else {
+                Image(systemName: "lightbulb")
+              }
               Spacer()
             }
             .font(.caption)
@@ -41,7 +45,11 @@ struct CreditView: View {
             Text(verbatim: "Linecom")
             HStack {
               Image(systemName: "building.columns.fill")
-              Image(systemName: "lightbulb.max")
+              if #available(watchOS 10, *) {
+                Image(systemName: "lightbulb.max")
+              } else {
+                Image(systemName: "lightbulb")
+              }
               Spacer()
             }
             .font(.caption)
@@ -50,7 +58,11 @@ struct CreditView: View {
           VStack(alignment: .leading) {
             Text(verbatim: "qwasd")
             HStack {
-              Image(systemName: "lightbulb.max")
+              if #available(watchOS 10, *) {
+                Image(systemName: "lightbulb.max")
+              } else {
+                Image(systemName: "lightbulb")
+              }
               Spacer()
             }
             .font(.caption)
@@ -106,7 +118,11 @@ struct CreditView: View {
             Label("Credit.footer.development", systemImage: "hammer")
             Label("Credit.footer.design", systemImage: "paintbrush.pointed")
             Label("Credit.footer.global", systemImage: "globe")
-            Label("Credit.footer.inspiration", systemImage: "lightbulb.max")
+            if #available(watchOS 10, *) {
+              Label("Credit.footer.inspiration", systemImage: "lightbulb.max")
+            } else {
+              Label("Credit.footer.inspiration", systemImage: "lightbulb")
+            }
             Label("Credit.footer.legality", systemImage: "building.columns.fill")
           }
         })

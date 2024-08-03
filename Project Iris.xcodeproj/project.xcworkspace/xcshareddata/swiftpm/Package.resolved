@@ -1,5 +1,5 @@
 {
-  "originHash" : "606da9156a75046d744f17a29971c3820e3fd100cb330d37b3aa63f97218d787",
+  "originHash" : "22227c86e3cd12c98b1ba460434c335fae6529ba8f48e463825e3a1e2f152c61",
   "pins" : [
     {
       "identity" : "cepheus",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/Serene-Garden/Cepheus",
       "state" : {
         "branch" : "main",
-        "revision" : "fbcef88f6f2d004fa4ac13e1fb1ff915a30fb800"
+        "revision" : "271eba038a2c74c47dc5067d62dd68fc346f6481"
       }
     },
     {

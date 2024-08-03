@@ -49,8 +49,13 @@ struct CarinaNewView: View {
     if sent {
       if CarinaID == -1 || CarinaID == -2 {
         VStack {
-          Image(systemName: "circle.badge.exclamationmark")
-            .font(.system(size: 50))
+          if #available(watchOS 10, *) {
+            Image(systemName: "circle.badge.exclamationmark")
+              .font(.system(size: 50))
+          } else {
+            Image(systemName: "bolt.horizontal")
+              .font(.system(size: 50))
+          }
           Text("Carina.failed")
           Group {
             Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) + Text(" · ") + Text(CarinaID == -1 ? "Carina.failed.fetching" : "Carina.failed.connecting")
@@ -185,14 +190,16 @@ struct CarinaNewView: View {
               .sheet(isPresented: $attachmentLinksPickingSheetIsDisplaying, content: {
                 NavigationStack {
                   List {
-                    NavigationLink(destination: {
-                      BookmarkPickerView(editorSheetIsDisaplying: $attachmentLinksPickingSheetIsDisplaying, seletedGroup: $selectedGroup, selectedBookmark: $selectedBookmark, groupIndexEqualingGoal: selectedGroup, bookmarkIndexEqualingGoal: selectedBookmark, action: {
-                        attachmentLinks.append(getBookmarkLibrary()[selectedGroup].3[selectedBookmark].3)
+                    if #available(watchOS 10, *) {
+                      NavigationLink(destination: {
+                        BookmarkPickerView(editorSheetIsDisaplying: $attachmentLinksPickingSheetIsDisplaying, seletedGroup: $selectedGroup, selectedBookmark: $selectedBookmark, groupIndexEqualingGoal: selectedGroup, bookmarkIndexEqualingGoal: selectedBookmark, action: {
+                          attachmentLinks.append(getBookmarkLibrary()[selectedGroup].3[selectedBookmark].3)
+                        })
+                        //
+                      }, label: {
+                        Label("Carina.new.attachments.links.add.bookmark", systemImage: "bookmark")
                       })
-                      //
-                    }, label: {
-                      Label("Carina.new.attachments.links.add.bookmark", systemImage: "bookmark")
-                    })
+                    }
                     NavigationLink(destination: {
                       HistoryPickerView(pickerSheetIsDisplaying: $attachmentLinksPickingSheetIsDisplaying, historyLink: $historyLink, historyID: $historyID, acceptNonLinkHistory: false, action: {
                         attachmentLinks.append(historyLink)
@@ -267,6 +274,8 @@ struct CarinaNewView: View {
         personalFeedbacks = UserDefaults.standard.array(forKey: "personalFeedbacks") ?? []
         isAddedToList = false
         
+        typesPicker = []
+        placesPicker = []
         for (key, value) in carinaTypes {
           typesPicker.append(key)
         }
@@ -344,7 +353,7 @@ struct CarinaAttachmentItemsView: View {
     ScrollView {
       VStack(alignment: .leading) {
           Section(content: {
-            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.form", image: "text.rectangle.page")
+            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.form", image: "doc.text.image")
             CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.time", image: "clock")
             CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.watchos-version", image: "applewatch.side.right")
             CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.basic.app-version", image: "app.badge")
@@ -370,7 +379,11 @@ struct CarinaAttachmentItemsView: View {
           .frame(height: 20)
         Group {
           Section(content: {
-            CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.device.watch-size", image: "applewatch.case.sizes", send: sendDeviceInformations)
+            if #available(watchOS 11, *) {
+              CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.device.watch-size", image: "applewatch.case.sizes", send: sendDeviceInformations)
+            } else {
+              CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.device.watch-size", image: "applewatch.watchface", send: sendDeviceInformations)
+            }
             CarinaAttachmentSingleItemView(text: "Carina.new.attachments.items.device.accessibility", image: "accessibility", send: sendDeviceInformations)
           }, header: {
             Text("Carina.new.attachments.items.device")

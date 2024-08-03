@@ -45,6 +45,7 @@ public let measurementSystem = Locale.current.measurementSystem
 struct Project_Iris_Watch_AppApp: App {
   let languageCode = Locale.current.language.languageCode
   let languageScript = Locale.current.language.script
+  let currentLocale = Locale.current
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
   @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
@@ -154,7 +155,8 @@ struct Project_Iris_Watch_AppApp: App {
       }
       .fontDesign(globalFont[appFont])
     }
-    .environment(\.locale, .init(identifier: appLanguage.isEmpty ? "\(languageCode!)-\(languageScript!)" : appLanguage))
+    .environment(\.locale, appLanguage.isEmpty ? currentLocale : .init(identifier: appLanguage))
+//    .environment(\.locale, .init(identifier: appLanguage.isEmpty ? "\(languageCode!)-\(languageScript ?? "")" : appLanguage))
   }
 }
 
@@ -163,7 +165,7 @@ struct Project_Iris_Watch_AppApp: App {
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
   if !debug || (debug && debugMode)  {
     nTipboxText = text
-    nTipboxSymbol = symbol
+    nTipboxSymbol = symbol 
     nIsTipBoxDisplaying = true
     if debug {
       print("[TIPBOX]\(text.key)")

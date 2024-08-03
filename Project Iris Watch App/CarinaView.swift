@@ -58,6 +58,24 @@ struct CarinaView: View {
   var body: some View {
     NavigationStack {
       List {
+        if #unavailable(watchOS 10) {
+          if !bulletinPackage.isEmpty {
+            NavigationLink(destination: {
+              List {
+                Text(bulletinPackage)
+              }
+              .navigationTitle("Carina.bulletin")
+            }, label: {
+              Label("Carina.bulletin", systemImage: "pin")
+            })
+          }
+          NavigationLink(destination: {
+            CarinaNewNavigationView()
+          }, label: {
+            Label("Carina.new", systemImage: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "plus" : "clock.arrow.circlepath")
+              .foregroundStyle(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? Color.accentColor : Color.gray)
+          })
+        }
         if personalFeedbacks.isEmpty {
           Text("Carina.none")
             .bold()
@@ -100,26 +118,7 @@ struct CarinaView: View {
             }
             Spacer()
             NavigationLink(destination: {
-              if Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer {
-                CarinaNewView()
-              } else {
-                VStack {
-                  Image(systemName: "arrowshape.up.fill")
-                    .font(.largeTitle)
-                    .bold()
-                  Text("Carina.update")
-                  HStack {
-                    Text("\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
-                      .monospaced()
-                    Image(systemName: "chevron.forward")
-                    //Image(systemName: "arrow.right")
-                    Text("\(latestVer.isEmpty ? "[ERROR]" : latestVer)")
-                      .monospaced()
-                  }
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-                }
-              }
+              CarinaNewNavigationView()
             }, label: {
               Image(systemName:  Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? "plus" : "arrowshape.up.fill")
                 .foregroundStyle(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer ? Color.accentColor : Color.gray)
@@ -149,6 +148,53 @@ struct CarinaView: View {
             bulletinPackage.removeLast()
           case .failure(let error):
             bulletinPackage = ""
+        }
+      }
+    }
+  }
+}
+
+struct CarinaNewNavigationView: View {
+  @State var latestVer = ""
+  var body: some View {
+    Group {
+      if Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String == latestVer {
+        CarinaNewView()
+      } else {
+        VStack {
+          if #available(watchOS 10, *) {
+            Image(systemName: "arrowshape.up.fill")
+              .font(.largeTitle)
+              .bold()
+          } else {
+            Image(systemName: "clock.arrow.circlepath")
+              .font(.largeTitle)
+              .bold()
+          }
+          Text("Carina.update")
+          HStack {
+            Text("\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+              .monospaced()
+            Image(systemName: "chevron.forward")
+            //Image(systemName: "arrow.right")
+            Text("\(latestVer.isEmpty ? "[ERROR]" : latestVer)")
+              .monospaced()
+          }
+          .font(.caption)
+          .foregroundStyle(.secondary)
+        }
+      }
+    }
+    .onAppear {
+      fetchWebPageContent(urlString: "https://fapi.darock.top:65535/iris/newver") { result in
+        switch result {
+          case .success(let content):
+            latestVer = content.components(separatedBy: "\"")[1]
+            if latestVer.contains("!") {
+              latestVer = latestVer.components(separatedBy: "!")[0]
+            }
+          case .failure(let error):
+            latestVer = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         }
       }
     }
