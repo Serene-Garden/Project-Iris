@@ -43,9 +43,40 @@ public let measurementSystem = Locale.current.measurementSystem
 
 @main
 struct Project_Iris_Watch_AppApp: App {
-  let languageCode = Locale.current.language.languageCode
-  let languageScript = Locale.current.language.script
+  @WKApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   let currentLocale = Locale.current
+//  @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
+//  @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
+//  @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
+  @AppStorage("appFont") var appFont = 0
+  @AppStorage("appLanguage") var appLanguage = ""
+//  @State var showTipText = ""
+//  @State var showTipSymbol = ""
+//  @State var tipboxText: LocalizedStringResource = ""
+//  @State var tipboxSymbol = ""
+//  @State var tipBoxOffset: CGFloat = 80
+//  @State var isTipBoxDisplaying = false
+//  @State var offset: CGFloat = 110
+//  @State var tintColorValues: [Any] = [275, 40, 100]
+//  @State var tintColor = Color(hue: 275/359, saturation: 40/100, brightness: 100/100)
+  let globalFont: [Font.Design?] = [nil, .rounded, .serif]
+  var body: some Scene {
+    WindowGroup {
+      if #available(watchOS 10, *) {
+        MainView()
+          .fontDesign(globalFont[appFont])
+          .typesettingLanguage(appLanguage.isEmpty ? currentLocale.language : .init(identifier: appLanguage), isEnabled: !appLanguage.isEmpty)
+      } else {
+        MainView()
+          .fontDesign(globalFont[appFont])
+      }
+    }
+    .environment(\.locale, appLanguage.isEmpty ? currentLocale : .init(identifier: appLanguage))
+//    .environment(\.locale, .init(identifier: appLanguage.isEmpty ? "\(languageCode!)-\(languageScript ?? "")" : appLanguage))
+  }
+}
+
+struct MainView: View {
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
   @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
@@ -61,102 +92,96 @@ struct Project_Iris_Watch_AppApp: App {
   @State var tintColorValues: [Any] = [275, 40, 100]
   @State var tintColor = Color(hue: 275/359, saturation: 40/100, brightness: 100/100)
   let tipAnimations = [0.2, 0.35, 0.65, 1]
-  let globalFont: [Font.Design?] = [nil, .rounded, .serif]
-  var body: some Scene {
-    WindowGroup {
-      Group {
-        ZStack {
-          if #available(watchOS 10.0, *) {
-            ContentView()
-              .privacySensitive(isPrivateModeOn)
-              .containerBackground(tintColor.gradient, for: .navigation)
-          } else {
-            ContentView()
-              .privacySensitive(isPrivateModeOn)
-          }
-          VStack {
+  var body: some View {
+    Group {
+      ZStack {
+        if #available(watchOS 10.0, *) {
+          ContentView()
+            .privacySensitive(isPrivateModeOn)
+            .containerBackground(tintColor.gradient, for: .navigation)
+        } else {
+          ContentView()
+            .privacySensitive(isPrivateModeOn)
+        }
+        VStack {
+          Spacer()
+          HStack {
             Spacer()
-            HStack {
-              Spacer()
-              ZStack {
+            ZStack {
+              Capsule()
+                .foregroundStyle(Color(red: 32/255, green: 32/255, blue: 33/255))
+                .frame(height: 50)
+                .shadow(radius: 15)
+              if #available(watchOS 10, *) {
                 Capsule()
-                  .foregroundStyle(Color(red: 32/255, green: 32/255, blue: 33/255))
+                  .strokeBorder(Color.primary, style: StrokeStyle(lineWidth: 2))
                   .frame(height: 50)
-                  .shadow(radius: 15)
-                if #available(watchOS 10, *) {
-                  Capsule()
-                    .strokeBorder(Color.primary, style: StrokeStyle(lineWidth: 2))
-                    .frame(height: 50)
-                }
-                //TODO: Smaller version
-                Group {
-                  if tipboxSymbol.isEmpty {
-                    Text(tipboxText)
-                      .multilineTextAlignment(.center)
-                      .lineLimit(1)
-                      .offset(y: offset-25)
-                  } else {
-                    HStack {
-                      Spacer()
-                      Image(systemName: tipboxSymbol)
-                      Text(tipboxText)
-                      Spacer()
-                    }
-                    //                  Label(tipboxText, systemImage: tipboxSymbol)
+              }
+              //TODO: Smaller version
+              Group {
+                if tipboxSymbol.isEmpty {
+                  Text(tipboxText)
                     .multilineTextAlignment(.center)
                     .lineLimit(1)
                     .offset(y: offset-25)
-                  }
-                }
-                //              .focused($isTipBoxDisplaying)
-              }
-              .accessibilityHidden(!isTipBoxDisplaying)
-              Spacer()
-            }
-          }
-          .padding()
-          .offset(y: offset)
-          //                    .opacity(opacityEaseInOut)
-          .animation(.easeInOut(duration: tipAnimations[tipAnimationSpeed]), value: offset)
-          .onTapGesture {
-            if tipConfirmRequired {
-              nIsTipBoxDisplaying = false
-              isTipBoxDisplaying = false
-            }
-          }
-          .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
-              DispatchQueue.main.async {
-                tipboxText = nTipboxText
-                tipboxSymbol = nTipboxSymbol
-                isTipBoxDisplaying = nIsTipBoxDisplaying
-                //Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
-                //  tipBoxOffset = pTipBoxOffset
-                //  timer.invalidate()
-                //}
-                if isTipBoxDisplaying {
-                  offset = 25
                 } else {
-                  offset = 110
+                  HStack {
+                    Spacer()
+                    Image(systemName: tipboxSymbol)
+                    Text(tipboxText)
+                    Spacer()
+                  }
+                  //                  Label(tipboxText, systemImage: tipboxSymbol)
+                  .multilineTextAlignment(.center)
+                  .lineLimit(1)
+                  .offset(y: offset-25)
                 }
               }
+              //              .focused($isTipBoxDisplaying)
             }
+            .accessibilityHidden(!isTipBoxDisplaying)
+            Spacer()
+          }
+        }
+        .padding()
+        .offset(y: offset)
+        //                    .opacity(opacityEaseInOut)
+        .animation(.easeInOut(duration: tipAnimations[tipAnimationSpeed]), value: offset)
+        .onTapGesture {
+          if tipConfirmRequired {
+            nIsTipBoxDisplaying = false
+            isTipBoxDisplaying = false
           }
         }
         .onAppear {
-          if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
-            UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
+          Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+            DispatchQueue.main.async {
+              tipboxText = nTipboxText
+              tipboxSymbol = nTipboxSymbol
+              isTipBoxDisplaying = nIsTipBoxDisplaying
+              //Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { timer in
+              //  tipBoxOffset = pTipBoxOffset
+              //  timer.invalidate()
+              //}
+              if isTipBoxDisplaying {
+                offset = 25
+              } else {
+                offset = 110
+              }
+            }
           }
-          tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? [275, 40, 100]
-          tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
         }
-        //      .tint(tintColor)
-        //      .accentColor(tintColor)
       }
-      .fontDesign(globalFont[appFont])
+      .onAppear {
+        if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
+          UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
+        }
+        tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? [275, 40, 100]
+        tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
+      }
+      //      .tint(tintColor)
+      //      .accentColor(tintColor)
     }
-    .environment(\.locale, appLanguage.isEmpty ? currentLocale : .init(identifier: appLanguage))
-//    .environment(\.locale, .init(identifier: appLanguage.isEmpty ? "\(languageCode!)-\(languageScript ?? "")" : appLanguage))
   }
 }
 
@@ -187,6 +212,26 @@ struct Project_Iris_Watch_AppApp: App {
         nIsTipBoxDisplaying = false
       }
     }
+  }
+}
+
+
+class AppDelegate: NSObject, WKApplicationDelegate {
+  // 此代理方法在用户同意通知权限后调用
+  func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
+    let tokenString = deviceToken.hexEncodedString() // 见下方对 Data 的 Extension
+    UserDefaults.standard.set(tokenString, forKey: "UserNotificationToken")
+  }
+}
+extension Data {
+  struct HexEncodingOptions: OptionSet {
+    let rawValue: Int
+    static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+  }
+  
+  func hexEncodedString(options: HexEncodingOptions = []) -> String {
+    let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
+    return self.map { String(format: format, $0) }.joined()
   }
 }
 

@@ -69,10 +69,14 @@ struct PasscodeAddView: View {
     PasscodeInputView(destination: {
       PasscodeInputView(destination: {
         VStack {
-          Image(systemName: "lock")
-            .font(.system(size: 50))
-          Text("Passcode.add.success")
-            .multilineTextAlignment(.center)
+          if #available(watchOS 10, *) {
+            ContentUnavailableView("Passcode.add.success", systemImage: "lock")
+          } else {
+            Image(systemName: "lock")
+              .font(.system(size: 50))
+            Text("Passcode.add.success")
+              .multilineTextAlignment(.center)
+          }
         }
         .onAppear {
           correctPasscode = newPasscode
@@ -92,10 +96,14 @@ struct PasscodeChangeView: View {
       PasscodeInputView(destination: {
         PasscodeInputView(destination: {
           VStack {
-            Image(systemName: "lock")
-              .font(.system(size: 50))
-            Text("Passcode.change.success")
-              .multilineTextAlignment(.center)
+            if #available(watchOS 10, *) {
+              ContentUnavailableView("Passcode.change.success", systemImage: "lock")
+            } else {
+              Image(systemName: "lock")
+                .font(.system(size: 50))
+              Text("Passcode.change.success")
+                .multilineTextAlignment(.center)
+            }
           }
           .onAppear {
             correctPasscode = newPasscode
@@ -115,10 +123,14 @@ struct PasscodeRemoveView: View {
     PasscodeInputView(destination: {
       PasscodeInputView(destination: {
         VStack {
-          Image(systemName: "lock.open")
-            .font(.system(size: 50))
-          Text("Passcode.remove.success")
-            .multilineTextAlignment(.center)
+          if #available(watchOS 10, *) {
+            ContentUnavailableView("Passcode.remove.success", systemImage: "lock.open")
+          } else {
+            Image(systemName: "lock.open")
+              .font(.system(size: 50))
+            Text("Passcode.remove.success")
+              .multilineTextAlignment(.center)
+          }
         }
         .onAppear {
           correctPasscode = ""

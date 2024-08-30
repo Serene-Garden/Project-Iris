@@ -474,8 +474,10 @@ struct SettingsInterfaceHomeListEditView: View {
             Spacer()
           }
           .onTapGesture {
-            onFocusEditingItem = index
-            showBookmarkEditSheet = true
+            if homeListEditing[index] == "bookmark-link" {
+              onFocusEditingItem = index
+              showBookmarkEditSheet = true
+            }
           }
           //        })
         }

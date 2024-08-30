@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Cepheus
+import UserNotifications
 
 struct CarinaNewView: View {
   @State var personalFeedbacks: [Any] = []
@@ -284,6 +285,15 @@ struct CarinaNewView: View {
         }
         typesPicker.sort()
         placesPicker.sort()
+        
+        //Request Notification Access
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { isGrand, _ in
+          DispatchQueue.main.async {
+            if isGrand {
+              WKExtension.shared().registerForRemoteNotifications()
+            }
+          }
+        }
       }
     }
   }
@@ -300,6 +310,7 @@ Version：\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
 CarinaTime：\(Date().timeIntervalSince1970)
 OS：\(systemVersion)
 AccessibilityEnabled：\(accaccessibilityEnabled)
+NotificationToken：\(UserDefaults.standard.string(forKey: "UserNotificationToken") ?? "None")
 Sender：Iris
 """
     if sendAllSettingsValue {
