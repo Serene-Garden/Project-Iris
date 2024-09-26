@@ -9,6 +9,8 @@ import SwiftUI
 import AuthenticationServices
 import Cepheus
 
+//@MainActor public var webpageIsDisplaying = false
+
 public let defaultHomeList: [Any] = ["search-field", "search-button", "|", "bookmarks", "privacy", "|", "history", "settings", "carina", "update-indicator"]
 public let defaultHomeListValues: [Any] = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil"]
 public let defaultSearchEngineNames: [Any] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou", "Iris.search.duckduckgo", "Iris.search.yahoo", "Iris.search.yandex", "Iris.search.360"]
@@ -78,8 +80,8 @@ struct ContentView: View {
   @State var searchField = ""
   @State var isUpdateSheetDisplayed = false
   
-  @State var tintColorValues: [Any] = [275, 40, 100]
-  @State var tintColor = Color(hue: 275/359, saturation: 40/100, brightness: 100/100)
+  @State var tintColorValues: [Any] = defaultColor as [Any]
+  @State var tintColor = Color(hue: defaultColor[0]/359, saturation: defaultColor[1]/100, brightness: defaultColor[2]/100)
   
   public var BingAbility = 4
   var lightColors: [Color] = [.secondary, .orange, .green, .green, .secondary]
@@ -109,9 +111,9 @@ struct ContentView: View {
           .navigationTitle("Home.Iris")
           .onAppear {
             if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
-              UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
+              UserDefaults.standard.set(defaultColor, forKey: "tintColor")
             }
-            tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? [275, 40, 100]
+            tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? (defaultColor as [Any])
             tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
           }
           .containerBackground(tintColor.gradient, for: .navigation)
@@ -185,83 +187,6 @@ struct ContentView: View {
   }
 }
 
-public func fetchWebPageContent(urlString: String, completion: @escaping (Result<String, Error>) -> Void) {
-  guard let url = URL(string: urlString) else {
-    completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
-    return
-  }
-  let session = URLSession.shared
-  let task = session.dataTask(with: url) { data, response, error in
-    if let error = error {
-      DispatchQueue.main.async { @MainActor in
-        completion(.failure(error))
-      }
-      return
-    }
-    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-      completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
-      return
-    }
-    guard let data = data else {
-      completion(.failure(NSError(domain: "No data", code: 0, userInfo: nil)))
-      return
-    }
-    if let content = String(data: data, encoding: .utf8) {
-      completion(.success(content))
-    } else {
-      completion(.failure(NSError(domain: "Unable to parse data", code: 0, userInfo: nil)))
-    }
-  }
-  task.resume()
-}
-
-public extension String {
-  func urlEncoded() -> String {
-    let encodeUrlString = self.addingPercentEncoding(withAllowedCharacters:
-        .urlQueryAllowed)
-    return encodeUrlString ?? ""
-  }
-  
-  func urlDecoded() -> String {
-    return self.removingPercentEncoding ?? ""
-  }
-}
-
-@MainActor public func searchButtonAction(isPrivateModeOn: Bool, searchField: String, isCookiesAllowed: Bool, searchEngine: String, isURL: Bool? = nil) {
-  var lastHistoryID = UserDefaults.standard.integer(forKey: "lastHistoryID")
-  var optimizedSearchField: String = searchField
-  var optimizedSearchEngine: String = searchEngine
-  var history = getHistory()
-  
-  var optimizedIsURL: Bool? = isURL
-  if optimizedIsURL == nil {
-    optimizedIsURL = optimizedSearchField.isURL()
-  }
-  if !optimizedSearchField.hasPrefix("http://") && !optimizedSearchField.hasPrefix("https://") && optimizedIsURL! {
-    optimizedSearchField = "http://" + optimizedSearchField
-  }
-  if !optimizedSearchEngine.hasPrefix("http://") && !optimizedSearchEngine.hasPrefix("https://") {
-    optimizedSearchEngine = "http://" + optimizedSearchEngine
-  }
-  let session = ASWebAuthenticationSession(
-    url: URL(string: (optimizedIsURL! ? optimizedSearchField : optimizedSearchEngine.lowercased().replacingOccurrences(of: "\\iris", with: optimizedSearchField)).urlEncoded())!,
-    callbackURLScheme: nil
-  ) { _, _ in
-    
-  }
-  if isPrivateModeOn {
-    session.prefersEphemeralWebBrowserSession = true
-  } else {
-    session.prefersEphemeralWebBrowserSession = !isCookiesAllowed
-  }
-  session.start()
-  if !isPrivateModeOn && !optimizedSearchField.isEmpty {
-    history.insert((searchField, Date.now, lastHistoryID+1), at: 0)
-    UserDefaults.standard.set(lastHistoryID+1, forKey: "lastHistoryID")
-    updateHistory(history)
-  }
-}
-
 struct HomeElementRenderder: View {
   @Binding var isPrivateModeOn: Bool
   @Binding var searchField: String
@@ -319,6 +244,7 @@ struct HomeSearchButtonElement: View {
   @State var temporarySearchEngine = 0
   @State var temporaryPrivateMode = false
   @State var temporaryUseSearch = false
+  @State var temporaryUseLegacyEngine = false
   var isInList: Bool
   var body: some View {
     Button(action: {
@@ -396,9 +322,12 @@ struct HomeSearchButtonElement: View {
           Toggle(isOn: $temporaryUseSearch, label: {
             Text("Home.config.search")
           })
+          Toggle(isOn: $temporaryUseLegacyEngine, label: {
+            Text("Home.config.legacy-engine")
+          })
           
           Button(action: {
-            searchButtonAction(isPrivateModeOn: temporaryPrivateMode, searchField: searchField, isCookiesAllowed: isCookiesAllowed, searchEngine: engineLinks[temporarySearchEngine], isURL: temporaryUseSearch ? false : nil)
+            searchButtonAction(isPrivateModeOn: temporaryPrivateMode, searchField: searchField, isCookiesAllowed: isCookiesAllowed, searchEngine: engineLinks[temporarySearchEngine], isURL: temporaryUseSearch ? false : nil, useLegacyEngine: temporaryUseLegacyEngine)
           }, label: {
             Label("Home.config.open", systemImage: "arrow.up.right.circle")
           })
@@ -656,70 +585,6 @@ struct HomeBookmarkOpenLinkElement: View {
   }
 }
 
-
-func getTopLevel(from url: String) -> String? {
-  if !url.contains(".") {
-    return nil
-  }
-  let noScheme: String
-  if url.hasPrefix("http://")
-      || url.hasPrefix("https://")
-      || url.hasPrefix("file://"),
-     let spd = url.split(separator: "://")[from: 1] {
-    noScheme = String(spd)
-  } else {
-    noScheme = url
-  }
-  if let dotSpd = noScheme.split(separator: "/").first {
-    let specialCharacters: [Character] = ["/", "."]
-    if let splashSpd = dotSpd.split(separator: ".").last, let colonSpd = splashSpd.split(separator: ":").first {
-      if !colonSpd.contains(specialCharacters) {
-        return String(colonSpd)
-      }
-    }
-  }
-  return nil
-}
-
-extension String {
-  func isURL() -> Bool {
-    var topLevelDomainList = (try! String(contentsOf: Bundle.main.url(forResource: "TopLevelDomainList", withExtension: "txt")!, encoding: .utf8))
-      .split(separator: "\n")
-      .map { String($0) }
-    topLevelDomainList.removeAll(where: { str in str.hasPrefix("#") || str.isEmpty })
-    if let topLevel = getTopLevel(from: self), topLevelDomainList.contains(topLevel.uppercased().replacingOccurrences(of: " ", with: "")) {
-      return true
-    } else if self.hasPrefix("http://") || self.hasPrefix("https://") {
-      return true
-    } else {
-      return false
-    }
-  }
-}
-
-extension Array {
-  subscript(from index: Int) -> Element? {
-    return self.indices ~= index ? self[index] : nil
-  }
-}
-
-struct DismissButton<L: View>: View {
-  var action: () -> Void
-  var label: () -> L
-  var doDismiss: Bool = true
-  @Environment(\.dismiss) var dismiss
-  var body: some View {
-    Button(action: {
-      action()
-      if doDismiss {
-        dismiss()
-      }
-    }, label: {
-      label()
-    })
-  }
-}
-
 struct LockIndicator: View {
   @AppStorage("correctPasscode") var correctPasscode = ""
   @AppStorage("lockBookmarks") var lockBookmarks = false
@@ -734,18 +599,5 @@ struct LockIndicator: View {
       Image(systemName: "chevron.forward")
         .foregroundStyle(.secondary)
     }
-  }
-}
-
-func arraySafeAccess<T>(_ array: Array<T>, element: Int) -> T? {
-  //This function avoids index out of range error when accessing a range.
-  //If out, then it will return nil instead of throwing an error.
-  //Normally it will just return the content, but in optional.
-  if element >= array.count || element < 0 { //Index out of range
-    return nil
-  } else { //Index in range
-    //    print(array)
-    //    print(element)
-    return array[element]
   }
 }

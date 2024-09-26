@@ -1,5 +1,5 @@
 {
-  "originHash" : "22227c86e3cd12c98b1ba460434c335fae6529ba8f48e463825e3a1e2f152c61",
+  "originHash" : "2ad8c065dc08354f384490f3634765ad845217c0932d8ed86ddb0387a4bc3447",
   "pins" : [
     {
       "identity" : "cepheus",
@@ -7,7 +7,16 @@
       "location" : "https://github.com/Serene-Garden/Cepheus",
       "state" : {
         "branch" : "main",
-        "revision" : "9ba67002a9ac27ba93fc91377798fc2d2e113e69"
+        "revision" : "17cef53e77b7b85297356a5b2b7f3627f6afb8ea"
+      }
+    },
+    {
+      "identity" : "dynamic",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mhdhejazi/Dynamic",
+      "state" : {
+        "revision" : "ab9a2570862d54aed2663691bb767f881226a12f",
+        "version" : "1.2.0"
       }
     },
     {
@@ -16,7 +25,7 @@
       "location" : "https://github.com/Serene-Garden/Pictor",
       "state" : {
         "branch" : "main",
-        "revision" : "7daae590a27cb35275ccb4a8288590fc7570769c"
+        "revision" : "133ec3a34db461fa68c63b5c548f4265d95247d6"
       }
     },
     {

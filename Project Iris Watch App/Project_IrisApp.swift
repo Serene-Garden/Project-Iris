@@ -18,6 +18,7 @@
 //2024.02.03
 
 import SwiftUI
+import UIKit
 
 public let languageCode = Locale.current.language.languageCode
 public let countryCode = Locale.current.region!.identifier
@@ -29,6 +30,8 @@ public let timeZone = Locale.current.timeZone!.identifier
 public let currencyCode = Locale.current.currency!.identifier
 public let measurementSystem = Locale.current.measurementSystem
 
+public let defaultColor: [Double] = [275, 40, 100] //[140, 39, 100]
+
 //@MainActor var pShowTipText = ""
 //@MainActor var pShowTipSymbol = ""
 //@MainActor var pTipBoxOffset: CGFloat = 80
@@ -37,44 +40,58 @@ public let measurementSystem = Locale.current.measurementSystem
 @MainActor var nIsTipBoxDisplaying = false
 @MainActor var isShowMemoryInScreen = false
 
-@available(watchOS 10.0, *)
+//@available(watchOS 10.0, *)
 //extension AttributeScopes.AccessibilityAttributes.AnnouncementPriorityAttribute.AnnouncementPriority: @unchecked @retroactive Sendable {}
-
+@MainActor public var webpageIsDisplaying = false
+@MainActor public var webpageContent: WKWebView = WKWebView()
 
 @main
 struct Project_Iris_Watch_AppApp: App {
   @WKApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-  let currentLocale = Locale.current
-//  @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
-//  @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
-//  @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
   @AppStorage("appFont") var appFont = 0
   @AppStorage("appLanguage") var appLanguage = ""
-//  @State var showTipText = ""
-//  @State var showTipSymbol = ""
-//  @State var tipboxText: LocalizedStringResource = ""
-//  @State var tipboxSymbol = ""
-//  @State var tipBoxOffset: CGFloat = 80
-//  @State var isTipBoxDisplaying = false
-//  @State var offset: CGFloat = 110
-//  @State var tintColorValues: [Any] = [275, 40, 100]
-//  @State var tintColor = Color(hue: 275/359, saturation: 40/100, brightness: 100/100)
+  @AppStorage("statsCollectionIsAllowed") var statsCollectionIsAllowed = true
+  @State var shouldWebpageDisplays = false
+  let currentLocale = Locale.current
   let globalFont: [Font.Design?] = [nil, .rounded, .serif]
   var body: some Scene {
     WindowGroup {
-      if #available(watchOS 10, *) {
-        MainView()
-          .fontDesign(globalFont[appFont])
-          .typesettingLanguage(appLanguage.isEmpty ? currentLocale.language : .init(identifier: appLanguage), isEnabled: !appLanguage.isEmpty)
-      } else {
-        MainView()
-          .fontDesign(globalFont[appFont])
+      Group {
+        ZStack {
+          if #available(watchOS 10, *) {
+            MainView()
+              .typesettingLanguage(appLanguage.isEmpty ? currentLocale.language : .init(identifier: appLanguage), isEnabled: !appLanguage.isEmpty)
+          } else {
+            MainView()
+          }
+          DimmingView(isGlobal: true)
+        }
       }
+//      .sheet
+      .sheet(isPresented: $shouldWebpageDisplays, content: {
+        SwiftWebView(webView: webpageContent)
+      })
+      .onAppear {
+        if statsCollectionIsAllowed {
+          fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/get/garden_iris_login") { result in}
+        }
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
+          shouldWebpageDisplays = webpageIsDisplaying
+        }
+      }
+      .fontDesign(globalFont[appFont])
+//      .brightness(-0.1)
     }
     .environment(\.locale, appLanguage.isEmpty ? currentLocale : .init(identifier: appLanguage))
 //    .environment(\.locale, .init(identifier: appLanguage.isEmpty ? "\(languageCode!)-\(languageScript ?? "")" : appLanguage))
   }
 }
+
+/*
+ if isReduceBrightness {
+     
+ }
+ */
 
 struct MainView: View {
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
@@ -89,8 +106,8 @@ struct MainView: View {
   @State var tipBoxOffset: CGFloat = 80
   @State var isTipBoxDisplaying = false
   @State var offset: CGFloat = 110
-  @State var tintColorValues: [Any] = [275, 40, 100]
-  @State var tintColor = Color(hue: 275/359, saturation: 40/100, brightness: 100/100)
+  @State var tintColorValues: [Any] = defaultColor as [Any]
+  @State var tintColor = Color(hue: defaultColor[0]/359, saturation: defaultColor[1]/100, brightness: defaultColor[2]/100)
   let tipAnimations = [0.2, 0.35, 0.65, 1]
   var body: some View {
     Group {
@@ -174,9 +191,9 @@ struct MainView: View {
       }
       .onAppear {
         if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
-          UserDefaults.standard.set([275, 40, 100], forKey: "tintColor")
+          UserDefaults.standard.set(defaultColor, forKey: "tintColor")
         }
-        tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? [275, 40, 100]
+        tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? defaultColor
         tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
       }
       //      .tint(tintColor)
