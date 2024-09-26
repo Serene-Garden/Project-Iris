@@ -31,8 +31,6 @@
 		E912A35A2C5BEA9D004D9038 /* SettingsInterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */; };
 		E93C6EAA2C9DCA5F007F7B7E /* Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E93C6EA92C9DCA5F007F7B7E /* Dynamic */; };
 		E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E94DE8B12C50EA1D00EE5500 /* Pictor */; };
-		E961855D2C9F31A800A44F9C /* SaltUICore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96185562C9F10C700A44F9C /* SaltUICore.xcframework */; };
-		E961855E2C9F31A800A44F9C /* SaltUICore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E96185562C9F10C700A44F9C /* SaltUICore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9625B982C9D8E6700604100 /* TroubleshooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9625B972C9D8DEC00604100 /* TroubleshooterView.swift */; };
 		E9639BE22C971AE200B83FF8 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9639BE12C971AE000B83FF8 /* Core.swift */; };
 		E9639BE42C971C3200B83FF8 /* DimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9639BE32C971C2F00B83FF8 /* DimmingView.swift */; };
@@ -44,6 +42,8 @@
 		E9BAFE322C5A0FF700B24FDE /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE312C5A0FF700B24FDE /* Pictor */; };
 		E9BAFE352C5A100D00B24FDE /* Vela in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE342C5A100D00B24FDE /* Vela */; };
 		E9BAFE382C5A10A300B24FDE /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE372C5A10A300B24FDE /* Cepheus */; };
+		E9CB40942CA5BD10004708F1 /* SaltUICore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */; };
+		E9CB40952CA5BD10004708F1 /* SaltUICore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E9CE39E82C312B2F00C773A3 /* Cepheus */; };
 		E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */; };
 		E9EBFB8C2C39520C00E16268 /* CreditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EBFB8B2C39520C00E16268 /* CreditView.swift */; };
@@ -86,13 +86,13 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E961855F2C9F31A800A44F9C /* Embed Frameworks */ = {
+		E9CB40962CA5BD10004708F1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E961855E2C9F31A800A44F9C /* SaltUICore.xcframework in Embed Frameworks */,
+				E9CB40952CA5BD10004708F1 /* SaltUICore.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,7 +123,6 @@
 		E2B2A5082AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInterfaceView.swift; sourceTree = "<group>"; };
-		E96185562C9F10C700A44F9C /* SaltUICore.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:B57D8PP775:Yuxuan Chen"; lastKnownFileType = wrapper.xcframework; name = SaltUICore.xcframework; path = ../../Downloads/SaltUICore.xcframework; sourceTree = "<group>"; };
 		E9625B972C9D8DEC00604100 /* TroubleshooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshooterView.swift; sourceTree = "<group>"; };
 		E9639BE12C971AE000B83FF8 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		E9639BE32C971C2F00B83FF8 /* DimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingView.swift; sourceTree = "<group>"; };
@@ -636,6 +635,7 @@
 		E9BA100F2C8C8818007C83CC /* WKWindowFeatures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWindowFeatures.h; sourceTree = "<group>"; };
 		E9BA10112C8C8B49007C83CC /* Project Iris Watch App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Project Iris Watch App-Bridging-Header.h"; sourceTree = "<group>"; };
 		E9BA10172C8C9624007C83CC /* WebpageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpageView.swift; sourceTree = "<group>"; };
+		E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:B57D8PP775:Yuxuan Chen"; lastKnownFileType = wrapper.xcframework; path = SaltUICore.xcframework; sourceTree = "<group>"; };
 		E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFearturesView.swift; sourceTree = "<group>"; };
 		E9EBFB8B2C39520C00E16268 /* CreditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditView.swift; sourceTree = "<group>"; };
 		E9F619BC2C4104DD00B754A3 /* unlockTip.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = unlockTip.wav; sourceTree = "<group>"; };
@@ -649,7 +649,7 @@
 				E9BAFE322C5A0FF700B24FDE /* Pictor in Frameworks */,
 				E9BAFE382C5A10A300B24FDE /* Cepheus in Frameworks */,
 				E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */,
-				E961855D2C9F31A800A44F9C /* SaltUICore.xcframework in Frameworks */,
+				E9CB40942CA5BD10004708F1 /* SaltUICore.xcframework in Frameworks */,
 				E9BAFE352C5A100D00B24FDE /* Vela in Frameworks */,
 				E93C6EAA2C9DCA5F007F7B7E /* Dynamic in Frameworks */,
 				E2ED59C22C305916007F04AD /* Vela in Frameworks */,
@@ -678,7 +678,7 @@
 		E2A617102C203B5400E5C1D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E96185562C9F10C700A44F9C /* SaltUICore.xcframework */,
+				E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1391,7 +1391,7 @@
 				E2B2A4E42AE16A4C005E73AB /* Sources */,
 				E2B2A4E52AE16A4C005E73AB /* Frameworks */,
 				E2B2A4E62AE16A4C005E73AB /* Resources */,
-				E961855F2C9F31A800A44F9C /* Embed Frameworks */,
+				E9CB40962CA5BD10004708F1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1752,7 +1752,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Project Iris Watch App/Project Iris Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				ENABLE_PREVIEWS = YES;
@@ -1788,7 +1788,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Project Iris Watch App/Project Iris Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				ENABLE_PREVIEWS = YES;
@@ -1820,7 +1820,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1836,7 +1836,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
