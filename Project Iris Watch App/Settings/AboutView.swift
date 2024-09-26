@@ -46,7 +46,7 @@ struct AboutViewMain: View {
   @State var isEasterEggDisplayed = false
   @State var isICPSheetDisplaying = false
   let AppIconLength: CGFloat = 70
-  let ICPFillingNumber = "津ICP备2024024051号"
+  let ICPFillingNumber = "津ICP备2024024051号-1A"
   var body: some View {
     VStack(alignment: .center) {
       Image("AppIconImage")
