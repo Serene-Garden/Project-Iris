@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-let votesAvailable = true
+let alwaysShowDetailsVersion = "3.0.1"
+let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0") || (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) == alwaysShowDetailsVersion
 
 struct NewFearturesView: View {
-  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
     if #available(watchOS 10, *) {
       TabView {
         NewFeaturesTitleView()
-        if showDetails || votesAvailable {
+        if showDetails {
           NewFeaturesListView()
         }
       }
@@ -32,7 +32,7 @@ struct NewFearturesView: View {
 }
 
 struct NewFeaturesTitleView: View {
-  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
+//  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
     ScrollView {
       VStack(alignment: .leading) {
@@ -44,8 +44,6 @@ struct NewFeaturesTitleView: View {
             if #available(watchOS 10, *) {
               Label("New.title.scroll", systemImage: "chevron.down")
             }
-          } else if votesAvailable {
-            Label("New.title.votes", systemImage: "bell.and.waves.left.and.right")
           } else {
             Label("New.title.minor", systemImage: "ellipsis.circle")
           }
@@ -72,7 +70,7 @@ struct NewFeaturesTitleView: View {
 }
 
 struct NewFeaturesListView: View {
-  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
+//  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
     if showDetails {
       List {
@@ -84,37 +82,10 @@ struct NewFeaturesListView: View {
       }
     } else {
       if #available(watchOS 10, *) {
-        if votesAvailable {
-          ContentUnavailableView {
-            Label("New.vote", systemImage: "chevron.up.chevron.down")
-          } description: {
-            NavigationLink(destination: {
-              VoteView()
-            }, label: {
-              Text("New.vote.description")
-            })
-            .buttonStyle(.plain)
-          }
-          .toolbar {
-            ToolbarItem(placement: .bottomBar, content: {
-              NavigationLink(destination: {
-                VoteView()
-              }, label: {
-                HStack {
-                  Spacer()
-                  Text("New.vote.go")
-                  Image(systemName: "arrow.right")
-                  Spacer()
-                }
-              })
-            })
-          }
-        } else {
-          ContentUnavailableView {
-            Label("New.unavailable", systemImage: "list.bullet")
-          } description: {
-            Text("New.unavailable.description")
-          }
+        ContentUnavailableView {
+          Label("New.unavailable", systemImage: "list.bullet")
+        } description: {
+          Text("New.unavailable.description")
         }
       } else {
         List {

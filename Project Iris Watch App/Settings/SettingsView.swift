@@ -161,7 +161,7 @@ struct SettingsBrowseView: View {
           Picker(selection: $toolbarTintColor, content: {
             Text("Settings.browse.tint.blue").tag(1)
             Text("Settings.browse.tint.tint").tag(0)
-//            Text("Settings.browse.tint.webpage").tag(2)
+            //            Text("Settings.browse.tint.webpage").tag(2)
           }, label: {
             Text("Settings.browse.tint")
           })
@@ -459,25 +459,22 @@ struct SettingsSearchNewCustomizeView: View {
     })
     .toolbar {
       if #available(watchOS 10, *) {
-        ToolbarItemGroup(placement: .bottomBar, content: {
-          HStack {
-            Spacer()
-            DismissButton(action: {
-              engineNames.append(editingEngineName)
-              engineLinks.append(editingEngineLink)
-              engineNameIsEditable.append(true)
-              UserDefaults.standard.set(engineNames, forKey: "engineNames")
-              UserDefaults.standard.set(engineLinks, forKey: "engineLinks")
-              UserDefaults.standard.set(engineNameIsEditable, forKey: "engineNameIsEditable")
-              showTip("Settings.search.new.succeed", symbol: "checkmark")
-            }, label: {
-              Label("Settings.interface.home.toolbar.done", systemImage: "checkmark")
-              //        Spacer()
-              //        Image(systemName: "chevron.backward")
-              //          .foregroundStyle(.secondary)
-            })
-            .disabled(!isLinkValid)
-          }
+        ToolbarItemGroup(placement: .topBarTrailing, content: {
+          DismissButton(action: {
+            engineNames.append(editingEngineName)
+            engineLinks.append(editingEngineLink)
+            engineNameIsEditable.append(true)
+            UserDefaults.standard.set(engineNames, forKey: "engineNames")
+            UserDefaults.standard.set(engineLinks, forKey: "engineLinks")
+            UserDefaults.standard.set(engineNameIsEditable, forKey: "engineNameIsEditable")
+            showTip("Settings.search.new.succeed", symbol: "checkmark")
+          }, label: {
+            Label("Settings.interface.home.toolbar.done", systemImage: "checkmark")
+            //        Spacer()
+            //        Image(systemName: "chevron.backward")
+            //          .foregroundStyle(.secondary)
+          })
+          .disabled(!isLinkValid)
         })
       }
     }

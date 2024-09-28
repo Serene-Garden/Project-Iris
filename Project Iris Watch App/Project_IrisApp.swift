@@ -73,7 +73,8 @@ struct Project_Iris_Watch_AppApp: App {
       })
       .onAppear {
         if statsCollectionIsAllowed {
-          fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/get/garden_iris_login") { result in}
+          fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_login/\(Date.now.timeIntervalSince1970)") { result in}
+          print("[ADD]")
         }
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
           shouldWebpageDisplays = webpageIsDisplaying
