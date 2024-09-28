@@ -125,7 +125,7 @@ struct CarinaNewView: View {
     } else {
       List {
         Section("Carina.new.app") {
-          Text("Project Iris \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+          Text(verbatim: "Project Iris \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
         }
         Section(content: {
           Picker("Carina.type", selection: $type) {
