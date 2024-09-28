@@ -345,9 +345,11 @@ struct BookmarksGroupInfosView: View {
         HStack {
           Text("Bookmark.icon.symbol")
             .foregroundColor(bookmarkGroupIsEmoji ? .secondary : .primary)
+            .lineLimit(1)
           Text(verbatim: "|").fontDesign(.rounded)
           Text("Bookmark.icon.emoji")
             .foregroundColor(bookmarkGroupIsEmoji ? .primary : .secondary)
+            .lineLimit(1)
         }
       })
       if bookmarkGroupIsEmoji {
@@ -531,9 +533,11 @@ struct BookmarksItemInfosView: View {
         HStack {
           Text("Bookmark.icon.symbol")
             .foregroundColor(bookmarkItemIsEmoji ? .secondary : .primary)
+            .lineLimit(1)
           Text(verbatim: "|").fontDesign(.rounded)
           Text("Bookmark.icon.emoji")
             .foregroundColor(bookmarkItemIsEmoji ? .primary : .secondary)
+            .lineLimit(1)
         }
       })
       if bookmarkItemIsEmoji {
