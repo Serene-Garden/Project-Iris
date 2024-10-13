@@ -4,7 +4,7 @@ Thank you for choosing and using Iris (Project Iris App). In Serene Garden, we b
 If there is any differences between Privacy Policy's different languages, please follow Simplified Chinese version.
 
 ## History & Bookmarks
-History and bookmarks will be stored locally. Datas will not be sent outside or use to analyze locally.
+History and bookmarks will be stored locally. Datas will not be used to analyze user preferences, or to be sent without permission (except latest 3 history recording).
 
 ## Settings
 All settings are stored locally. When sending a feedback, your Settings Values will be packed and be sent when you know, which can help us diagnose the issue. This data does not contains passcode, and can be toggled off manually. Except Feedback, all your settings will not be sent.
@@ -21,7 +21,7 @@ Darock had agreed to not use statistic datas to do anything other than analyze o
 As you agree, statistics data will be allowed to collect by default. You can disable it manually in Settings.
 
 ## Webpages
-Iris can neither read webpage content nor get to know what you're accessing. Thus no data will be collected, stored or shared.
+Iris will not read your current-accessing webpage without your permission.
 
 Iris is not responsible for contents on the internet and your actions on internet.
 
@@ -36,4 +36,11 @@ Feedback informations will be send to Darock server and be stored there. They wi
 
 Your app version and time will be sent as well as you reply to a feedback.
 
-When reporting, attachments like Settings Values are able to be attached to the feedback. Attachments can help as analyze and diagnose issue, and will not be used for other usage. Your bookmarks, history and passcode won't be in Settings Values.
+When reporting, attachments like Settings Values are able to be attached to the feedback. Attachments can help as analyze and diagnose issue, and will not be used for other usage. Your bookmarks, history and passcode won't be in Settings Values. Bookmarks and History could be sent as you permits.
+
+For better diagnosis efficiency, your lastet 3 history recordings may be send by default. You can delete it at anytime.
+
+## Vote
+Sometimes you may notice that a vote button appears in Settings. Voting is a very important conference for Iris' future updates.
+
+Your vote will not be sent with any other informations, which means it is totally anonymous. Any vote is not tracable to the voter.

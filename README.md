@@ -1,5 +1,5 @@
 # Project Iris
-A simple watchOS browser, created by @ThreeManager785(@Atlantic75).
+A simple watchOS browser, created by ThreeManager785(@Atlantic75).
 
 Some of the part is learned from Darock Browser, allowed by @WindowsMEMZ 
 
