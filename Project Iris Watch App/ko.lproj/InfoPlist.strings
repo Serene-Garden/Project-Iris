@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Project Iris
+
+  Created by ThreeManager785 on 10/5/24.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "당신의 위치는 일출과 일몰 시간을 계산하는 데 사용될 것입니다.";

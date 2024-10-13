@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Project Iris
+
+  Created by ThreeManager785 on 10/5/24.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "Twoja lokalizacja zostanie wykorzystana do obliczenia wschodu i zachodu słońca.";

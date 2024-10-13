@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Project Iris
+
+  Created by ThreeManager785 on 10/5/24.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "Lokasi Anda akan digunakan untuk menghitung waktu matahari terbit dan terbenam.";

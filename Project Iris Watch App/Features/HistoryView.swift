@@ -23,9 +23,23 @@ struct HistoryView: View {
   @State var clearTimeframe = -3600
   @State var isAlertPresented = false
   @State var lastHistoryID = UserDefaults.standard.integer(forKey: "lastHistoryID")
-  let dateFormatter = DateFormatter()
-  let timeFormatter = DateFormatter()
-  let displayFormatter = DateFormatter()
+  let dateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-DD"
+    return dateFormatter
+  }()
+  let timeFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm"
+    
+    return dateFormatter
+  }()
+  let displayFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
+    return dateFormatter
+  }()
   
   //For web accessing
   @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
@@ -136,10 +150,6 @@ struct HistoryView: View {
     .onAppear {
       history = getHistory()
       engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? defaultSearchEngineLinks) as! [String]
-      timeFormatter.dateFormat = "HH:mm"
-      dateFormatter.dateFormat = "YYYY-MM-DD"
-      displayFormatter.dateStyle = .medium
-      displayFormatter.timeStyle = .none
       
       //MARK: Updator
       var date: String = ""
@@ -275,7 +285,7 @@ struct HistoryStructure: Codable {
   
   do {
     let jsonEncoder = JSONEncoder()
-    jsonEncoder.outputFormatting = .prettyPrinted
+//    jsonEncoder.outputFormatting = .prettyPrinted
     jsonEncoder.dateEncodingStrategy = .iso8601
     let jsonData = try jsonEncoder.encode(historyStructures)
     
@@ -322,9 +332,23 @@ struct HistoryPickerView: View {
   @State var clearTimeframe = -3600
   @State var isAlertPresented = false
   @State var lastHistoryID = UserDefaults.standard.integer(forKey: "lastHistoryID")
-  let dateFormatter = DateFormatter()
-  let timeFormatter = DateFormatter()
-  let displayFormatter = DateFormatter()
+  let dateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-DD"
+    return dateFormatter
+  }()
+  let timeFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm"
+    
+    return dateFormatter
+  }()
+  let displayFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
+    return dateFormatter
+  }()
   var body: some View {
     Group {
       if !historyDates.isEmpty {
@@ -398,10 +422,6 @@ struct HistoryPickerView: View {
     .navigationTitle("History")
     .onAppear {
       history = getHistory()
-      timeFormatter.dateFormat = "HH:mm"
-      dateFormatter.dateFormat = "YYYY-MM-DD"
-      displayFormatter.dateStyle = .medium
-      displayFormatter.timeStyle = .none
       
       //MARK: Updator
       var date: String = ""

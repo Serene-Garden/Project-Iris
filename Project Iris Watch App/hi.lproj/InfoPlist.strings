@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Project Iris
+
+  Created by ThreeManager785 on 10/5/24.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "आपके स्थान का उपयोग सूर्योदय और सूर्यास्त के समय की गणना करने के लिए किया जाएगा।";

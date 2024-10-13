@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Project Iris
+
+  Created by ThreeManager785 on 10/5/24.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "你的位置信息将被用于计算日出和日落时间。";

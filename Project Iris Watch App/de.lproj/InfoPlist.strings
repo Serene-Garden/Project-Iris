@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Project Iris
+
+  Created by ThreeManager785 on 10/5/24.
+  
+*/
+
+NSLocationWhenInUseUsageDescription = "Ihr Standort wird verwendet, um die Sonnenaufgangs- und Sonnenuntergangszeit zu berechnen.";

@@ -12,7 +12,8 @@ struct DimmingView: View {
   @AppStorage("dimmingCoefficientIndex") var dimmingCoefficientIndex = 100
   @AppStorage("globalDimming") var globalDimming = false
   @AppStorage("dimmingAtSpecificPeriod") var dimmingAtSpecificPeriod = false
-  @State var isScreenDimming = false
+  @AppStorage("AppearanceSchedule") var appearanceSchedule = 0
+  @State var isScreenDimming = true
   var body: some View {
     Group {
       if isScreenDimming {
@@ -25,16 +26,18 @@ struct DimmingView: View {
       }
     }
     .onAppear {
-      isScreenDimming = shouldDimScreen(globalDimming: globalDimming, isGlobalCaller: isGlobal, dimmingAtSpecificPeriod: dimmingAtSpecificPeriod)
+      isScreenDimming = shouldDimScreen(globalDimming: globalDimming, isGlobalCaller: isGlobal, dimmingAtSpecificPeriod: dimmingAtSpecificPeriod, lightMode: appearanceSchedule == 0)
       Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
-        isScreenDimming = shouldDimScreen(globalDimming: globalDimming, isGlobalCaller: isGlobal, dimmingAtSpecificPeriod: dimmingAtSpecificPeriod)
+        isScreenDimming = shouldDimScreen(globalDimming: globalDimming, isGlobalCaller: isGlobal, dimmingAtSpecificPeriod: dimmingAtSpecificPeriod, lightMode: appearanceSchedule == 0)
       }
     }
   }
 }
 
-@MainActor func shouldDimScreen(globalDimming: Bool = false, isGlobalCaller: Bool = false, dimmingAtSpecificPeriod: Bool = false) -> Bool {
-  if isGlobalCaller && !globalDimming {
+@MainActor func shouldDimScreen(globalDimming: Bool = false, isGlobalCaller: Bool = false, dimmingAtSpecificPeriod: Bool = false, lightMode: Bool = false) -> Bool {
+  if lightMode {
+    return false
+  } else if isGlobalCaller && !globalDimming {
     return false
   } else if dimmingAtSpecificPeriod {
     let fDimTime = readDimTime().0

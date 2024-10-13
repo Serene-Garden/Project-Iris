@@ -607,7 +607,7 @@ struct BookmarkGroupStructure: Codable {
   
   do {
     let jsonEncoder = JSONEncoder()
-    jsonEncoder.outputFormatting = .prettyPrinted // For pretty-printed JSON
+//    jsonEncoder.outputFormatting = .withoutEscapingSlashes
     let jsonData = try jsonEncoder.encode(encodedBookmarkLibrary)
     if let jsonString = String(data: jsonData, encoding: .utf8) {
       do {

@@ -11,8 +11,8 @@ import Cepheus
 
 //@MainActor public var webpageIsDisplaying = false
 
-public let defaultHomeList: [Any] = ["search-field", "search-button", "|", "bookmarks", "privacy", "|", "history", "settings", "carina", "update-indicator"]
-public let defaultHomeListValues: [Any] = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil"]
+public let defaultHomeList: [Any] = ["search-field", "search-button", "|", "bookmarks", "history", "privacy", "|", "archives", "scripts", "settings", "carina", "update-indicator"]
+public let defaultHomeListValues: [Any] = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil"]
 public let defaultSearchEngineNames: [Any] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou", "Iris.search.duckduckgo", "Iris.search.yahoo", "Iris.search.yandex", "Iris.search.360"]
 public let defaultSearchEngineLinks: [Any] = ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris", "https://duckduckgo.com/?q=\\Iris", "https://search.yahoo.com/search?p=\\Iris", "https://yandex.eu/search?text=\\Iris", "https://www.so.com/s?q=\\Iris"]
 public let defaultSearchEngineEditable: [Any] = [false, false, false, false, false, false, false, false]
@@ -47,6 +47,14 @@ struct HomeView: View {
       homeListValuesParsed = []
       homeList = UserDefaults.standard.array(forKey: "homeList") ?? defaultHomeList
       homeListValues = UserDefaults.standard.array(forKey: "homeListValues") ?? defaultHomeListValues
+      
+      //Legacy Home List Handling Project
+      if homeList as! [String] == ["search-field", "search-button", "|", "bookmarks", "privacy", "|", "history", "settings", "carina", "update-indicator"] {
+        homeList = defaultHomeList
+        homeListValues = defaultHomeListValues
+        UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
+        UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
+      }
       for index in 0..<homeList.count {
         if ((homeList[index] as! String) != "|") {
           homeListBox.append(homeList[index] as! String)
@@ -104,6 +112,8 @@ struct ContentView: View {
   @AppStorage("passcode2") var passcode2 = 0
   @AppStorage("passcode3") var passcode3 = 0
   @AppStorage("passcode4") var passcode4 = 0
+  @State var iris3point1expected = false
+  @State var iris3point1homeupdate = false
   var body: some View {
     NavigationStack {
       if #available(watchOS 10.0, *) {
@@ -165,13 +175,17 @@ struct ContentView: View {
     }
     .onAppear {
       if userLatestVersion == "0.0.0" {
-        userLatestVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-      } else if userLatestVersion != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String {
-        userLatestVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        userLatestVersion = currentIrisVersion
+      } else if userLatestVersion != currentIrisVersion {
+        userLatestVersion = currentIrisVersion
         isUpdateSheetDisplayed = true
+      }
+      if currentIrisVersion.hasPrefix("3.1") && !(UserDefaults.standard.bool(forKey: "Iris3.1HomeUpdated")) {
+        iris3point1expected = true
       }
     }
     .onAppear {
+      //Legacy Passcode Handling Program
       if isPasscodeRequired {
         correctPasscode = "\(passcode1)\(passcode2)\(passcode3)\(passcode4)"
         isPasscodeRequired = false
@@ -183,6 +197,47 @@ struct ContentView: View {
     }
     .sheet(isPresented: $isUpdateSheetDisplayed, content: {
       NewFearturesView()
+        .onDisappear {
+          if iris3point1expected {
+            iris3point1homeupdate = true
+          }
+        }
+    })
+    .alert("Update.title", isPresented: $iris3point1homeupdate, actions: {
+      Button(action: {
+        UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
+        UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
+        UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
+      }, label: {
+        Text("Update.update")
+      })
+      Button(role: .cancel, action: {
+        UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
+      }, label: {
+        Text("Update.cancel")
+      })
+    }, message: {
+      Text("Update.content")
+    })
+    .sheet(isPresented: $iris3point1homeupdate, content: {
+      ScrollView {
+        Text("Update.title")
+          .bold()
+        Text("Update.content")
+//          .font(.caption)
+        DismissButton(action: {
+          UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
+          UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
+          UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
+        }, label: {
+          Text("Update.update")
+        })
+        DismissButton(action: {
+          UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
+        }, label: {
+          Text("Update.cancel")
+        })
+      }
     })
   }
 }
@@ -219,6 +274,10 @@ struct HomeElementRenderder: View {
       HomeUpdateIndicatorElement(isInList: isInList)
     } else if element == "bookmark-link" {
       HomeBookmarkOpenLinkElement(isInList: isInList, values: values)
+    } else if element == "archives" {
+      HomeArchivesLinkElement(isInList: isInList)
+    } else if element == "scripts" {
+      HomeScriptsLinkElement(isInList: isInList)
     }
   }
 }
@@ -582,6 +641,47 @@ struct HomeBookmarkOpenLinkElement: View {
       }
       linkIsReady = true
     }
+  }
+}
+
+struct HomeArchivesLinkElement: View {
+  @AppStorage("lockArchives") var lockArchives = true
+  var isInList: Bool
+  var body: some View {
+    NavigationLink(destination: {
+      if lockArchives {
+        PasscodeView(destination: {
+          ArchivesView()
+        }, title: "Passcode.title.access.archives")
+      } else {
+        HistoryView()
+      }
+    }, label: {
+      if isInList {
+        HStack {
+          Label("Home.archives", systemImage: "archivebox")
+          Spacer()
+          LockIndicator(destination: "history")
+        }
+      } else {
+        Image(systemName: "archivebox")
+      }
+    })
+  }
+}
+
+struct HomeScriptsLinkElement: View {
+  var isInList: Bool
+  var body: some View {
+    NavigationLink(destination: {
+      ExtensionsView()
+    }, label: {
+      if isInList {
+        Label("Home.scripts", systemImage: "puzzlepiece.extension")
+      } else {
+        Image(systemName: "puzzlepiece.extension")
+      }
+    })
   }
 }
 

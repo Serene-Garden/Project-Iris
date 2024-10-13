@@ -24,6 +24,7 @@ struct PasscodeSettingsView: View {
   @AppStorage("correctPasscode") var correctPasscode = ""
   @AppStorage("lockBookmarks") var lockBookmarks = false
   @AppStorage("lockHistory") var lockHistory = true
+  @AppStorage("lockArchives") var lockArchives = true
   var body: some View {
     NavigationStack {
       List {
@@ -54,6 +55,10 @@ struct PasscodeSettingsView: View {
           })
           Toggle(isOn: $lockHistory, label: {
             Label("Passcode.content.history", systemImage: "clock")
+          })
+
+          Toggle(isOn: $lockArchives, label: {
+            Label("Passcode.content.archives", systemImage: "archivebox")
           })
         }
         .disabled(correctPasscode.isEmpty)

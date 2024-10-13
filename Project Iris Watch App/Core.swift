@@ -10,7 +10,37 @@ import AuthenticationServices
 import Cepheus
 import UIKit
 
-//var webpageIsDisplaying: Bool = false
+public final class WebViewUIDelegate: NSObject, WKUIDelegate {
+  public static let shared = WebViewUIDelegate()
+  
+  public func webView(
+    _ webView: WKWebView,
+    createWebViewWith configuration: WKWebViewConfiguration,
+    for navigationAction: WKNavigationAction,
+    windowFeatures: WKWindowFeatures
+  ) -> WKWebView? {
+    if navigationAction.targetFrame == nil {
+      webView.load(navigationAction.request)
+    }
+    return nil
+  }
+}
+
+public final class WebViewNavigationDelegate: NSObject, WKNavigationDelegate {
+  public static let shared = WebViewNavigationDelegate()
+  
+  public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {}
+  
+  public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {}
+  
+  public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: any Error) {}
+  
+  public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
+    print(error)
+  }
+  
+  public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {}
+}
 
 //@MainActor public var webpageIsDisplaying = false
 @MainActor public func searchButtonAction(isPrivateModeOn: Bool, searchField: String, isCookiesAllowed: Bool, searchEngine: String, isURL: Bool? = nil, useLegacyEngine: Bool? = nil) {
@@ -46,9 +76,17 @@ import UIKit
   } else {
     if !optimizedSearchField.isEmpty {
       let webpageConfig = WKWebView()
+      webpageConfig.navigationDelegate = WebViewNavigationDelegate.shared
+      webpageConfig.uiDelegate = WebViewUIDelegate.shared
       let webpageURLRequest = URLRequest(url: URL(string: (optimizedIsURL! ? optimizedSearchField : optimizedSearchEngine.lowercased().replacingOccurrences(of: "\\iris", with: optimizedSearchField)).urlEncoded())!)
+      if #available(watchOS 10.0, *) {
+        webpageConfig.configuration.websiteDataStore.httpCookieStore.setCookiePolicy(isCookiesAllowed ? .allow : .disallow)
+      }
       webpageConfig.load(webpageURLRequest)
       webpageContent = webpageConfig
+      webpageIsArchive = false
+      webpageArchiveURL = nil
+      webpageArchiveTitle = nil
       webpageIsDisplaying = true
     }
     //    print(webpageIsDisplaying)
@@ -64,9 +102,9 @@ import UIKit
   //Record
   var history = getHistory()
   var lastHistoryID = UserDefaults.standard.integer(forKey: "lastHistoryID")
-    history.insert((content, Date.now, lastHistoryID+1), at: 0)
-    UserDefaults.standard.set(lastHistoryID+1, forKey: "lastHistoryID")
-    updateHistory(history)
+  history.insert((content, Date.now, lastHistoryID+1), at: 0)
+  UserDefaults.standard.set(lastHistoryID+1, forKey: "lastHistoryID")
+  updateHistory(history)
 }
 
 public func fetchWebPageContent(urlString: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -151,6 +189,34 @@ func readPlainTextFile(_ fileName: String) -> String {
   }
 }
 
+func writePlainTextFile(_ content: String, to: String) {
+  do {
+    let fileURL = getDocumentsDirectory().appendingPathComponent(to)
+    try content.write(to: fileURL, atomically: true, encoding: .utf8)
+  } catch {
+    print(error)
+  }
+}
+
+func readDataFile(_ fileName: String) -> Data? {
+  do {
+    let fileData = try Data(contentsOf: getDocumentsDirectory().appendingPathComponent(fileName))
+    return fileData
+  } catch {
+    print(error)
+    return nil
+  }
+}
+
+func writeDataFile(_ content: Data, to: String) {
+  do {
+    let fileURL = getDocumentsDirectory().appendingPathComponent(to)
+    try content.write(to: fileURL)
+  } catch {
+    print(error)
+  }
+}
+
 struct DismissButton<L: View>: View {
   var action: () -> Void
   var label: () -> L
@@ -168,7 +234,23 @@ struct DismissButton<L: View>: View {
   }
 }
 
-public extension String {
+func getSettingsForAppdiagnose(dataProcessor: (inout [String: Any]) -> Void = { _ in }) -> String? {
+  let prefPath = NSHomeDirectory() + "/Library/Preferences/\(Bundle.main.infoDictionary?["CFBundleIdentifier"] as! String).plist"
+  if let plistData = FileManager.default.contents(atPath: prefPath) {
+    do {
+      if var plistObject = try PropertyListSerialization.propertyList(from: plistData, options: [], format: nil) as? [String: Any] {
+        dataProcessor(&plistObject)
+        let jsonData = try JSONSerialization.data(withJSONObject: plistObject)
+        return String(decoding: jsonData, as: UTF8.self)
+      }
+    } catch {
+      print(error)
+    }
+  }
+  return nil
+}
+
+extension String {
   func urlEncoded() -> String {
     let encodeUrlString = self.addingPercentEncoding(withAllowedCharacters:
         .urlQueryAllowed)
@@ -202,5 +284,17 @@ public extension String {
 extension Array {
   subscript(from index: Int) -> Element? {
     return self.indices ~= index ? self[index] : nil
+  }
+}
+
+extension Color {
+  func HSB_values() -> (Int, Int, Int, CGFloat) {
+    let color = UIColor(self)
+    var hue: CGFloat = -1
+    var saturation: CGFloat = -1
+    var brightness: CGFloat = -1
+    var opacity: CGFloat = -1
+    _ = color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &opacity)
+    return (Int(hue*359), Int(saturation*100), Int(brightness*100), opacity)
   }
 }

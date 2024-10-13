@@ -24,6 +24,7 @@ public let languageCode = Locale.current.language.languageCode
 public let countryCode = Locale.current.region!.identifier
 public let watchSize = WKInterfaceDevice.current().screenBounds
 public let systemVersion = WKInterfaceDevice.current().systemVersion
+public let currentIrisVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
 
 //UNNECESSARY
 public let timeZone = Locale.current.timeZone!.identifier
@@ -43,6 +44,9 @@ public let defaultColor: [Double] = [275, 40, 100] //[140, 39, 100]
 //@available(watchOS 10.0, *)
 //extension AttributeScopes.AccessibilityAttributes.AnnouncementPriorityAttribute.AnnouncementPriority: @unchecked @retroactive Sendable {}
 @MainActor public var webpageIsDisplaying = false
+@MainActor public var webpageIsArchive = false
+@MainActor public var webpageArchiveURL: String?
+@MainActor public var webpageArchiveTitle: String?
 @MainActor public var webpageContent: WKWebView = WKWebView()
 
 @main
@@ -74,7 +78,6 @@ struct Project_Iris_Watch_AppApp: App {
       .onAppear {
         if statsCollectionIsAllowed {
           fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_login/\(Date.now.timeIntervalSince1970)") { result in}
-          print("[ADD]")
         }
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
           shouldWebpageDisplays = webpageIsDisplaying
@@ -100,6 +103,7 @@ struct MainView: View {
   @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
   @AppStorage("appFont") var appFont = 0
   @AppStorage("appLanguage") var appLanguage = ""
+  @AppStorage("AppearanceSchedule") var appearanceSchedule = 0
   @State var showTipText = ""
   @State var showTipSymbol = ""
   @State var tipboxText: LocalizedStringResource = ""
@@ -172,6 +176,9 @@ struct MainView: View {
           }
         }
         .onAppear {
+          if appearanceSchedule == 3 {
+            updateDimTimeWithSolarTimes()
+          }
           Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
             DispatchQueue.main.async {
               tipboxText = nTipboxText
@@ -196,6 +203,9 @@ struct MainView: View {
         }
         tintColorValues = UserDefaults.standard.array(forKey: "tintColor") ?? defaultColor
         tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
+        if readPlainTextFile("DimTime.txt").isEmpty {
+          writePlainTextFile("21:00,6:00", to: "DimTime.txt")
+        }
       }
       //      .tint(tintColor)
       //      .accentColor(tintColor)

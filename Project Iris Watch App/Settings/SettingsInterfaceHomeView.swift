@@ -178,11 +178,11 @@ struct SettingsInterfaceHomeListEditView: View {
   @AppStorage("homeToolbar4") var homeToolbar4: String = "nil"
   @AppStorage("homeListSettingsIsInList") var homeListSettingsIsInList = true
   
-  let listPickerValue = ["|", "search-field", "search-button", "bookmarks", "history", "privacy", "settings", "carina", "update-indicator", "bookmark-link"]
-  let listPickerName: [LocalizedStringKey] = ["Settings.interface.home.list.selection.space", "Settings.interface.home.list.selection.search-field", "Settings.interface.home.list.selection.search-button", "Settings.interface.home.list.selection.bookmarks", "Settings.interface.home.list.selection.history", "Settings.interface.home.list.selection.privacy", "Settings.interface.home.list.selection.settings", "Settings.interface.home.list.selection.carina", "Settings.interface.home.list.selection.update-indicator", "Settings.interface.home.list.selection.bookmark-link"]
-  let listPickerSymbol = ["arrow.up.and.line.horizontal.and.arrow.down", "character.cursor.ibeam", "magnifyingglass", "bookmark", "clock", "hand.raised", "gear", "exclamationmark.bubble", "clock.badge", "books.vertical"]
-  let listElementName: [String: LocalizedStringKey] = ["|": "Settings.interface.home.list.selection.space", "search-field": "Settings.interface.home.list.selection.search-field", "search-button": "Settings.interface.home.list.selection.search-button", "bookmarks": "Settings.interface.home.list.selection.bookmarks", "history": "Settings.interface.home.list.selection.history", "privacy": "Settings.interface.home.list.selection.privacy", "settings": "Settings.interface.home.list.selection.settings", "carina": "Settings.interface.home.list.selection.carina", "update-indicator": "Settings.interface.home.list.selection.update-indicator", "bookmark-link": "Settings.interface.home.list.selection.bookmark-link"]
-  let listElementSymbol = ["|": "arrow.up.and.line.horizontal.and.arrow.down", "search-field": "character.cursor.ibeam", "search-button": "magnifyingglass", "bookmarks": "bookmark", "history": "clock", "privacy": "hand.raised", "settings": "gear", "carina": "exclamationmark.bubble", "update-indicator": "clock.badge", "bookmark-link": "books.vertical"]
+  let listPickerValue = ["|", "search-field", "search-button", "bookmarks", "history", "privacy", "archives", "scripts", "settings", "carina", "update-indicator", "bookmark-link"]
+  let listPickerName: [LocalizedStringKey] = ["Settings.interface.home.list.selection.space", "Settings.interface.home.list.selection.search-field", "Settings.interface.home.list.selection.search-button", "Settings.interface.home.list.selection.bookmarks", "Settings.interface.home.list.selection.history", "Settings.interface.home.list.selection.privacy", "Settings.interface.home.list.selection.archives", "Settings.interface.home.list.selection.scripts", "Settings.interface.home.list.selection.settings", "Settings.interface.home.list.selection.carina", "Settings.interface.home.list.selection.update-indicator", "Settings.interface.home.list.selection.bookmark-link"]
+  let listPickerSymbol = ["arrow.up.and.line.horizontal.and.arrow.down", "character.cursor.ibeam", "magnifyingglass", "bookmark", "clock", "hand.raised", "archivebox", "puzzlepiece.extension", "gear", "exclamationmark.bubble", "clock.badge", "books.vertical"]
+  let listElementName: [String: LocalizedStringKey] = ["|": "Settings.interface.home.list.selection.space", "search-field": "Settings.interface.home.list.selection.search-field", "search-button": "Settings.interface.home.list.selection.search-button", "bookmarks": "Settings.interface.home.list.selection.bookmarks", "history": "Settings.interface.home.list.selection.history", "privacy": "Settings.interface.home.list.selection.privacy", "settings": "Settings.interface.home.list.selection.settings", "carina": "Settings.interface.home.list.selection.carina", "update-indicator": "Settings.interface.home.list.selection.update-indicator", "bookmark-link": "Settings.interface.home.list.selection.bookmark-link", "archives": "Settings.interface.home.list.selection.archives", "scripts": "Settings.interface.home.list.selection.scripts"]
+  let listElementSymbol = ["|": "arrow.up.and.line.horizontal.and.arrow.down", "search-field": "character.cursor.ibeam", "search-button": "magnifyingglass", "bookmarks": "bookmark", "history": "clock", "privacy": "hand.raised", "settings": "gear", "carina": "exclamationmark.bubble", "update-indicator": "clock.badge", "bookmark-link": "books.vertical", "archives": "archivebox", "scripts": "puzzlepiece.extension"]
   
   
   var body: some View {
@@ -499,6 +499,10 @@ struct SettingsInterfaceHomeToolbarPicker: View {
         .tag("history")
       Label("Settings.interface.home.toolbar.selection.privacy", systemImage: "hand.raised")
         .tag("privacy")
+      Label("Settings.interface.home.toolbar.selection.archives", systemImage: "archivebox")
+        .tag("archives")
+      Label("Settings.interface.home.toolbar.selection.scripts", systemImage: "puzzlepiece.extension")
+        .tag("scripts")
       Label("Settings.interface.home.toolbar.selection.settings", systemImage: "gear")
         .tag("settings")
       Label("Settings.interface.home.toolbar.selection.carina", systemImage: "exclamationmark.bubble")

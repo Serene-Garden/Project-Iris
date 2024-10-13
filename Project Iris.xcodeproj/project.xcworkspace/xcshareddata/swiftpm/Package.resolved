@@ -1,5 +1,5 @@
 {
-  "originHash" : "2ad8c065dc08354f384490f3634765ad845217c0932d8ed86ddb0387a4bc3447",
+  "originHash" : "1ad213214761cbedba5560c4d4f83154e412cf561ba017c3b83c06e4583539c9",
   "pins" : [
     {
       "identity" : "cepheus",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/Serene-Garden/Cepheus",
       "state" : {
         "branch" : "main",
-        "revision" : "17cef53e77b7b85297356a5b2b7f3627f6afb8ea"
+        "revision" : "242ec8bc458fb2c0ca1c749572e7582eef7f0696"
       }
     },
     {
@@ -25,7 +25,25 @@
       "location" : "https://github.com/Serene-Garden/Pictor",
       "state" : {
         "branch" : "main",
-        "revision" : "133ec3a34db461fa68c63b5c548f4265d95247d6"
+        "revision" : "4e6f6bff49f2248a137fb8e3d0b53e137ef05d84"
+      }
+    },
+    {
+      "identity" : "solartime",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tgymnich/SolarTime",
+      "state" : {
+        "revision" : "bcab2be779abed9a16867fa06909eefd72c4efab",
+        "version" : "0.0.2"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup",
+      "state" : {
+        "revision" : "3c2c7e1e72b8abd96eafbae80323c5c1e5317437",
+        "version" : "2.7.5"
       }
     },
     {

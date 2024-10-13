@@ -29,9 +29,23 @@
 		E2B2A50B2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */; };
 		E2ED59C22C305916007F04AD /* Vela in Frameworks */ = {isa = PBXBuildFile; productRef = E2ED59C12C305916007F04AD /* Vela */; };
 		E912A35A2C5BEA9D004D9038 /* SettingsInterfaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */; };
+		E916B25C2CAE98E500327864 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = E916B25B2CAE98E500327864 /* SwiftSoup */; };
+		E916B25E2CAE9D1000327864 /* SettingsDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E916B25D2CAE9D0B00327864 /* SettingsDebugView.swift */; };
+		E916B2602CAE9D1E00327864 /* SettingsSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E916B25F2CAE9D1A00327864 /* SettingsSearchView.swift */; };
+		E916B2622CAE9D3A00327864 /* SettingsBrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E916B2612CAE9D3400327864 /* SettingsBrowseView.swift */; };
+		E916B2652CAE9DAB00327864 /* SettingsPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E916B2642CAE9DA400327864 /* SettingsPrivacyView.swift */; };
+		E916B2692CAE9E8D00327864 /* BulletinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E916B2682CAE9E8800327864 /* BulletinView.swift */; };
+		E916B27F2CAECFBD00327864 /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E916B27E2CAECFBD00327864 /* Cepheus */; };
+		E91C97802CAAD7A5004494A0 /* ExtensionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91C977F2CAAD7A5004494A0 /* ExtensionsView.swift */; };
+		E91C97822CAAD7B1004494A0 /* ArchivesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91C97812CAAD7B1004494A0 /* ArchivesView.swift */; };
+		E91F28A72CB0ECC600AD88FD /* SettingsAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91F28A62CB0ECC600AD88FD /* SettingsAppearanceView.swift */; };
+		E91F28C12CB10AEA00AD88FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E91F28BF2CB10AEA00AD88FD /* InfoPlist.strings */; };
 		E93C6EAA2C9DCA5F007F7B7E /* Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E93C6EA92C9DCA5F007F7B7E /* Dynamic */; };
 		E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E94DE8B12C50EA1D00EE5500 /* Pictor */; };
+		E95A20AF2CBC0E90001B6336 /* RadarKitCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */; };
+		E95A20B02CBC0E90001B6336 /* RadarKitCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9625B982C9D8E6700604100 /* TroubleshooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9625B972C9D8DEC00604100 /* TroubleshooterView.swift */; };
+		E962BDB12CAD9F9800764311 /* SolarTime in Frameworks */ = {isa = PBXBuildFile; productRef = E962BDB02CAD9F9800764311 /* SolarTime */; };
 		E9639BE22C971AE200B83FF8 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9639BE12C971AE000B83FF8 /* Core.swift */; };
 		E9639BE42C971C3200B83FF8 /* DimmingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9639BE32C971C2F00B83FF8 /* DimmingView.swift */; };
 		E9639BE62C972C8500B83FF8 /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9639BE52C972C8500B83FF8 /* VoteView.swift */; };
@@ -41,7 +55,6 @@
 		E9BA10182C8C9624007C83CC /* WebpageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BA10172C8C9624007C83CC /* WebpageView.swift */; };
 		E9BAFE322C5A0FF700B24FDE /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE312C5A0FF700B24FDE /* Pictor */; };
 		E9BAFE352C5A100D00B24FDE /* Vela in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE342C5A100D00B24FDE /* Vela */; };
-		E9BAFE382C5A10A300B24FDE /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE372C5A10A300B24FDE /* Cepheus */; };
 		E9CB40942CA5BD10004708F1 /* SaltUICore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */; };
 		E9CB40952CA5BD10004708F1 /* SaltUICore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E9CE39E82C312B2F00C773A3 /* Cepheus */; };
@@ -92,6 +105,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E95A20B02CBC0E90001B6336 /* RadarKitCore.xcframework in Embed Frameworks */,
 				E9CB40952CA5BD10004708F1 /* SaltUICore.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -123,12 +137,40 @@
 		E2B2A5082AE16A4D005E73AB /* Project_Iris_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITests.swift; sourceTree = "<group>"; };
 		E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project_Iris_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInterfaceView.swift; sourceTree = "<group>"; };
+		E916B25D2CAE9D0B00327864 /* SettingsDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDebugView.swift; sourceTree = "<group>"; };
+		E916B25F2CAE9D1A00327864 /* SettingsSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSearchView.swift; sourceTree = "<group>"; };
+		E916B2612CAE9D3400327864 /* SettingsBrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBrowseView.swift; sourceTree = "<group>"; };
+		E916B2642CAE9DA400327864 /* SettingsPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPrivacyView.swift; sourceTree = "<group>"; };
+		E916B2682CAE9E8800327864 /* BulletinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletinView.swift; sourceTree = "<group>"; };
+		E91C977F2CAAD7A5004494A0 /* ExtensionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsView.swift; sourceTree = "<group>"; };
+		E91C97812CAAD7B1004494A0 /* ArchivesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivesView.swift; sourceTree = "<group>"; };
+		E91F28A62CB0ECC600AD88FD /* SettingsAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppearanceView.swift; sourceTree = "<group>"; wrapsLines = 0; };
+		E91F28C02CB10AEA00AD88FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RadarKitCore.xcframework; sourceTree = "<group>"; };
+		E95A20B12CBC1707001B6336 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20B22CBC1709001B6336 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		E95A20B32CBC170C001B6336 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20B42CBC170D001B6336 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20B52CBC170E001B6336 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20B62CBC170E001B6336 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20B72CBC170F001B6336 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20B82CBC170F001B6336 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20B92CBC170F001B6336 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20BA2CBC1710001B6336 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20BB2CBC1710001B6336 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20BC2CBC1711001B6336 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20BD2CBC1712001B6336 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20BE2CBC1713001B6336 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20BF2CBC1715001B6336 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20C02CBC1716001B6336 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E95A20C12CBC1716001B6336 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E9625B972C9D8DEC00604100 /* TroubleshooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TroubleshooterView.swift; sourceTree = "<group>"; };
 		E9639BE12C971AE000B83FF8 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		E9639BE32C971C2F00B83FF8 /* DimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingView.swift; sourceTree = "<group>"; };
 		E9639BE52C972C8500B83FF8 /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
 		E96A05852C8D73780018FEB0 /* SettingsInterfaceAdvancedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInterfaceAdvancedView.swift; sourceTree = "<group>"; };
 		E96A05872C8D74C50018FEB0 /* SettingsInterfaceHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInterfaceHomeView.swift; sourceTree = "<group>"; };
+		E97168D52CB1AC2500D5A5A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E97CF4412C3D8075006E6A5B /* TopLevelDomainList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TopLevelDomainList.txt; sourceTree = "<group>"; };
 		E97CF4432C3DAA84006E6A5B /* Project Iris Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Project Iris Watch App.entitlements"; sourceTree = "<group>"; };
 		E9BA0E132C8C8818007C83CC /* Metal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Metal.h; sourceTree = "<group>"; };
@@ -646,15 +688,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E916B27F2CAECFBD00327864 /* Cepheus in Frameworks */,
 				E9BAFE322C5A0FF700B24FDE /* Pictor in Frameworks */,
-				E9BAFE382C5A10A300B24FDE /* Cepheus in Frameworks */,
+				E95A20AF2CBC0E90001B6336 /* RadarKitCore.xcframework in Frameworks */,
 				E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */,
 				E9CB40942CA5BD10004708F1 /* SaltUICore.xcframework in Frameworks */,
+				E916B25C2CAE98E500327864 /* SwiftSoup in Frameworks */,
 				E9BAFE352C5A100D00B24FDE /* Vela in Frameworks */,
 				E93C6EAA2C9DCA5F007F7B7E /* Dynamic in Frameworks */,
 				E2ED59C22C305916007F04AD /* Vela in Frameworks */,
 				E25D1DB92C203C8800C06E19 /* Cepheus in Frameworks */,
 				E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */,
+				E962BDB12CAD9F9800764311 /* SolarTime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +723,7 @@
 		E2A617102C203B5400E5C1D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */,
 				E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */,
 			);
 			name = Frameworks;
@@ -715,12 +761,13 @@
 				E29B83D62BB457FE003F1F24 /* PrivacyInfo.xcprivacy */,
 				E2B2A4F12AE16A4D005E73AB /* Assets.xcassets */,
 				E25EA8322B6C013500BFEC6E /* Localizable.xcstrings */,
+				E91F28BF2CB10AEA00AD88FD /* InfoPlist.strings */,
 				E2B2A4ED2AE16A4C005E73AB /* Project_IrisApp.swift */,
 				E2B2A4EF2AE16A4C005E73AB /* ContentView.swift */,
 				E9639BE12C971AE000B83FF8 /* Core.swift */,
 				E9BA10162C8C9596007C83CC /* Features */,
 				E9BA10152C8C958A007C83CC /* Settings */,
-				E9BA10142C8C9578007C83CC /* Carina */,
+				E916B2632CAE9D5200327864 /* About */,
 				E9BA0E122C8C87C2007C83CC /* WebKit Group */,
 				E2B2A4F32AE16A4D005E73AB /* Preview Content */,
 			);
@@ -750,6 +797,17 @@
 				E2B2A50A2AE16A4D005E73AB /* Project_Iris_Watch_AppUITestsLaunchTests.swift */,
 			);
 			path = "Project Iris Watch AppUITests";
+			sourceTree = "<group>";
+		};
+		E916B2632CAE9D5200327864 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				E25EA8342B6C028200BFEC6E /* AboutView.swift */,
+				E9EBFB8B2C39520C00E16268 /* CreditView.swift */,
+				E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */,
+				E916B2682CAE9E8800327864 /* BulletinView.swift */,
+			);
+			path = About;
 			sourceTree = "<group>";
 		};
 		E9BA0E122C8C87C2007C83CC /* WebKit Group */ = {
@@ -1340,14 +1398,17 @@
 			isa = PBXGroup;
 			children = (
 				E20406C02AE3A62600A740B2 /* SettingsView.swift */,
-				E25EA8342B6C028200BFEC6E /* AboutView.swift */,
-				E9625B972C9D8DEC00604100 /* TroubleshooterView.swift */,
+				E916B2612CAE9D3400327864 /* SettingsBrowseView.swift */,
+				E916B25F2CAE9D1A00327864 /* SettingsSearchView.swift */,
 				E912A3592C5BEA9D004D9038 /* SettingsInterfaceView.swift */,
 				E96A05872C8D74C50018FEB0 /* SettingsInterfaceHomeView.swift */,
 				E96A05852C8D73780018FEB0 /* SettingsInterfaceAdvancedView.swift */,
-				E9EBFB8B2C39520C00E16268 /* CreditView.swift */,
-				E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */,
+				E91F28A62CB0ECC600AD88FD /* SettingsAppearanceView.swift */,
+				E916B2642CAE9DA400327864 /* SettingsPrivacyView.swift */,
+				E916B25D2CAE9D0B00327864 /* SettingsDebugView.swift */,
+				E9625B972C9D8DEC00604100 /* TroubleshooterView.swift */,
 				E9639BE52C972C8500B83FF8 /* VoteView.swift */,
+				E9BA10142C8C9578007C83CC /* Carina */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1355,11 +1416,13 @@
 		E9BA10162C8C9596007C83CC /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				E91C97812CAAD7B1004494A0 /* ArchivesView.swift */,
+				E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */,
 				E9639BE32C971C2F00B83FF8 /* DimmingView.swift */,
+				E91C977F2CAAD7A5004494A0 /* ExtensionsView.swift */,
+				E20406C22AE3A83000A740B2 /* HistoryView.swift */,
 				E20406BE2AE3A0FF00A740B2 /* PasscodeView.swift */,
 				E9BA10172C8C9624007C83CC /* WebpageView.swift */,
-				E20406C22AE3A83000A740B2 /* HistoryView.swift */,
-				E25EA8302B6BEC0B00BFEC6E /* BookmarksView.swift */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -1405,8 +1468,10 @@
 				E94DE8B12C50EA1D00EE5500 /* Pictor */,
 				E9BAFE312C5A0FF700B24FDE /* Pictor */,
 				E9BAFE342C5A100D00B24FDE /* Vela */,
-				E9BAFE372C5A10A300B24FDE /* Cepheus */,
 				E93C6EA92C9DCA5F007F7B7E /* Dynamic */,
+				E962BDB02CAD9F9800764311 /* SolarTime */,
+				E916B25B2CAE98E500327864 /* SwiftSoup */,
+				E916B27E2CAECFBD00327864 /* Cepheus */,
 			);
 			productName = "Project Iris Watch App";
 			productReference = E2B2A4E82AE16A4C005E73AB /* Project Iris Watch App.app */;
@@ -1505,8 +1570,10 @@
 			packageReferences = (
 				E9BAFE302C5A0FF700B24FDE /* XCRemoteSwiftPackageReference "Pictor" */,
 				E9BAFE332C5A100D00B24FDE /* XCRemoteSwiftPackageReference "Vela" */,
-				E9BAFE362C5A10A300B24FDE /* XCRemoteSwiftPackageReference "Cepheus" */,
 				E93C6EA82C9DCA5F007F7B7E /* XCRemoteSwiftPackageReference "Dynamic" */,
+				E962BDAF2CAD9F9800764311 /* XCRemoteSwiftPackageReference "SolarTime" */,
+				E916B25A2CAE98E500327864 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				E916B27D2CAECFBD00327864 /* XCRemoteSwiftPackageReference "Cepheus" */,
 			);
 			productRefGroup = E2B2A4E32AE16A4C005E73AB /* Products */;
 			projectDirPath = "";
@@ -1534,6 +1601,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2B2A4F52AE16A4D005E73AB /* Preview Assets.xcassets in Resources */,
+				E91F28C12CB10AEA00AD88FD /* InfoPlist.strings in Resources */,
 				E25EA8332B6C013500BFEC6E /* Localizable.xcstrings in Resources */,
 				E9F619BD2C4104DD00B754A3 /* unlockTip.wav in Resources */,
 				E29B83D82BB4580B003F1F24 /* PrivacyInfo.xcprivacy in Resources */,
@@ -1565,22 +1633,30 @@
 			files = (
 				E96A05882C8D74CF0018FEB0 /* SettingsInterfaceHomeView.swift in Sources */,
 				E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */,
+				E916B25E2CAE9D1000327864 /* SettingsDebugView.swift in Sources */,
+				E916B2692CAE9E8D00327864 /* BulletinView.swift in Sources */,
 				E9BA10182C8C9624007C83CC /* WebpageView.swift in Sources */,
+				E916B2652CAE9DAB00327864 /* SettingsPrivacyView.swift in Sources */,
 				E912A35A2C5BEA9D004D9038 /* SettingsInterfaceView.swift in Sources */,
 				E96A05862C8D73830018FEB0 /* SettingsInterfaceAdvancedView.swift in Sources */,
 				E9EBFB8C2C39520C00E16268 /* CreditView.swift in Sources */,
+				E91F28A72CB0ECC600AD88FD /* SettingsAppearanceView.swift in Sources */,
 				E9625B982C9D8E6700604100 /* TroubleshooterView.swift in Sources */,
+				E91C97822CAAD7B1004494A0 /* ArchivesView.swift in Sources */,
 				E2B2A4F02AE16A4C005E73AB /* ContentView.swift in Sources */,
 				E25EA8352B6C028200BFEC6E /* AboutView.swift in Sources */,
+				E916B2622CAE9D3A00327864 /* SettingsBrowseView.swift in Sources */,
 				E9639BE62C972C8500B83FF8 /* VoteView.swift in Sources */,
 				E20406C12AE3A62600A740B2 /* SettingsView.swift in Sources */,
 				E9639BE42C971C3200B83FF8 /* DimmingView.swift in Sources */,
 				E20406BF2AE3A0FF00A740B2 /* PasscodeView.swift in Sources */,
 				E25EA83D2B713FF700BFEC6E /* CarinaView.swift in Sources */,
+				E91C97802CAAD7A5004494A0 /* ExtensionsView.swift in Sources */,
 				E20406C32AE3A83000A740B2 /* HistoryView.swift in Sources */,
 				E25EA8312B6BEC0B00BFEC6E /* BookmarksView.swift in Sources */,
 				E9639BE22C971AE200B83FF8 /* Core.swift in Sources */,
 				E25EA8412B72013100BFEC6E /* CarinaDetailView.swift in Sources */,
+				E916B2602CAE9D1E00327864 /* SettingsSearchView.swift in Sources */,
 				E2B2A4EE2AE16A4C005E73AB /* Project_IrisApp.swift in Sources */,
 				E25EA83F2B71423A00BFEC6E /* CarinaNewView.swift in Sources */,
 			);
@@ -1622,6 +1698,35 @@
 			targetProxy = E2B2A5052AE16A4D005E73AB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E91F28BF2CB10AEA00AD88FD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E91F28C02CB10AEA00AD88FD /* en */,
+				E97168D52CB1AC2500D5A5A9 /* zh-Hans */,
+				E95A20B12CBC1707001B6336 /* ar */,
+				E95A20B22CBC1709001B6336 /* zh-Hant */,
+				E95A20B32CBC170C001B6336 /* nl */,
+				E95A20B42CBC170D001B6336 /* de */,
+				E95A20B52CBC170E001B6336 /* fr */,
+				E95A20B62CBC170E001B6336 /* hi */,
+				E95A20B72CBC170F001B6336 /* pl */,
+				E95A20B82CBC170F001B6336 /* ru */,
+				E95A20B92CBC170F001B6336 /* th */,
+				E95A20BA2CBC1710001B6336 /* vi */,
+				E95A20BB2CBC1710001B6336 /* uk */,
+				E95A20BC2CBC1711001B6336 /* tr */,
+				E95A20BD2CBC1712001B6336 /* es */,
+				E95A20BE2CBC1713001B6336 /* ko */,
+				E95A20BF2CBC1715001B6336 /* ja */,
+				E95A20C02CBC1716001B6336 /* it */,
+				E95A20C12CBC1716001B6336 /* id */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E2B2A50C2AE16A4D005E73AB /* Debug */ = {
@@ -1752,20 +1857,21 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Project Iris Watch App/Project Iris Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Project-Iris-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = Privacy.location.usage;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1788,20 +1894,21 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Project Iris Watch App/Project Iris Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Project Iris Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Project-Iris-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = Privacy.location.usage;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1820,11 +1927,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1836,11 +1943,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1980,12 +2087,36 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E916B25A2CAE98E500327864 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.7.5;
+			};
+		};
+		E916B27D2CAECFBD00327864 /* XCRemoteSwiftPackageReference "Cepheus" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Serene-Garden/Cepheus";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		E93C6EA82C9DCA5F007F7B7E /* XCRemoteSwiftPackageReference "Dynamic" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mhdhejazi/Dynamic";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 1.2.0;
+			};
+		};
+		E962BDAF2CAD9F9800764311 /* XCRemoteSwiftPackageReference "SolarTime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tgymnich/SolarTime";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.0.2;
 			};
 		};
 		E9BAFE302C5A0FF700B24FDE /* XCRemoteSwiftPackageReference "Pictor" */ = {
@@ -2004,14 +2135,6 @@
 				kind = branch;
 			};
 		};
-		E9BAFE362C5A10A300B24FDE /* XCRemoteSwiftPackageReference "Cepheus" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Serene-Garden/Cepheus";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2023,6 +2146,16 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Vela;
 		};
+		E916B25B2CAE98E500327864 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E916B25A2CAE98E500327864 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		E916B27E2CAECFBD00327864 /* Cepheus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E916B27D2CAECFBD00327864 /* XCRemoteSwiftPackageReference "Cepheus" */;
+			productName = Cepheus;
+		};
 		E93C6EA92C9DCA5F007F7B7E /* Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E93C6EA82C9DCA5F007F7B7E /* XCRemoteSwiftPackageReference "Dynamic" */;
@@ -2031,6 +2164,11 @@
 		E94DE8B12C50EA1D00EE5500 /* Pictor */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Pictor;
+		};
+		E962BDB02CAD9F9800764311 /* SolarTime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E962BDAF2CAD9F9800764311 /* XCRemoteSwiftPackageReference "SolarTime" */;
+			productName = SolarTime;
 		};
 		E9BAFE312C5A0FF700B24FDE /* Pictor */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2041,11 +2179,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E9BAFE332C5A100D00B24FDE /* XCRemoteSwiftPackageReference "Vela" */;
 			productName = Vela;
-		};
-		E9BAFE372C5A10A300B24FDE /* Cepheus */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9BAFE362C5A10A300B24FDE /* XCRemoteSwiftPackageReference "Cepheus" */;
-			productName = Cepheus;
 		};
 		E9CE39E82C312B2F00C773A3 /* Cepheus */ = {
 			isa = XCSwiftPackageProductDependency;
