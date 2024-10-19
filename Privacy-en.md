@@ -1,46 +1,72 @@
 # Privacy Policy
-Thank you for choosing and using Iris (Project Iris App). In Serene Garden, we believe that privacy is a basic human right, everyone should have thier rights to know and manage their own datas. We respect users' right of privacy, Iris will not collect unnecessary information, or collect informations when you don't know.
+Thank you for choosing and using Iris (Project Iris App). In Serene Garden, we believe that privacy is a basic human right, everyone should have their rights to know and manage their own datas. We respect users' right of privacy, Iris will not collect unnecessary information, or collect informations when you don't know.
+
+About informations relating to data sending, see "Carina and Data Sending"
 
 If there is any differences between Privacy Policy's different languages, please follow Simplified Chinese version.
 
-## History & Bookmarks
-History and bookmarks will be stored locally. Datas will not be used to analyze user preferences, or to be sent without permission (except latest 3 history recording).
+## Bookmarks & History
+Bookmarks and History will be collected and stored locally. Use Private Mode to pause history recording.
 
 ## Settings
-All settings are stored locally. When sending a feedback, your Settings Values will be packed and be sent when you know, which can help us diagnose the issue. This data does not contains passcode, and can be toggled off manually. Except Feedback, all your settings will not be sent.
+All settings values are stored locally.
 
 ## Statistics
-If you agrees, access action may be recorded when you access some specific pages or vote. The record only contains what page you've accessed or your vote, and the time of your action. No other datas will be sent. These datas will be sent to Darock server and store there in order to count.
+When you agree, your action may be recorded when you access specific pages or join votings. The recorded data will only contains the current time, the accessing page (or voting details). no other details will be sent. This data will be sent to Darock Server and stored there, in order to count.
 
-The only usage for statistics is to learn our overall-user preferences. The data is not linked to your identity, which means they are anonymous and we are unable to infer or track your identify by the datas.
+The only purpose for statistics is to learn user's preferences. This data is not linked to your identity. Which means statistics are fully anonymous and we cannot infer or track your identity from it.
 
-The statistics will not be sent to any third-party other than Darock and Serene Garden, and will not be used to create user image or advertise.
+All statistic datas will not be sent to third parties other than Serene Garden and Darock, and will not be used to create user image or advertising.
 
-Darock had agreed to not use statistic datas to do anything other than analyze overall-user preferences.
+Darock had promised not to use statistic datas for other reasons other than learning user preferences.
 
-As you agree, statistics data will be allowed to collect by default. You can disable it manually in Settings.
+As you agree, collecting statistics are be allowed by default. You can toggle it off manually in Settings. All your data will not be used to create user image or advertising.
 
-## Webpages
-Iris will not read your current-accessing webpage without your permission.
+## Webpage Content
+Iris will not access your accessing webpage content before you allowed.
 
-Iris is not responsible for contents on the internet and your actions on internet.
+Iris is not responsible for the content on the Internet or the actions you do on the Internet.
 
-## Carina Feedback
-When sending new Carina feedback, your system version, Iris version, feedback title, feedback content, feedback type, issue place, stored informations and currec time will be send.
+## Carina and Data Sending
+Your App-related data will be send together when creating new Carina feedback. Your Iris version and system version will be sent with content together when you reply a feedback.
 
-When replying feedback, your iris version and system version will be send with the reply message together.
+All feedback content will not be linked to your identity. But your IP address may be recorded due to security reasons.
 
-All informations in feedback is not linked to your identity.
+Feedback datas will be sent and stored at Darock Server, also won't be sent to third parties other than Serene Garden and Darock, and will not be used to create user image or advertising.
 
-Feedback informations will be send to Darock server and be stored there. They will not be shared to any third-party other than Darock and Serene Garden, or use them to create user image or advertise.
+Attaching may help us diagnose. 3 webpages that you've viewed recently may be added by default, and you may remove them at any time. Your history, bookmarks, contents of archives, extension codes, location, appearence changing time, and passcode won't appear in Settings Values. Your archive list (title, URL, last update date), extensions list and votings info may include in Settings Values. We won't discriminate according to your Settings Values. (We never discriminate.)
 
-Your app version and time will be sent as well as you reply to a feedback.
+Your geographical location and passcode will never be sent, no matter how.
 
-When reporting, attachments like Settings Values are able to be attached to the feedback. Attachments can help as analyze and diagnose issue, and will not be used for other usage. Your bookmarks, history and passcode won't be in Settings Values. Bookmarks and History could be sent as you permits.
+Your stored datas (homepage, bookmarks, history, archive, extensions, etc.) will never be read by us remotely.
 
-For better diagnosis efficiency, your lastet 3 history recordings may be send by default. You can delete it at anytime.
+## Votings
+You might see votings sometimes. Votings is a major reference for Iris future updates.
 
-## Vote
-Sometimes you may notice that a vote button appears in Settings. Voting is a very important conference for Iris' future updates.
+Votings does not contains any extra informations and is totally anonymous. No one may know the sender of any vote.
 
-Your vote will not be sent with any other informations, which means it is totally anonymous. Any vote is not tracable to the voter.
+Voting results may not be used, but we still see votings as a very important reference.
+
+## Archive
+Webpage will be downloaded and saved to your device when archiving. Title, URL and last update time will be saved also.
+
+## Extensions
+Extensions datas are from greasyfork.org. Extensions are essentially Javascript that runs when it mets webpages that meet the conditions.
+
+Iris will fetch web contents from greasyfork.org and renders UI (including simple calculations), allowing you to save and run them locally.
+
+Iris will not intentionally edit contents. Iris is not responsible for the datas on this website, and the website is not responsible for Iris. Malicious scripts may steal your web data, you need to take responsibility for the risks brought by the script. Not all extensions run well on watchOS.
+
+## Appearance
+Appearance will affect how Iris displays. It has Light Mode and Dark Mode.
+
+Appearance can be changed in specific period, or switched automatically according to sunrise and sunset time.
+
+Sunrise and sunset time are based on your location. Location information is a highly-sensitive data, and we attach great importance to your privacy. When using this feature, we need to get your approximate location. Your location will be randomly shifted 1-20 kilometers by watchOS in order to protect your privacy. We cannot get your accurate location.
+
+Your location information will never be stored locally or be send to others. Only your latitude, longitude and altitude informations will be used. Iris will do geometrical calculations locally, getting your today's sunrise and sunset time. There may be a deviation of about 2 minutes between sunrise and sunset.
+
+## Bulletin
+Bulletin is a way we tell you informations about Iris. Each fetched bulletin will be stored locally in order to check if the bulletin had updated.
+
+You had read the latest bulletin or not will be stored locally, only for mentioning purpose. We do not know how many people had read the bulletin.
