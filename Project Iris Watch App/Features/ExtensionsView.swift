@@ -141,7 +141,7 @@ struct ExtensionsAddView: View {
           TextField("Extension.add.search-field", text: $searchField)
             .onSubmit {
               isSearching = true
-              getGreasyforkSearchContent(searchField, lang: appLanguage, completion: { list in
+              getGreasyforkSearchContent(searchField, lang: getGreasyforkLanguageCode(appLanguage), completion: { list in
                 searchResults = list
                 isSearching = false
               })
@@ -200,26 +200,7 @@ struct ExtensionsAddView: View {
       .navigationTitle("Extension.add")
     }
   }
-  func getGreasyforkLanguageCode(_ appLang: String) -> String {
-    var langCache = ""
-    if appLang.isEmpty {
-      langCache = (languageCode?.identifier) ?? "en"
-    } else {
-      langCache = appLang
-    }
-    if langCache.hasPrefix("zh") {
-      if langCache == "zh" {
-        langCache.append("-")
-        langCache.append((Locale.current.language.script?.identifier) ?? "CN")
-      }
-      if langCache == "zh-Hans" {
-        langCache = "zh-CN"
-      } else if langCache == "zh-Hant" {
-        langCache = "zh-TW"
-      }
-    }
-    return langCache
-  }
+  
 }
 
 struct ExtensionsDetailsView: View {
@@ -366,7 +347,7 @@ struct ExtensionsDetailsView: View {
       extensionIIDs = (UserDefaults.standard.array(forKey: "ExtensionIIDs") ?? []) as! [Int]
       extensionTitles = (UserDefaults.standard.dictionary(forKey: "ExtensionTitles") ?? [:]) as! [String: String]
       extensionGIDs = (UserDefaults.standard.dictionary(forKey: "ExtensionGIDs") ?? [:]) as! [String: String]
-      getGreasyforkInfoByGID(gid, lang: appLanguage, completion: { info in
+      getGreasyforkInfoByGID(gid, lang: getGreasyforkLanguageCode(appLanguage), completion: { info in
         infos = info
       })
       extensionIsInstalled = false
@@ -451,6 +432,27 @@ struct ExtensionsDetailsView: View {
       }
     })
   }
+}
+
+func getGreasyforkLanguageCode(_ appLang: String) -> String {
+  var langCache = ""
+  if appLang.isEmpty {
+    langCache = (languageCode?.identifier) ?? "en"
+  } else {
+    langCache = appLang
+  }
+  if langCache.hasPrefix("zh") {
+    if langCache == "zh" {
+      langCache.append("-")
+      langCache.append((Locale.current.language.script?.identifier) ?? "CN")
+    }
+    if langCache == "zh-Hans" {
+      langCache = "zh-CN"
+    } else if langCache == "zh-Hant" {
+      langCache = "zh-TW"
+    }
+  }
+  return langCache
 }
 
 func getGreasyforkSearchContent(_ content: String, lang: String = "en", completion: @escaping ([ExtensionInfo]) -> Void) {
