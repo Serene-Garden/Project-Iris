@@ -120,16 +120,17 @@ struct SettingsView: View {
               }
             })
           }
-          if #available(watchOS 10, *) {
-            NavigationLink(destination: VoteView(), label: {
-              HStack {
-                Label("Settings.vote", systemImage: "chevron.up.chevron.down")
-                Spacer()
-                Image(systemName: "chevron.forward")
-                  .foregroundStyle(.secondary)
-              }
-            })
-          }
+//          if #available(watchOS 10, *) {
+//            NavigationLink(destination: VoteView(), label: {
+//              HStack {
+//                Label("Settings.vote", systemImage: "chevron.up.chevron.down")
+//                Spacer()
+//                Image(systemName: "chevron.forward")
+//                  .foregroundStyle(.secondary)
+//              }
+//            })
+//            .hidden()
+//          }
           if debug {
             NavigationLink(destination: DebugView(), label: {
               HStack {

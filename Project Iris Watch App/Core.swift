@@ -250,6 +250,20 @@ func getSettingsForAppdiagnose(dataProcessor: (inout [String: Any]) -> Void = { 
   return nil
 }
 
+func getStorageDictionary() -> [String: Any]? {
+  let prefPath = NSHomeDirectory() + "/Library/Preferences/\(Bundle.main.infoDictionary?["CFBundleIdentifier"] as! String).plist"
+  if let plistData = FileManager.default.contents(atPath: prefPath) {
+    do {
+      if var plistObject = try PropertyListSerialization.propertyList(from: plistData, options: [], format: nil) as? [String: Any] {
+        return plistObject
+      }
+    } catch {
+      print(error)
+    }
+  }
+  return nil
+}
+
 extension String {
   func urlEncoded() -> String {
     let encodeUrlString = self.addingPercentEncoding(withAllowedCharacters:
@@ -269,6 +283,20 @@ extension String {
     if let topLevel = getTopLevel(from: self), topLevelDomainList.contains(topLevel.uppercased().replacingOccurrences(of: " ", with: "")) {
       return true
     } else if self.hasPrefix("http://") || self.hasPrefix("https://") {
+      return true
+    } else if self.components(separatedBy: ".").count == 4 {
+      var components = self.components(separatedBy: ".")
+      if components[3].components(separatedBy: ":").count == 2 {
+        if (Int(components[3].components(separatedBy: ":")[1]) ?? 999) > 65535 {
+          return false
+        }
+        components[3] = components[3].components(separatedBy: ":")[0]
+      }
+      for i in 0...3 {
+        if (Int(components[i]) ?? 266) > 255 {
+          return false
+        }
+      }
       return true
     } else {
       return false

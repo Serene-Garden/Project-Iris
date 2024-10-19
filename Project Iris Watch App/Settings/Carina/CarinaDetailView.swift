@@ -266,6 +266,11 @@ struct CarinaRepliesView: View {
                             repliesExpanding[replyIndex]!.toggle()
                           }
                         }
+                        .onAppear {
+                          for index in 0..<replies.count {
+                            repliesExpanding.updateValue(true, forKey: index)
+                          }
+                        }
                     }
                 }
                 .font(.caption)
@@ -387,7 +392,7 @@ struct CarinaSendReplyView: View {
                       listShouldUpdate = true
                     }
                   }, label: {
-                    Image(systemName: "paperplane")
+                    Label("Carina.reply.send", systemImage: "paperplane")
                   })
                   .disabled(replyContent.isEmpty && countAttachmentNumbers(attachedLinks: attachedLinks, sendDeviceInfos, sendRegionInfos, sendHistoryFiles, sendBookmarkFiles, sendSettingsValues) == 0)
                 }
@@ -405,6 +410,7 @@ struct CarinaSendReplyView: View {
               Text("Carina.reply.send.sign.\("Iris " + currentIrisVersion)")
             })
           }
+          .navigationTitle("Carina.reply.send")
           .toolbar {
             if #available(watchOS 10, *) {
               ToolbarItem(placement: .topBarTrailing, content: {
@@ -441,7 +447,6 @@ struct CarinaSendReplyView: View {
         ProgressView()
       }
     }
-    .navigationTitle("Carina.reply")
     .onAppear {
       isReady = false
       Task {

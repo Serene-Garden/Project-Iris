@@ -19,6 +19,7 @@
 
 import SwiftUI
 import UIKit
+import RadarKitCore
 
 public let languageCode = Locale.current.language.languageCode
 public let countryCode = Locale.current.region!.identifier
@@ -55,47 +56,158 @@ struct Project_Iris_Watch_AppApp: App {
   @AppStorage("appFont") var appFont = 0
   @AppStorage("appLanguage") var appLanguage = ""
   @AppStorage("statsCollectionIsAllowed") var statsCollectionIsAllowed = true
+  @AppStorage("irisStartedUpSuccessfully") var irisStartedUpSuccessfully = true
   @State var shouldWebpageDisplays = false
+  @State var mainIrisIsDisplaying = false
+  @State var crashErrorViewShouldDisplay = false
+  @State var irisStartedUpLastTime = true
   let currentLocale = Locale.current
   let globalFont: [Font.Design?] = [nil, .rounded, .serif]
   var body: some Scene {
     WindowGroup {
-      Group {
-        ZStack {
-          if #available(watchOS 10, *) {
-            MainView()
-              .typesettingLanguage(appLanguage.isEmpty ? currentLocale.language : .init(identifier: appLanguage), isEnabled: !appLanguage.isEmpty)
-          } else {
-            MainView()
+      if mainIrisIsDisplaying {
+        Group {
+          ZStack {
+            if #available(watchOS 10, *) {
+              MainView()
+                .typesettingLanguage(appLanguage.isEmpty ? currentLocale.language : .init(identifier: appLanguage), isEnabled: !appLanguage.isEmpty)
+            } else {
+              MainView()
+            }
+            DimmingView(isGlobal: true)
           }
-          DimmingView(isGlobal: true)
+        }
+        //      .sheet
+        .sheet(isPresented: $shouldWebpageDisplays, content: {
+          SwiftWebView(webView: webpageContent)
+        })
+        .onAppear {
+          if statsCollectionIsAllowed {
+            fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_login/\(Date.now.timeIntervalSince1970)") { result in}
+          }
+          Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
+            shouldWebpageDisplays = webpageIsDisplaying
+          }
+        }
+        .fontDesign(globalFont[appFont])
+        //      .brightness(-0.1)
+      } else {
+        if crashErrorViewShouldDisplay {
+          CrashView(showIris: $mainIrisIsDisplaying)
+        } else {
+          ProgressView()
+            .onAppear {
+              irisStartedUpLastTime = irisStartedUpSuccessfully
+              irisStartedUpSuccessfully = false
+              if irisStartedUpLastTime {
+                mainIrisIsDisplaying = true
+              } else {
+                crashErrorViewShouldDisplay = true
+              }
+            }
         }
       }
-//      .sheet
-      .sheet(isPresented: $shouldWebpageDisplays, content: {
-        SwiftWebView(webView: webpageContent)
-      })
-      .onAppear {
-        if statsCollectionIsAllowed {
-          fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_login/\(Date.now.timeIntervalSince1970)") { result in}
-        }
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { _ in
-          shouldWebpageDisplays = webpageIsDisplaying
-        }
-      }
-      .fontDesign(globalFont[appFont])
-//      .brightness(-0.1)
     }
     .environment(\.locale, appLanguage.isEmpty ? currentLocale : .init(identifier: appLanguage))
 //    .environment(\.locale, .init(identifier: appLanguage.isEmpty ? "\(languageCode!)-\(languageScript ?? "")" : appLanguage))
   }
 }
 
-/*
- if isReduceBrightness {
-     
- }
- */
+struct CrashView: View {
+  @Binding var showIris: Bool
+  @AppStorage("lastCrashReportTime") var lastCrashReportTime = ""
+  @State var lastCrashReportDate: Date = Date.now
+  @State var timeInterval = 0.0
+  @State var reportSending = false
+  @State var reportSentSucceed = false
+  @State var reportSentFailed = false
+  var dateFormatter = DateFormatter()
+  var projectManager = RKCFeedbackManager(projectName: "Project Iris")
+  var body: some View {
+    NavigationStack {
+      List {
+        Text("Crash.title")
+          .bold()
+        Text("Crash.content")
+        NavigationLink(destination: {
+          StorageDataView()
+        }, label: {
+          HStack {
+            Label("Crash.check-storage", systemImage: "externaldrive")
+            Spacer()
+            Image(systemName: "chevron.forward")
+              .foregroundStyle(.secondary)
+          }
+        })
+        Button(action: {
+          Task {
+            do {
+              var replyData: NewFeedbackData = try .init(title: "[Iris]IrisCrash", content: "", sender: "Iris Crash Reporter \(currentIrisVersion)", additionalData: .rawString("""
+OS：\(systemVersion)
+Version：\(currentIrisVersion)
+\(generateAttachmentDatas(sendDeviceInfos: true, sendSettingsValues: true, sendRegionInfos: true, sendBookmarkFiles: true, sendHistoryFiles: true, attachedLinks: []))
+"""))
+              await reportSentSucceed = (projectManager.newFeedback(replyData) != nil)
+              if reportSentSucceed {
+                lastCrashReportTime = dateFormatter.string(from: Date.now)
+              } else {
+                reportSentFailed = true
+              }
+            } catch {
+              print(error)
+            }
+          }
+        }, label: {
+          if reportSentSucceed {
+            HStack {
+              Label("Crash.report.succeed", systemImage: "exclamationmark.bubble")
+              Spacer()
+              Image(systemName: "checkmark")
+                .foregroundStyle(.secondary)
+            }
+          } else if reportSentFailed {
+            HStack {
+              Label("Crash.report.failed", systemImage: "exclamationmark.bubble")
+              Spacer()
+              if reportSending {
+                ProgressView()
+                  .frame(width: 25)
+              }
+            }
+          } else if timeInterval <= 300 {
+            HStack {
+              Label("Crash.report.too-quick", systemImage: "exclamationmark.bubble")
+              Spacer()
+            }
+          } else {
+            HStack {
+              Label("Crash.report", systemImage: "exclamationmark.bubble")
+              Spacer()
+              if reportSending {
+                ProgressView()
+                  .frame(width: 25)
+              }
+            }
+          }
+        })
+        .disabled(reportSentSucceed || reportSending || timeInterval <= 300)
+        Button(action: {
+          showIris = true
+        }, label: {
+          HStack {
+            Label("Crash.restart", systemImage: "restart")
+            Spacer()
+          }
+        })
+      }
+      .onAppear {
+        lastCrashReportDate = dateFormatter.date(from: lastCrashReportTime) ?? Date()
+        timeInterval = Date.now.timeIntervalSince(lastCrashReportDate)
+      }
+      .navigationTitle("Crash")
+    }
+  }
+}
 
 struct MainView: View {
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
@@ -119,11 +231,11 @@ struct MainView: View {
       ZStack {
         if #available(watchOS 10.0, *) {
           ContentView()
-            .privacySensitive(isPrivateModeOn)
+//            .privacySensitive(isPrivateModeOn)
             .containerBackground(tintColor.gradient, for: .navigation)
         } else {
           ContentView()
-            .privacySensitive(isPrivateModeOn)
+//            .privacySensitive(isPrivateModeOn)
         }
         VStack {
           Spacer()

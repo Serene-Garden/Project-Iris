@@ -21,6 +21,7 @@ struct HomeView: View {
   @Binding var isPrivateModeOn: Bool
   @Binding var searchField: String
   @State var homeList: [Any] = defaultHomeList
+  @AppStorage("irisStartedUpSuccessfully") var irisStartedUpSuccessfully = true
   @State var homeListValues: [Any] = ["nil"]
   @State var homeListParsed: [[String]] = [/*["search-field", "search-button"], ["bookmarks"], ["history", "settings", "carina"]*/]
   @State var homeListValuesParsed: [[String]] = []
@@ -37,6 +38,7 @@ struct HomeView: View {
       }
     }
     .onAppear {
+      irisStartedUpSuccessfully = true
       if (UserDefaults.standard.array(forKey: "homeList") ?? []).isEmpty {
         UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
         UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
@@ -112,8 +114,6 @@ struct ContentView: View {
   @AppStorage("passcode2") var passcode2 = 0
   @AppStorage("passcode3") var passcode3 = 0
   @AppStorage("passcode4") var passcode4 = 0
-  @State var iris3point1expected = false
-  @State var iris3point1homeupdate = false
   var body: some View {
     NavigationStack {
       if #available(watchOS 10.0, *) {
@@ -180,9 +180,6 @@ struct ContentView: View {
         userLatestVersion = currentIrisVersion
         isUpdateSheetDisplayed = true
       }
-      if currentIrisVersion.hasPrefix("3.1") && !(UserDefaults.standard.bool(forKey: "Iris3.1HomeUpdated")) {
-        iris3point1expected = true
-      }
     }
     .onAppear {
       //Legacy Passcode Handling Program
@@ -197,47 +194,6 @@ struct ContentView: View {
     }
     .sheet(isPresented: $isUpdateSheetDisplayed, content: {
       NewFearturesView()
-        .onDisappear {
-          if iris3point1expected {
-            iris3point1homeupdate = true
-          }
-        }
-    })
-    .alert("Update.title", isPresented: $iris3point1homeupdate, actions: {
-      Button(action: {
-        UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
-        UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
-        UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
-      }, label: {
-        Text("Update.update")
-      })
-      Button(role: .cancel, action: {
-        UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
-      }, label: {
-        Text("Update.cancel")
-      })
-    }, message: {
-      Text("Update.content")
-    })
-    .sheet(isPresented: $iris3point1homeupdate, content: {
-      ScrollView {
-        Text("Update.title")
-          .bold()
-        Text("Update.content")
-//          .font(.caption)
-        DismissButton(action: {
-          UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
-          UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
-          UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
-        }, label: {
-          Text("Update.update")
-        })
-        DismissButton(action: {
-          UserDefaults.standard.set(true, forKey: "Iris3.1HomeUpdated")
-        }, label: {
-          Text("Update.cancel")
-        })
-      }
     })
   }
 }
@@ -258,6 +214,7 @@ struct HomeElementRenderder: View {
       }
     } else if element == "search-field" {
       HomeSearchFieldElement(searchField: $searchField)
+        .privacySensitive(isPrivateModeOn)
     } else if element == "search-button" {
       HomeSearchButtonElement(isPrivateModeOn: $isPrivateModeOn, searchField: $searchField, isInList: isInList)
     } else if element == "bookmarks" {
@@ -292,7 +249,8 @@ struct HomeSearchFieldElement: View {
 struct HomeSearchButtonElement: View {
   @AppStorage("isCookiesAllowed") var isCookiesAllowed = false
   @AppStorage("currentEngine") var currentEngine = 0
-  @AppStorage("leftSwipeSearchButton") var leftSwipeSearchButton = 0
+  @AppStorage("secondaryEngine") var secondaryEngine = 1
+  @AppStorage("leftSwipeSearchButton") var leftSwipeSearchButton = 4
   @AppStorage("rightSwipeSearchButton") var rightSwipeSearchButton = 3
   @Binding var isPrivateModeOn: Bool
   @Binding var searchField: String
@@ -341,6 +299,12 @@ struct HomeSearchButtonElement: View {
         }, label: {
           Image(systemName: "ellipsis")
         })
+      }  else if leftSwipeSearchButton == 4 {
+        Button(action: {
+          searchButtonAction(isPrivateModeOn: isPrivateModeOn, searchField: searchField, isCookiesAllowed: isCookiesAllowed, searchEngine: engineLinks[secondaryEngine], isURL: false)
+        }, label: {
+          Image(systemName: "option")
+        })
       }
     })
     .swipeActions(edge: .trailing, content: {
@@ -364,6 +328,12 @@ struct HomeSearchButtonElement: View {
         }, label: {
           Image(systemName: "ellipsis")
         })
+      } else if rightSwipeSearchButton == 4 {
+        Button(action: {
+          searchButtonAction(isPrivateModeOn: isPrivateModeOn, searchField: searchField, isCookiesAllowed: isCookiesAllowed, searchEngine: engineLinks[secondaryEngine], isURL: false)
+        }, label: {
+          Image(systemName: "option")
+        })
       }
     })
     .sheet(isPresented: $configPageIsDisplaying, content: {
@@ -385,7 +355,7 @@ struct HomeSearchButtonElement: View {
             Text("Home.config.legacy-engine")
           })
           
-          Button(action: {
+          DismissButton(action: {
             searchButtonAction(isPrivateModeOn: temporaryPrivateMode, searchField: searchField, isCookiesAllowed: isCookiesAllowed, searchEngine: engineLinks[temporarySearchEngine], isURL: temporaryUseSearch ? false : nil, useLegacyEngine: temporaryUseLegacyEngine)
           }, label: {
             Label("Home.config.open", systemImage: "arrow.up.right.circle")

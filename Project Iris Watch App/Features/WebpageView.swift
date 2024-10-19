@@ -89,22 +89,6 @@ struct SwiftWebView: View {
 //        .foregroundColor(toolbarColor)
       DimmingView()
     }
-    .onChange(of: currentLinkCache, perform: { value in
-      if _fastPath(delayedHistoryRecording) {
-        if _slowPath(currentLinkCache != "\(webView.url!)") {
-          currentLinkCache = "\(webView.url!)"
-          Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
-            if _fastPath(webView.url != nil) {
-              if "\(webView.url!)" == currentLinkCache {
-                recordHistory("\(webView.url!)")
-              }
-            }
-          }
-        }
-      } else {
-        recordHistory("\(webView.url!)")
-      }
-    })
     .onReceive(webView.publisher(for: \.estimatedProgress), perform: { _ in
       estimatedProgress = webView.estimatedProgress
     })
@@ -113,6 +97,22 @@ struct SwiftWebView: View {
         currentLinkCache = "\(webView.url!)"
         runningScripts = 0
         excuteExtensions()
+        
+        if _fastPath(delayedHistoryRecording) { //Delayed History-Recording
+          if _fastPath(webView.url?.absoluteString != nil) { //If link isn't `nil`
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in //Wait 2s
+              if _fastPath(webView.url != nil) { //If link isn't `nil`
+                if webView.url?.absoluteString == currentLinkCache { //If webLink's the same
+                    recordHistory(webView.url!.absoluteString) //Record
+                }
+              }
+            }
+          }
+        } else { //Immediate history-recording
+          if webView.url?.absoluteString != nil { //If link isn't `nil`
+            recordHistory(webView.url!.absoluteString) //Record
+          }
+        }
       }
     })
     ._statusBarHidden(hideDigitalTime)
@@ -520,7 +520,6 @@ struct SwiftWebView: View {
       webView.allowsBackForwardNavigationGestures = useNavigationGestures
       desktopWebsiteIsRequested = requestDesktopWebsiteAsDefault
       webView.customUserAgent = desktopWebsiteIsRequested ? desktopUserAgent : mobileUserAgent
-//      if shouldDimScreen(globalCaller:dimmingAtSpecificPeriod: <#T##Bool#>)
       if shouldDimScreen(globalDimming: true, isGlobalCaller: true, dimmingAtSpecificPeriod: dimmingAtSpecificPeriod, lightMode: appearanceSchedule == 0) {
         webView.underPageBackgroundColor = .black
       }

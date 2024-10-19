@@ -41,6 +41,7 @@
 		E91F28A72CB0ECC600AD88FD /* SettingsAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91F28A62CB0ECC600AD88FD /* SettingsAppearanceView.swift */; };
 		E91F28C12CB10AEA00AD88FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E91F28BF2CB10AEA00AD88FD /* InfoPlist.strings */; };
 		E93C6EAA2C9DCA5F007F7B7E /* Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E93C6EA92C9DCA5F007F7B7E /* Dynamic */; };
+		E9450E752CC36F8700CEB35E /* StorageDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9450E742CC36F6400CEB35E /* StorageDataView.swift */; };
 		E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E94DE8B12C50EA1D00EE5500 /* Pictor */; };
 		E95A20AF2CBC0E90001B6336 /* RadarKitCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */; };
 		E95A20B02CBC0E90001B6336 /* RadarKitCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -146,6 +147,7 @@
 		E91C97812CAAD7B1004494A0 /* ArchivesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivesView.swift; sourceTree = "<group>"; };
 		E91F28A62CB0ECC600AD88FD /* SettingsAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAppearanceView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		E91F28C02CB10AEA00AD88FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E9450E742CC36F6400CEB35E /* StorageDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDataView.swift; sourceTree = "<group>"; };
 		E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RadarKitCore.xcframework; sourceTree = "<group>"; };
 		E95A20B12CBC1707001B6336 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E95A20B22CBC1709001B6336 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -1390,6 +1392,7 @@
 				E25EA83C2B713FF700BFEC6E /* CarinaView.swift */,
 				E25EA83E2B71423A00BFEC6E /* CarinaNewView.swift */,
 				E25EA8402B72013100BFEC6E /* CarinaDetailView.swift */,
+				E9450E742CC36F6400CEB35E /* StorageDataView.swift */,
 			);
 			path = Carina;
 			sourceTree = "<group>";
@@ -1634,6 +1637,7 @@
 				E96A05882C8D74CF0018FEB0 /* SettingsInterfaceHomeView.swift in Sources */,
 				E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */,
 				E916B25E2CAE9D1000327864 /* SettingsDebugView.swift in Sources */,
+				E9450E752CC36F8700CEB35E /* StorageDataView.swift in Sources */,
 				E916B2692CAE9E8D00327864 /* BulletinView.swift in Sources */,
 				E9BA10182C8C9624007C83CC /* WebpageView.swift in Sources */,
 				E916B2652CAE9DAB00327864 /* SettingsPrivacyView.swift in Sources */,
@@ -1871,7 +1875,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1908,7 +1912,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1931,7 +1935,7 @@
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1947,7 +1951,7 @@
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

@@ -27,7 +27,7 @@ struct SettingsInterfaceView: View {
 //  @AppStorage("homeToolbarMonogramFontIsCapitalized") var homeToolbarMonogramFontIsCapitalized = true
 //  @AppStorage("homeToolbarMonogramFontDesign") var homeToolbarMonogramFontDesign = 1
   @AppStorage("homeToolbarBottomBlur") var homeToolbarBottomBlur = 0
-  @AppStorage("leftSwipeSearchButton") var leftSwipeSearchButton = 0
+  @AppStorage("leftSwipeSearchButton") var leftSwipeSearchButton = 4
   @AppStorage("rightSwipeSearchButton") var rightSwipeSearchButton = 3
 //  @AppStorage("appFont") var appFont = 0
 //  @AppStorage("appLanguage") var appLanguage = ""
@@ -101,6 +101,8 @@ struct SettingsInterfaceView: View {
               .tag(1)
             Text("Settings.interface.search-button.swipe.search")
               .tag(2)
+            Text("Settings.interface.search-button.swipe.secondary")
+              .tag(4)
             Text("Settings.interface.search-button.swipe.customize")
               .tag(3)
           }
@@ -111,6 +113,8 @@ struct SettingsInterfaceView: View {
               .tag(1)
             Text("Settings.interface.search-button.swipe.search")
               .tag(2)
+            Text("Settings.interface.search-button.swipe.secondary")
+              .tag(4)
             Text("Settings.interface.search-button.swipe.customize")
               .tag(3)
           }

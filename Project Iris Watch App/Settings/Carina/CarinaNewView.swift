@@ -70,7 +70,6 @@ struct CarinaNewView: View {
                   try replyData = .init(title: feedbackTitle, content: feedbackContent, sender: "User", additionalData: .rawString("""
 OS：\(systemVersion)
 Version：\(currentIrisVersion)
-State：0
 NotificationToken：\(UserDefaults.standard.string(forKey: "UserNotificationToken") ?? "None")
 \(generateAttachmentDatas(sendDeviceInfos: sendDeviceInfos, sendSettingsValues: sendSettingsValues, sendRegionInfos: sendRegionInfos, sendBookmarkFiles: sendBookmarkFiles, sendHistoryFiles: sendHistoryFiles, attachedLinks: attachedLinks))
 """))
@@ -95,7 +94,7 @@ NotificationToken：\(UserDefaults.standard.string(forKey: "UserNotificationToke
                 }
               }
             })
-            .disabled(sending)
+            .disabled(sending || feedbackTitle.isEmpty)
           }
         }
       } else if carinaID == -1 {

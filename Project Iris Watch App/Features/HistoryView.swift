@@ -23,6 +23,7 @@ struct HistoryView: View {
   @State var clearTimeframe = -3600
   @State var isAlertPresented = false
   @State var lastHistoryID = UserDefaults.standard.integer(forKey: "lastHistoryID")
+  @State var unlimitLineLimit = false
   let dateFormatter = {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "YYYY-MM-DD"
@@ -61,7 +62,9 @@ struct HistoryView: View {
                     HStack {
                       Image(systemName: historyInDate[historyDates[dateIndex]]![historyIndex].0.isURL() ? "network" : "magnifyingglass")
                       Text(historyInDate[historyDates[dateIndex]]![historyIndex].0)
-                        .lineLimit(2)
+                        .lineLimit(unlimitLineLimit ? nil : 2)
+                        .truncationMode(.middle)
+                        .font(.caption)
                       Spacer()
                       if showVisitingTime {
                         Text(timeFormatter.string(from: historyInDate[historyDates[dateIndex]]![historyIndex].1))
@@ -79,28 +82,7 @@ struct HistoryView: View {
                     }
                   }
                   updateHistory(history)
-                  
-                  //MARK: Updator
-                  historyDates = []
-                  historyInDate = [:]
-                  historyDatesAreExpanded = [:]
-                  var date: String = ""
-                  var tempArray: [(String, Date, Int)] = []
-                  var expansionCount = 0
-                  for singleHistory in history {
-                    date = dateFormatter.string(from: singleHistory.1)
-                    tempArray = historyInDate[date] ?? []
-                    tempArray.append((singleHistory.0, singleHistory.1, singleHistory.2))
-            //        print(tempArray)
-                    historyInDate.updateValue(tempArray, forKey: date)
-                    if !historyDates.contains(date) {
-                      historyDates.append(date)
-                      historyDatesAreExpanded.updateValue((expansionCount < 3), forKey: date)
-                      if expansionCount < 3 {
-                        expansionCount += 1
-                      }
-                    }
-                  }
+                  historyListUpdator()
                 }
               }
             }, header: {
@@ -151,24 +133,7 @@ struct HistoryView: View {
       history = getHistory()
       engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? defaultSearchEngineLinks) as! [String]
       
-      //MARK: Updator
-      var date: String = ""
-      var tempArray: [(String, Date, Int)] = []
-      var expansionCount = 0
-      for singleHistory in history {
-        date = dateFormatter.string(from: singleHistory.1)
-        tempArray = historyInDate[date] ?? []
-        tempArray.append((singleHistory.0, singleHistory.1, singleHistory.2))
-//        print(tempArray)
-        historyInDate.updateValue(tempArray, forKey: date)
-        if !historyDates.contains(date) {
-          historyDates.append(date)
-          historyDatesAreExpanded.updateValue((expansionCount < 3), forKey: date)
-          if expansionCount < 3 {
-            expansionCount += 1
-          }
-        }
-      }
+      historyListUpdator()
       
       if let legacyHistories = UserDefaults.standard.array(forKey: "HistoryLink") as? [String] {
         print("Legacy History Handling Program Toggled")
@@ -199,31 +164,14 @@ struct HistoryView: View {
             CepheusKeyboard(input: $searchContent, prompt: "History.action-sheet.search.content")
           }
           .onChange(of: searchContent, perform: { value in
-            //MARK: Updator
-            historyDates = []
-            historyInDate = [:]
-            historyDatesAreExpanded = [:]
-            for singleHistory in history {
-              if searchContent.isEmpty ? true : (singleHistory.0.lowercased().contains(searchContent.lowercased())) {
-                print(searchContent)
-                date = dateFormatter.string(from: singleHistory.1)
-                tempArray = historyInDate[date] ?? []
-                tempArray.append((singleHistory.0, singleHistory.1, singleHistory.2))
-                //        print(tempArray)
-                historyInDate.updateValue(tempArray, forKey: date)
-                if !historyDates.contains(date) {
-                  historyDates.append(date)
-                  historyDatesAreExpanded.updateValue((expansionCount < 3), forKey: date)
-                  if expansionCount < 3 {
-                    expansionCount += 1
-                  }
-                }
-              }
-            }
+            historyListUpdator()
           })
-          Section("History.action-sheet.time") {
+          Section("History.action-sheet.display") {
             Toggle(isOn: $showVisitingTime, label: {
-              Label("History.action-sheet.time.show", systemImage: "clock")
+              Text("History.action-sheet.display.time")
+            })
+            Toggle(isOn: $unlimitLineLimit, label: {
+              Text("History.action-sheet.display.line-unlimited")
             })
           }
           Section("History.action-sheet.delete") {
@@ -231,7 +179,7 @@ struct HistoryView: View {
               Text("History.action-sheet.delete.timeframe.last-hour").tag(-3600)
               Text("History.action-sheet.delete.timeframe.today").tag(-86400)
               Text("History.action-sheet.delete.timeframe.today-and-yesterday").tag(-172800)
-              Text("History.action-sheet.delete.timeframe.all").tag(Int32.min)
+              Text("History.action-sheet.delete.timeframe.all").tag(114514)
             })
             Button(action: {
               isAlertPresented = true
@@ -241,19 +189,23 @@ struct HistoryView: View {
             .foregroundStyle(.red)
             .alert("History.action-sheet.delete.alert", isPresented: $isAlertPresented, actions: {
               Button(role: .destructive, action: {
-                var index = 0
-                while index < history.count {
-                  if Int(history[index].1.timeIntervalSinceNow) >= clearTimeframe {
-                    history.remove(at: index)
-                    updateHistory(history)
-                  } else {
-                    index += 1
+                if clearTimeframe != 114514 {
+                  var index = 0
+                  while index < history.count {
+                    if Int(history[index].1.timeIntervalSinceNow) >= clearTimeframe {
+                      history.remove(at: index)
+                      updateHistory(history)
+                    } else {
+                      index += 1
+                    }
                   }
+                } else {
+                  history.removeAll()
+                  updateHistory(history)
+                    UserDefaults.standard.set(0, forKey: "lastHistoryID")
+                    lastHistoryID = 0
                 }
-                if clearTimeframe == Int32.min {
-                  UserDefaults.standard.set(0, forKey: "lastHistoryID")
-                  lastHistoryID = 0
-                }
+                historyListUpdator()
               }, label: {
                 HStack {
                   Text("History.action-sheet.delete.alert.confirm")
@@ -270,6 +222,32 @@ struct HistoryView: View {
         }
       }
     })
+  }
+  func historyListUpdator() {
+    
+    
+    //MARK: Updator
+    historyDates = []
+    historyInDate = [:]
+    historyDatesAreExpanded = [:]
+    for singleHistory in history {
+      if searchContent.isEmpty ? true : (singleHistory.0.lowercased().contains(searchContent.lowercased())) {
+        print(searchContent)
+        date = dateFormatter.string(from: singleHistory.1)
+        tempArray = historyInDate[date] ?? []
+        tempArray.append((singleHistory.0, singleHistory.1, singleHistory.2))
+        //        print(tempArray)
+        historyInDate.updateValue(tempArray, forKey: date)
+        if !historyDates.contains(date) {
+          historyDates.append(date)
+          historyDatesAreExpanded.updateValue((expansionCount < 3), forKey: date)
+          if expansionCount < 3 {
+            expansionCount += 1
+          }
+        }
+      }
+    }
+    
   }
 }
 

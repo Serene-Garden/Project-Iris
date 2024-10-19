@@ -16,7 +16,7 @@ struct SettingsSearchView: View {
   @State var engineLinks: [String] = defaultSearchEngineLinks as! [String]
   @State var engineNameIsEditable: [Bool] = defaultSearchEngineEditable as! [Bool]
   @AppStorage("currentEngine") var currentEngine = 0
-  
+  @AppStorage("secondaryEngine") var secondaryEngine = 1
   @State var showEditTips = true
   @State var displayingURL: AttributedString = ""
   @State var highlightRange: Range<AttributedString.Index>? = nil
@@ -100,6 +100,11 @@ struct SettingsSearchView: View {
             }, label: {
               Label(currentEngine == index ? "Settings.search.edit.default.true" : "Settings.search.edit.default.false", systemImage: currentEngine == index ? "star.fill" : "star")
             })
+            Button(action: {
+              secondaryEngine = index
+            }, label: {
+              Label(secondaryEngine == index ? "Settings.search.edit.secondary.true" : "Settings.search.edit.secondary.false", systemImage: "option")
+            })
             if !engineLinks[index].lowercased().contains("\\iris") {
               Label("Settings.search.edit.warning.iris-missing", systemImage: "questionmark.circle")
                 .foregroundStyle(.yellow)
@@ -112,6 +117,8 @@ struct SettingsSearchView: View {
             Spacer()
             if currentEngine == index {
               Image(systemName: "checkmark")
+            } else if secondaryEngine == index {
+              Image(systemName: "option")
             }
           }
         })
