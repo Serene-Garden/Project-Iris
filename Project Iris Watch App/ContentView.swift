@@ -13,9 +13,9 @@ import Cepheus
 
 public let defaultHomeList: [Any] = ["search-field", "search-button", "|", "bookmarks", "history", "privacy", "|", "archives", "scripts", "settings", "carina", "update-indicator"]
 public let defaultHomeListValues: [Any] = ["nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil", "nil"]
-public let defaultSearchEngineNames: [Any] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou", "Iris.search.duckduckgo", "Iris.search.yahoo", "Iris.search.yandex", "Iris.search.360"]
-public let defaultSearchEngineLinks: [Any] = ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris", "https://duckduckgo.com/?q=\\Iris", "https://search.yahoo.com/search?p=\\Iris", "https://yandex.eu/search?text=\\Iris", "https://www.so.com/s?q=\\Iris"]
-public let defaultSearchEngineEditable: [Any] = [false, false, false, false, false, false, false, false]
+public let defaultSearchEngineNames: [Any] = ["Iris.search.bing", "Iris.search.google", "Iris.search.baidu", "Iris.search.sogou", "Iris.search.duckduckgo", "Iris.search.yahoo", "Iris.search.yandex", "Iris.search.360", "Iris.search.ecosia"]
+public let defaultSearchEngineLinks: [Any] = ["https://www.bing.com/search?q=\\iris", "https://www.google.com/search?q=\\iris",  "https://www.baidu.com/s?wd=\\iris",  "https://www.sogou.com/web?query=\\iris", "https://duckduckgo.com/?q=\\Iris", "https://search.yahoo.com/search?p=\\Iris", "https://yandex.eu/search?text=\\Iris", "https://www.so.com/s?q=\\Iris", "https://www.ecosia.org/search?q=\\iris"]
+public let defaultSearchEngineEditable: [Any] = [false, false, false, false, false, false, false, false, false]
 
 struct HomeView: View {
   @Binding var isPrivateModeOn: Bool
