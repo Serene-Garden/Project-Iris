@@ -452,7 +452,11 @@ struct SwiftWebView: View {
                 }
                 session.start()
               }, label: {
-                Label("Webpage.legacy-engine", systemImage: "macwindow.and.cursorarrow")
+                if #available(watchOS 10, *) {
+                  Label("Webpage.legacy-engine", systemImage: "macwindow.and.cursorarrow")
+                } else {
+                  Label("Webpage.legacy-engine", systemImage: "macwindow.badge.plus")
+                }
               })
             }
             

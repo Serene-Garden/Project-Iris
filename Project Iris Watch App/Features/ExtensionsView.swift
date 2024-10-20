@@ -227,12 +227,14 @@ struct ExtensionsDetailsView: View {
       if infos != nil {
         List {
           VStack {
-            HStack {
-              Text(infos!.title)
-                .bold()
-                .font(.title3)
-                .lineLimit(titlesAreExpanded ? nil : 2)
-              Spacer()
+            if #available(watchOS 10, *) {
+              HStack {
+                Text(infos!.title)
+                  .bold()
+                  .font(.title3)
+                  .lineLimit(titlesAreExpanded ? nil : 2)
+                Spacer()
+              }
             }
             if infos?.subtitle != nil {
               HStack {
@@ -247,6 +249,24 @@ struct ExtensionsDetailsView: View {
           .listRowBackground(Color.clear)
           .onTapGesture {
             titlesAreExpanded.toggle()
+          }
+          if #unavailable(watchOS 10) {
+            Section {
+              Button(action: {
+                if extensionIsInstalled {
+                  deletionSheetIsDisplaying = true
+                } else {
+                  additionSheetIsDisplaying = true
+                }
+              }, label: {
+                if extensionIsInstalled {
+                  Label("Extension.details.remove", systemImage: "trash")
+                    .foregroundStyle(.red)
+                } else {
+                  Label("Extension.details.add", systemImage: "plus")
+                }
+              })
+            }
           }
           if infos?.about != nil && !((infos?.about?.isEmpty) ?? true) {
             Section("Extension.details.about") {

@@ -18,11 +18,15 @@ struct SettingsBrowseView: View {
   var body: some View {
     List {
       Section {
-        Toggle("Settings.browse.use-legacy-engine", systemImage: "macwindow.and.cursorarrow", isOn: $useLegacyBrowsingEngine)
-          .onChange(of: useLegacyBrowsingEngine, perform: { value in
-            UserDefaults.standard.set(useLegacyBrowsingEngine, forKey: "UseLegacyBrowsingEngine")
-          })
+        if #available(watchOS 10, *) {
+          Toggle("Settings.browse.use-legacy-engine", systemImage: "macwindow.and.cursorarrow", isOn: $useLegacyBrowsingEngine)
+        } else {
+          Toggle("Settings.browse.use-legacy-engine", systemImage: "macwindow.badge.plus", isOn: $useLegacyBrowsingEngine)
+        }
       }
+      .onChange(of: useLegacyBrowsingEngine, perform: { value in
+        UserDefaults.standard.set(useLegacyBrowsingEngine, forKey: "UseLegacyBrowsingEngine")
+      })
       if !useLegacyBrowsingEngine {
         Section(content: {
           Picker(selection: $toolbarTintColor, content: {
