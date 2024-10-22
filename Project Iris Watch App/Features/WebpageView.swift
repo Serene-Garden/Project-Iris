@@ -35,6 +35,9 @@ struct SwiftWebView: View {
   @State var desktopWebsiteIsRequested = false
   @State var addBookmarkSheetIsDisplaying = false
   @State var currentLinkCache = ""
+  @State var bookmarksAdded = false
+  @State var archiveAdded = false
+  @State var archiveUpdated = false
   
   
   //URL Edit
@@ -62,8 +65,8 @@ struct SwiftWebView: View {
   @State var archiveIsCreating = false
   @State var archiveData: Data?
   @State var archiveCurrentTitle = ""
-  @State var archiveSucceed = false
-  @State var archiveUpdated = false
+  //  @State var archiveAdded = false
+  //  @State var archiveUpdated = false
   
   //Extensions
   @State var extensionIIDs: [Int] = []
@@ -86,7 +89,7 @@ struct SwiftWebView: View {
         }
         .ignoresSafeArea()
       }
-//        .foregroundColor(toolbarColor)
+      //        .foregroundColor(toolbarColor)
       DimmingView()
     }
     .onReceive(webView.publisher(for: \.estimatedProgress), perform: { _ in
@@ -103,7 +106,7 @@ struct SwiftWebView: View {
             Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in //Wait 2s
               if _fastPath(webView.url != nil) { //If link isn't `nil`
                 if webView.url?.absoluteString == currentLinkCache { //If webLink's the same
-                    recordHistory(webView.url!.absoluteString) //Record
+                  recordHistory(webView.url!.absoluteString) //Record
                 }
               }
             }
@@ -175,8 +178,8 @@ struct SwiftWebView: View {
                 ToolbarItem(placement: .topBarTrailing, content: {
                   DismissButton(action: {
                     let webpageURLRequest = URLRequest(url: URL(string: editingURL)!)
-//                    webView.navigationDelegate = WebViewNavigationDelegate.shared
-//                    webView.uiDelegate = WebViewUIDelegate.shared
+                    //                    webView.navigationDelegate = WebViewNavigationDelegate.shared
+                    //                    webView.uiDelegate = WebViewUIDelegate.shared
                     webView.load(webpageURLRequest)
                   }, label: {
                     Image(systemName: "arrow.up.right")
@@ -291,82 +294,149 @@ struct SwiftWebView: View {
               Button(action: {
                 addBookmarkSheetIsDisplaying = true
               }, label: {
-                HStack {
-                  Label("Webpage.add-to-bookmarks", systemImage: "bookmark")
-                  Spacer()
-                  LockIndicator(destination: "bookmarks")
+                ZStack {
+                  HStack {
+                    Label("Webpage.add-to-bookmarks.added", systemImage: "checkmark.circle")
+                      .foregroundStyle(.green)
+                    Spacer()
+                  }
+                  .opacity(bookmarksAdded ? 1 : 0)
+                  HStack {
+                    Label("Webpage.add-to-bookmarks", systemImage: "bookmark")
+                    Spacer()
+                    LockIndicator(destination: "bookmarks")
+                  }
+                  .opacity(bookmarksAdded ? 0 : 1)
                 }
+                .animation(.easeInOut(duration: 0.3))
               })
-              .sheet(isPresented: $addBookmarkSheetIsDisplaying, content: {
+              .sheet(isPresented: $addBookmarkSheetIsDisplaying, onDismiss: {
+                if bookmarksAdded {
+                  Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                    bookmarksAdded = false
+                  }
+                }
+              }, content: {
                 PasscodeView(destination: {
-                  NewBookmarkView(bookmarkLink: "\(webView.url!)")
+                  NewBookmarkView(bookmarkLink: "\(webView.url!)", bookmarkIsAdded: $bookmarksAdded, bookmarkItemName: webView.title ?? "")
                 }, directPass: !lockBookmarks)
               })
-              if archiveURLs.values.contains(webView.url?.absoluteString ?? "") {
-                Button(action: {
-                  var targetID = -1
-                  for (key, value) in archiveURLs {
-                    if value == webView.url?.absoluteString ?? "" {
-                      targetID = Int(key)!
-                    }
-                  }
-                  updateArchive(id: targetID)
-                  archiveUpdated = true
-                }, label: {
-                  Label("Webpage.update-archive", systemImage: "archivebox")
-                })
-                .sheet(isPresented: $archiveUpdated, content: {
-                  Group {
-                    if #available(watchOS 10, *) {
-                      ContentUnavailableView {
-                        Label("Webpage.update-archive.succeed", systemImage: "archivebox")
-                      } description: {
-                        Text("Webpage.update-archive.succeed.description")
-                      }
-                      
-                    } else {
-                      List {
-                        Text("Webpage.update-archive.succeed")
-                          .bold()
-                          .foregroundStyle(.secondary)
+              Button(action: {
+                if !archiveAdded && !archiveUpdated {
+                  if archiveURLs.values.contains(webView.url?.absoluteString ?? "") {
+                    //UPDATE ARCHIVE
+                    var targetID = -1
+                    for (key, value) in archiveURLs {
+                      if value == webView.url?.absoluteString ?? "" {
+                        targetID = Int(key)!
                       }
                     }
+                    updateArchive(id: targetID)
+                    archiveUpdated = true
+                  } else {
+                    //CREATE ARCHIVE
+                    archiveIsCreating = true
+                    archiveData = nil
+                    archiveCurrentTitle = ""
+                    webView.createWebArchiveData(completionHandler: { data, error in
+                      archiveIsCreating = false
+                      if data != nil {
+                        archiveData = data
+                        archiveCurrentTitle = webView.title ?? (webView.url?.absoluteString ?? "")
+                        archiveSheetIsDisplaying = true
+                      } else {
+                        showTip("Webpage.archive.failure", symbol: "xmark")
+                      }
+                    })
                   }
-                })
-              } else {
-                Button(action: {
-                  archiveIsCreating = true
-                  archiveData = nil
-                  archiveCurrentTitle = ""
-                  webView.createWebArchiveData(completionHandler: { data, error in
-                    archiveIsCreating = false
-                    if data != nil {
-                      archiveData = data
-                      archiveCurrentTitle = webView.title ?? (webView.url?.absoluteString ?? "")
-                      archiveSheetIsDisplaying = true
-                    } else {
-                      showTip("Webpage.archive.failure", symbol: "xmark")
-                    }
-                  })
-                }, label: {
+                }
+              }, label: {
+                ZStack {
+                  //Archive Added
                   HStack {
-                    Label("Webpage.archive", systemImage: "archivebox")
+                    Label("Webpage.archive.succeed", systemImage: "checkmark.circle")
+                      .foregroundStyle(.green)
                     Spacer()
-                    if archiveIsCreating {
-                      ProgressView()
-                        .frame(width: 25)
+                  }
+                  .opacity(archiveAdded ? 1 : 0)
+                  
+                  //Archive Updated
+                  HStack {
+                    Label("Webpage.update-archive.succeed", systemImage: "checkmark.circle")
+                      .foregroundStyle(.green)
+                    Spacer()
+                  }
+                  .opacity(archiveUpdated ? 1 : 0)
+                  
+                  //Archive
+                  HStack {
+                    if archiveURLs.values.contains(webView.url?.absoluteString ?? "") {
+                      //Archived before (update)
+                      Label("Webpage.update-archive", systemImage: "archivebox")
+                      Spacer()
+                    } else {
+                      //Never archived (create)
+                      HStack {
+                        Label("Webpage.archive", systemImage: "archivebox")
+                        Spacer()
+                        if archiveIsCreating {
+                          ProgressView()
+                            .frame(width: 25)
+                        }
+                      }
                     }
                   }
-                })
-                .sheet(isPresented: $archiveSheetIsDisplaying, content: {
-                  Group {
-                    if archiveData != nil {
-                      List {
-                        Text("Webpage.archive.instruction")
-                        TextField("Webpage.archive.textfield", text: $archiveCurrentTitle)
-                        if #unavailable(watchOS 10) {
+                  .opacity((!archiveAdded && !archiveUpdated) ? 1 : 0)
+                }
+                .animation(.easeInOut(duration: 0.3))
+              })
+              .onChange(of: archiveAdded, perform: { value in
+                if archiveAdded {
+                  Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                    archiveAdded = false
+                  }
+                }
+              })
+              .onChange(of: archiveUpdated, perform: { value in
+                if archiveUpdated {
+                  Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                    archiveUpdated = false
+                  }
+                }
+              })
+              .sheet(isPresented: $archiveSheetIsDisplaying, content: {
+                Group {
+                  if archiveData != nil {
+                    List {
+                      Text("Webpage.archive.instruction")
+                      TextField("Webpage.archive.textfield", text: $archiveCurrentTitle)
+                      if #unavailable(watchOS 10) {
+                        DismissButton(action: {
+                          //MARK: FOLLOW THE TOOLBAR ONE
+                          lastArchiveID += 1
+                          archiveIDs.reverse()
+                          archiveIDs.append(lastArchiveID)
+                          archiveIDs.reverse()
+                          archiveTitles.updateValue(archiveCurrentTitle, forKey: String(lastArchiveID))
+                          archiveURLs.updateValue(webView.url?.absoluteString ?? "", forKey: String(lastArchiveID))
+                          archiveDates.updateValue(String(Int(Date.now.timeIntervalSince1970)), forKey: String(lastArchiveID))
+                          UserDefaults.standard.set(archiveIDs, forKey: "ArchiveIDs")
+                          UserDefaults.standard.set(archiveTitles, forKey: "ArchiveTitles")
+                          UserDefaults.standard.set(archiveURLs, forKey: "ArchiveURLs")
+                          UserDefaults.standard.set(archiveDates, forKey: "ArchiveDates")
+                          writeDataFile(archiveData!, to: "Archive#\(lastArchiveID)")
+                          //                            showTip("Webpage.archive.succeed", symbol: "archivebox")
+                          archiveAdded = true
+                          //MARK: FOLLOW THE TOOLBAR ONE
+                        }, label: {
+                          Label("Webpage.archive.save", systemImage: "square.and.arrow.down")
+                        })
+                      }
+                    }
+                    .toolbar {
+                      if #available(watchOS 10, *) {
+                        ToolbarItem(placement: .topBarTrailing, content: {
                           DismissButton(action: {
-                            //MARK: FOLLOW THE TOOLBAR ONE
                             lastArchiveID += 1
                             archiveIDs.reverse()
                             archiveIDs.append(lastArchiveID)
@@ -379,70 +449,65 @@ struct SwiftWebView: View {
                             UserDefaults.standard.set(archiveURLs, forKey: "ArchiveURLs")
                             UserDefaults.standard.set(archiveDates, forKey: "ArchiveDates")
                             writeDataFile(archiveData!, to: "Archive#\(lastArchiveID)")
-//                            showTip("Webpage.archive.succeed", symbol: "archivebox")
-                            archiveSucceed = true
-                            //MARK: FOLLOW THE TOOLBAR ONE
+                            //                              showTip("Webpage.archive.succeed", symbol: "archivebox")
+                            archiveAdded = true
                           }, label: {
                             Label("Webpage.archive.save", systemImage: "square.and.arrow.down")
                           })
-                        }
+                        })
                       }
-                      .toolbar {
-                        if #available(watchOS 10, *) {
-                          ToolbarItem(placement: .topBarTrailing, content: {
-                            DismissButton(action: {
-                              lastArchiveID += 1
-                              archiveIDs.reverse()
-                              archiveIDs.append(lastArchiveID)
-                              archiveIDs.reverse()
-                              archiveTitles.updateValue(archiveCurrentTitle, forKey: String(lastArchiveID))
-                              archiveURLs.updateValue(webView.url?.absoluteString ?? "", forKey: String(lastArchiveID))
-                              archiveDates.updateValue(String(Int(Date.now.timeIntervalSince1970)), forKey: String(lastArchiveID))
-                              UserDefaults.standard.set(archiveIDs, forKey: "ArchiveIDs")
-                              UserDefaults.standard.set(archiveTitles, forKey: "ArchiveTitles")
-                              UserDefaults.standard.set(archiveURLs, forKey: "ArchiveURLs")
-                              UserDefaults.standard.set(archiveDates, forKey: "ArchiveDates")
-                              writeDataFile(archiveData!, to: "Archive#\(lastArchiveID)")
-//                              showTip("Webpage.archive.succeed", symbol: "archivebox")
-                              archiveSucceed = true
-                            }, label: {
-                              Label("Webpage.archive.save", systemImage: "square.and.arrow.down")
-                            })
-                          })
-                        }
-                      }
-                    } else {
-                      if #available(watchOS 10, *) {
-                        ContentUnavailableView {
-                          Label("Webpage.archive.data-missing", systemImage: "questionmark.text.page")
-                        } description: {
-                          Text("Webpage.archive.data-missing.description")
-                        }
-                      } else {
-                        Image(systemName: "questionmark.text.page")
-                          .bold()
-                          .font(.largeTitle)
-                      }
-                    }
-                  }
-                  .navigationTitle("Webpage.archive.title")
-                })
-                .sheet(isPresented: $archiveSucceed, content: {
-                  if #available(watchOS 10, *) {
-                    ContentUnavailableView {
-                      Label("Webpage.archive.succeed", systemImage: "archivebox")
-                    } description: {
-                      Text("Webpage.archive.succeed.description")
                     }
                   } else {
-                    List {
-                      Text("Webpage.archive.succeed")
+                    if #available(watchOS 10, *) {
+                      ContentUnavailableView {
+                        Label("Webpage.archive.data-missing", systemImage: "questionmark.text.page")
+                      } description: {
+                        Text("Webpage.archive.data-missing.description")
+                      }
+                    } else {
+                      Image(systemName: "questionmark.text.page")
                         .bold()
-                        .foregroundStyle(.secondary)
+                        .font(.largeTitle)
                     }
                   }
-                })
-              }
+                }
+                .navigationTitle("Webpage.archive.title")
+              })
+              /*
+               .sheet(isPresented: $archiveAdded, content: {
+               if #available(watchOS 10, *) {
+               ContentUnavailableView {
+               Label("Webpage.archive.succeed", systemImage: "archivebox")
+               } description: {
+               Text("Webpage.archive.succeed.description")
+               }
+               } else {
+               List {
+               Text("Webpage.archive.succeed")
+               .bold()
+               .foregroundStyle(.secondary)
+               }
+               }
+               })
+               .sheet(isPresented: $archiveUpdated, content: {
+               Group {
+               if #available(watchOS 10, *) {
+               ContentUnavailableView {
+               Label("Webpage.update-archive.succeed", systemImage: "archivebox")
+               } description: {
+               Text("Webpage.update-archive.succeed.description")
+               }
+               
+               } else {
+               List {
+               Text("Webpage.update-archive.succeed")
+               .bold()
+               .foregroundStyle(.secondary)
+               }
+               }
+               }
+               })
+               */
               Button(action: {
                 let session = ASWebAuthenticationSession(
                   url: webView.url!,
@@ -599,13 +664,13 @@ func shouldScriptBeRun(_ script: String, currentURL: String) -> Bool {
 }
 
 func doesRegexMatch(_ regexPattern: String, text: String) -> Bool {
-    do {
-        let regex = try NSRegularExpression(pattern: regexPattern)
-        let range = NSRange(text.startIndex..<text.endIndex, in: text)
-        let match = regex.firstMatch(in: text, options: [], range: range)
-        return match != nil
-    } catch {
-        print("Invalid regular expression: \(error.localizedDescription)")
-        return false
-    }
+  do {
+    let regex = try NSRegularExpression(pattern: regexPattern)
+    let range = NSRange(text.startIndex..<text.endIndex, in: text)
+    let match = regex.firstMatch(in: text, options: [], range: range)
+    return match != nil
+  } catch {
+    print("Invalid regular expression: \(error.localizedDescription)")
+    return false
+  }
 }

@@ -52,6 +52,8 @@ struct BookmarksView: View {
                     }
                     if #unavailable(watchOS 10) {
                       Button(action: {
+                        editingBookmarkItemGroupIndex = groupIndex
+                        bookmarkSingeGroupContainer = bookmarkLibrary[editingBookmarkItemGroupIndex].3
                         isEditingBookmarkItems = true
                       }, label: {
                         Label("Bookmark.item.edit", systemImage: "pencil")
@@ -186,11 +188,11 @@ struct BookmarksView: View {
     .sheet(isPresented: $isEditingBookmarkItems, content: {
       BookmarksItemEditingView(bookmarkGroup: $bookmarkSingeGroupContainer)
         .onDisappear {
-          if #available(watchOS 10, *) {
+//          if #available(watchOS 10, *) {
             bookmarkLibrary[editingBookmarkItemGroupIndex].3 = bookmarkSingeGroupContainer
             updateBookmarkLibrary(bookmarkLibrary)
           }
-        }
+//        }
     })
   }
 }
@@ -736,6 +738,7 @@ struct BookmarkPickerView: View {
 
 struct NewBookmarkView: View {
   var bookmarkLink: String
+  @Binding var bookmarkIsAdded: Bool
   @State var bookmarkGroup: Int = -1
   @State var bookmarkItemIsEmoji: Bool = false
   @State var bookmarkItemSymbol: String = "bookmark"
@@ -811,34 +814,36 @@ struct NewBookmarkView: View {
           }
         }
       })
-      Button(action: {
-        bookmarkItemIsEmoji.toggle()
-      }, label: {
-        HStack {
-          Text("Bookmark.icon.symbol")
-            .foregroundColor(bookmarkItemIsEmoji ? .secondary : .primary)
-          Text(verbatim: "|").fontDesign(.rounded)
-          Text("Bookmark.icon.emoji")
-            .foregroundColor(bookmarkItemIsEmoji ? .primary : .secondary)
+      if #available(watchOS 10, *) {
+        Button(action: {
+          bookmarkItemIsEmoji.toggle()
+        }, label: {
+          HStack {
+            Text("Bookmark.icon.symbol")
+              .foregroundColor(bookmarkItemIsEmoji ? .secondary : .primary)
+            Text(verbatim: "|").fontDesign(.rounded)
+            Text("Bookmark.icon.emoji")
+              .foregroundColor(bookmarkItemIsEmoji ? .primary : .secondary)
+          }
+        })
+        if bookmarkItemIsEmoji {
+          PictorEmojiPicker(emoji: $bookmarkItemEmoji, presentAsSheet: true, label: {
+            HStack {
+              Text("Bookmark.item.emoji")
+              Spacer()
+              Text($bookmarkItemEmoji.wrappedValue)
+                .font(.title3)
+            }
+          })
+        } else {
+          PictorSymbolPicker(symbol: $bookmarkItemSymbol, presentAsSheet: true, selectionColor: tintColor, label: {
+            HStack {
+              Text("Bookmark.item.symbol")
+              Spacer()
+              Image(systemName: $bookmarkItemSymbol.wrappedValue)
+            }
+          })
         }
-      })
-      if bookmarkItemIsEmoji {
-        PictorEmojiPicker(emoji: $bookmarkItemEmoji, presentAsSheet: true, label: {
-          HStack {
-            Text("Bookmark.item.emoji")
-            Spacer()
-            Text($bookmarkItemEmoji.wrappedValue)
-              .font(.title3)
-          }
-        })
-      } else {
-        PictorSymbolPicker(symbol: $bookmarkItemSymbol, presentAsSheet: true, selectionColor: tintColor, label: {
-          HStack {
-            Text("Bookmark.item.symbol")
-            Spacer()
-            Image(systemName: $bookmarkItemSymbol.wrappedValue)
-          }
-        })
       }
       TextField("Bookmark.item.name", text: $bookmarkItemName)
       TextField("Bookmark.item.link", text: $bookmarkItemLink)
@@ -863,10 +868,14 @@ struct NewBookmarkView: View {
         DismissButton(action: {
           bookmarkLibrary[bookmarkGroup].3.append((bookmarkItemIsEmoji, bookmarkItemIsEmoji ? bookmarkItemEmoji : bookmarkItemSymbol, bookmarkItemName, bookmarkItemLink))
           updateBookmarkLibrary(bookmarkLibrary)
+          bookmarkIsAdded = true
         }, label: {
           Label("Bookmark.add", systemImage: "plus")
         })
         .disabled(!(!bookmarkItemName.isEmpty && !bookmarkItemLink.isEmpty && bookmarkItemLink.isURL() && bookmarkGroup != -1))
+      }
+      if #unavailable(watchOS 10) {
+        Text("Bookmark.added")
       }
     }
     .navigationTitle("Bookmark.item.new.title")
@@ -885,6 +894,7 @@ struct NewBookmarkView: View {
           DismissButton(action: {
             bookmarkLibrary[bookmarkGroup].3.append((bookmarkItemIsEmoji, bookmarkItemIsEmoji ? bookmarkItemEmoji : bookmarkItemSymbol, bookmarkItemName, bookmarkItemLink))
             updateBookmarkLibrary(bookmarkLibrary)
+            bookmarkIsAdded = true
           }, label: {
             Image(systemName: "plus")
           })

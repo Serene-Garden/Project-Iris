@@ -35,20 +35,24 @@ struct NewFeaturesTitleView: View {
 //  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading) {
-        Text("New.title.\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
-          .bold()
-          .font(.largeTitle)
-        Group {
-          if showDetails {
-            if #available(watchOS 10, *) {
-              Label("New.title.scroll", systemImage: "chevron.down")
+      HStack {
+        VStack(alignment: .leading) {
+          Text("New.title.\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
+            .bold()
+            .font(.largeTitle)
+          Group {
+            if showDetails {
+              if #available(watchOS 10, *) {
+                Label("New.title.scroll", systemImage: "chevron.down")
+              }
+            } else {
+              Label("New.title.minor", systemImage: "ellipsis.circle")
             }
-          } else {
-            Label("New.title.minor", systemImage: "ellipsis.circle")
           }
         }
+        Spacer()
       }
+      .padding()
     }
     /*.toolbar {
       if votesAvailable {
