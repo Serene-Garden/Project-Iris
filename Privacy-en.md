@@ -1,6 +1,8 @@
 # Privacy Policy
 Thank you for choosing and using Iris (Project Iris App). In Serene Garden, we believe that privacy is a basic human right, everyone should have their rights to know and manage their own datas. We respect users' right of privacy, Iris will not collect unnecessary information, or collect informations when you don't know.
 
+This document may be changed without noticing.
+
 About informations relating to data sending, see "Carina and Data Sending"
 
 If there is any differences between Privacy Policy's different languages, please follow Simplified Chinese version.
@@ -39,6 +41,8 @@ Attaching may help us diagnose. 3 webpages that you've viewed recently may be ad
 Your geographical location and passcode will never be sent, no matter how.
 
 Your stored datas (homepage, bookmarks, history, archive, extensions, etc.) will never be read by us remotely.
+
+When Iris crashes, you can choose to report. The report will carry on all the attachments by default, you cannot track the report.
 
 ## Votings
 You might see votings sometimes. Votings is a major reference for Iris future updates.
