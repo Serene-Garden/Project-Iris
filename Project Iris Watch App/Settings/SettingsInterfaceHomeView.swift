@@ -269,7 +269,7 @@ struct SettingsInterfaceHomeListEditView: View {
           }, footer: {
             Text("Settings.interface.home.list.error.footer")
           })
-          Button(action: {
+          DismissButton(action: {
             homeListEditing = defaultHomeList as! [String]
             homeListValuesEditing = defaultHomeListValues as! [String]
           }, label: {

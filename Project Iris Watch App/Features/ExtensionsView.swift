@@ -55,10 +55,10 @@ struct ExtensionsView: View {
                 extensionTitles.removeValue(forKey: String(extensionIIDs[extensionIIDIndex]))
                 extensionGIDs.removeValue(forKey: String(extensionIIDs[extensionIIDIndex]))
                 extensionIIDs.remove(at: extensionIIDIndex)
+                UserDefaults.standard.set("", forKey: "Extension\(extensionIIDs[extensionIIDIndex])")
                 UserDefaults.standard.set(extensionIIDs, forKey: "ExtensionIIDs")
                 UserDefaults.standard.set(extensionTitles, forKey: "ExtensionTitles")
                 UserDefaults.standard.set(extensionGIDs, forKey: "ExtensionGIDs")
-                UserDefaults.standard.set("", forKey: "Extension\(extensionIIDs[extensionIIDIndex])")
               }, label: {
                 Image(systemName: "trash")
               })
@@ -419,7 +419,11 @@ struct ExtensionsDetailsView: View {
         }
       }
     })
-    .sheet(isPresented: $deletionSheetIsDisplaying, content: {
+    .sheet(isPresented: $deletionSheetIsDisplaying, onDismiss: {
+      extensionIIDs = (UserDefaults.standard.array(forKey: "ExtensionIIDs") ?? []) as! [Int]
+      extensionTitles = (UserDefaults.standard.dictionary(forKey: "ExtensionTitles") ?? [:]) as! [String: String]
+      extensionGIDs = (UserDefaults.standard.dictionary(forKey: "ExtensionGIDs") ?? [:]) as! [String: String]
+    }, content: {
       NavigationStack {
         if #available(watchOS 10, *) {
           ContentUnavailableView {

@@ -74,6 +74,7 @@ struct ArchivesView: View {
               Button(action: {
                 updateArchive(id: displayingArchiveIDs[archiveIDIndex])
                 showTip("Archive.updated", symbol: "arrowshape.up")
+                filterDisplayingArchiveList()
               }, label: {
                 Image(systemName: "arrowshape.up")
               })
@@ -116,7 +117,9 @@ struct ArchivesView: View {
         }
       }
     }
-    .sheet(isPresented: $archiveDetailsSheetIsDisplaying, content: {
+    .sheet(isPresented: $archiveDetailsSheetIsDisplaying, onDismiss: {
+      filterDisplayingArchiveList()
+    }, content: {
       Group {
         if detailsAreReady {
           ScrollView {

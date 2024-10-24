@@ -27,6 +27,7 @@ struct SwiftWebView: View {
   @AppStorage("RequestDesktopWebsite") var requestDesktopWebsiteAsDefault = false
   @AppStorage("dimmingAtSpecificPeriod") var dimmingAtSpecificPeriod = false
   @AppStorage("AppearanceSchedule") var appearanceSchedule = 0
+  @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @State var estimatedProgress: Double = 0
   @State var tintColorValues: [Any] = defaultColor
   @State var tintColor: Color = .blue
@@ -101,19 +102,21 @@ struct SwiftWebView: View {
         runningScripts = 0
         excuteExtensions()
         
-        if _fastPath(delayedHistoryRecording) { //Delayed History-Recording
-          if _fastPath(webView.url?.absoluteString != nil) { //If link isn't `nil`
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in //Wait 2s
-              if _fastPath(webView.url != nil) { //If link isn't `nil`
-                if webView.url?.absoluteString == currentLinkCache { //If webLink's the same
-                  recordHistory(webView.url!.absoluteString) //Record
+        if _fastPath(!isPrivateModeOn) {
+          if _fastPath(delayedHistoryRecording) { //Delayed History-Recording
+            if _fastPath(webView.url?.absoluteString != nil) { //If link isn't `nil`
+              Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in //Wait 2s
+                if _fastPath(webView.url != nil) { //If link isn't `nil`
+                  if webView.url?.absoluteString == currentLinkCache { //If webLink's the same
+                    recordHistory(webView.url!.absoluteString) //Record
+                  }
                 }
               }
             }
-          }
-        } else { //Immediate history-recording
-          if webView.url?.absoluteString != nil { //If link isn't `nil`
-            recordHistory(webView.url!.absoluteString) //Record
+          } else { //Immediate history-recording
+            if webView.url?.absoluteString != nil { //If link isn't `nil`
+              recordHistory(webView.url!.absoluteString) //Record
+            }
           }
         }
       }
@@ -317,9 +320,13 @@ struct SwiftWebView: View {
                   }
                 }
               }, content: {
-                PasscodeView(destination: {
-                  NewBookmarkView(bookmarkLink: "\(webView.url!)", bookmarkIsAdded: $bookmarksAdded, bookmarkItemName: webView.title ?? "")
-                }, directPass: !lockBookmarks)
+//                NavigationStack {
+                  PasscodeView(destination: {
+                    NavigationStack {
+                      NewBookmarkView(bookmarkLink: "\(webView.url!)", bookmarkIsAdded: $bookmarksAdded, bookmarkItemName: webView.title ?? "")
+                    }
+                  }, directPass: !lockBookmarks)
+//                }
               })
               Button(action: {
                 if !archiveAdded && !archiveUpdated {

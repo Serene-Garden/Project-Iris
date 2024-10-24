@@ -266,11 +266,6 @@ struct CarinaRepliesView: View {
                             repliesExpanding[replyIndex]!.toggle()
                           }
                         }
-                        .onAppear {
-                          for index in 0..<replies.count {
-                            repliesExpanding.updateValue(true, forKey: index)
-                          }
-                        }
                     }
                 }
                 .font(.caption)
@@ -280,6 +275,11 @@ struct CarinaRepliesView: View {
                   Text(dateFormatter.string(from: Date(timeIntervalSince1970: (Double(replies[replyIndex].Time!) ?? 0))))
                 }
               })
+            }
+            .onAppear {
+              for index in 0..<replies.count {
+                repliesExpanding.updateValue(true, forKey: index)
+              }
             }
           }
         } else {
@@ -351,9 +351,9 @@ struct CarinaRepliesView: View {
         feedbackIsClosed = feedbackBasics!.shouldDisableUserReply
       }
     }
-    for index in 0..<replies.count {
-      repliesExpanding.updateValue(true, forKey: index)
-    }
+//    for index in 0..<replies.count {
+//      repliesExpanding.updateValue(true, forKey: index)
+//    }
     isReady = true
   }
 }

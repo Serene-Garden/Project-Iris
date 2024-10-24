@@ -798,6 +798,7 @@ struct NewBookmarkView: View {
               })
             }
           }
+          .navigationTitle("Bookmark.group.select")
         } else {
           if #available(watchOS 10, *) {
             ContentUnavailableView {
