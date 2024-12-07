@@ -216,12 +216,14 @@ struct BookmarksGroupEditingView: View {
                 //Get Bookmark Group Infos
                   .onAppear {
                     bookmarkGroupIsEmoji = bookmarkLibrary[groupIndex].0
-                    if bookmarkGroupIsEmoji {
-                      bookmarkGroupEmoji = bookmarkLibrary[groupIndex].1
-                      bookmarkGroupSymbol = "books.vertical"
-                    } else {
-                      bookmarkGroupSymbol = bookmarkLibrary[groupIndex].1
-                      bookmarkGroupEmoji = "📚"
+                    if #available(watchOS 10, *) {
+                      if bookmarkGroupIsEmoji {
+                        bookmarkGroupEmoji = bookmarkLibrary[groupIndex].1
+                        bookmarkGroupSymbol = "books.vertical"
+                      } else {
+                        bookmarkGroupSymbol = bookmarkLibrary[groupIndex].1
+                        bookmarkGroupEmoji = "📚"
+                      }
                     }
                     bookmarkGroupName = bookmarkLibrary[groupIndex].2
                   }
@@ -303,8 +305,10 @@ struct BookmarksGroupEditingView: View {
           BookmarksGroupInfosView(bookmarkGroupIsEmoji: $bookmarkGroupIsEmoji, bookmarkGroupSymbol: $bookmarkGroupSymbol, bookmarkGroupEmoji: $bookmarkGroupEmoji, bookmarkGroupName: $bookmarkGroupName)
             .onAppear {
               bookmarkGroupIsEmoji = false
-              bookmarkGroupSymbol = "books.vertical"
-              bookmarkGroupEmoji = "📚"
+              if #available(watchOS 10, *) {
+                bookmarkGroupSymbol = "books.vertical"
+                bookmarkGroupEmoji = "📚"
+              }
               bookmarkGroupName = ""
             }
             .navigationTitle("Bookmark.group.new")
@@ -407,12 +411,14 @@ struct BookmarksItemEditingView: View {
                 BookmarksItemInfosView(bookmarkItemIsEmoji: $bookmarkItemIsEmoji, bookmarkItemSymbol: $bookmarkItemSymbol, bookmarkItemEmoji: $bookmarkItemEmoji, bookmarkItemName: $bookmarkItemName, bookmarkItemLink: $bookmarkItemLink)
                   .onAppear {
                     bookmarkItemIsEmoji = bookmarkGroup[bookmarkIndex].0
-                    if bookmarkItemIsEmoji {
-                      bookmarkItemEmoji = bookmarkGroup[bookmarkIndex].1
-                      bookmarkItemSymbol = "bookmark"
-                    } else {
-                      bookmarkItemSymbol = bookmarkGroup[bookmarkIndex].1
-                      bookmarkItemEmoji = "🔖"
+                    if #available(watchOS 10, *) {
+                      if bookmarkItemIsEmoji {
+                        bookmarkItemEmoji = bookmarkGroup[bookmarkIndex].1
+                        bookmarkItemSymbol = "bookmark"
+                      } else {
+                        bookmarkItemSymbol = bookmarkGroup[bookmarkIndex].1
+                        bookmarkItemEmoji = "🔖"
+                      }
                     }
                     bookmarkItemName = bookmarkGroup[bookmarkIndex].2
                     bookmarkItemLink = bookmarkGroup[bookmarkIndex].3
@@ -490,8 +496,10 @@ struct BookmarksItemEditingView: View {
           BookmarksItemInfosView(bookmarkItemIsEmoji: $bookmarkItemIsEmoji, bookmarkItemSymbol: $bookmarkItemSymbol, bookmarkItemEmoji: $bookmarkItemEmoji, bookmarkItemName: $bookmarkItemName, bookmarkItemLink: $bookmarkItemLink)
             .onAppear {
               bookmarkItemIsEmoji = false
-              bookmarkItemSymbol = "bookmark"
-              bookmarkItemEmoji = "🔖"
+              if #available(watchOS 10, *) {
+                bookmarkItemSymbol = "bookmark"
+                bookmarkItemEmoji = "🔖"
+              }
               bookmarkItemName = ""
               bookmarkItemLink = ""
             }
@@ -815,7 +823,7 @@ struct NewBookmarkView: View {
           }
         }
       })
-      if #available(watchOS 10, *) {
+//      if #available(watchOS 10, *) {
         Button(action: {
           bookmarkItemIsEmoji.toggle()
         }, label: {
@@ -845,7 +853,7 @@ struct NewBookmarkView: View {
             }
           })
         }
-      }
+//      }
       TextField("Bookmark.item.name", text: $bookmarkItemName)
       TextField("Bookmark.item.link", text: $bookmarkItemLink)
         .autocorrectionDisabled()
@@ -874,9 +882,6 @@ struct NewBookmarkView: View {
           Label("Bookmark.add", systemImage: "plus")
         })
         .disabled(!(!bookmarkItemName.isEmpty && !bookmarkItemLink.isEmpty && bookmarkItemLink.isURL() && bookmarkGroup != -1))
-      }
-      if #unavailable(watchOS 10) {
-        Text("Bookmark.added")
       }
     }
     .navigationTitle("Bookmark.item.new.title")

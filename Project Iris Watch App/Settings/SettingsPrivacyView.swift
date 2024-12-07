@@ -226,7 +226,6 @@ struct SettingsEraseElement: View {
         
         //Feedback
         UserDefaults.standard.set([], forKey: "personalFeedbacks")
-        showTip("Settings.privacy.reset.all.done", symbol: "externaldrive.badge.xmark")
         
         //Vote
         tintVoteViolet = false
@@ -257,6 +256,8 @@ struct SettingsEraseElement: View {
         
         //Bulletin
         bulletinIsNew = false
+        
+        showTip("Settings.privacy.reset.all.done", symbol: "externaldrive.badge.xmark")
       }, label: {
         Text("Settings.privacy.reset.confirm")
       })

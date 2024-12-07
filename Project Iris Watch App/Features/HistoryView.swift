@@ -177,9 +177,10 @@ struct HistoryView: View {
           Section("History.action-sheet.delete") {
             Picker("History.action-sheet.delete.timeframe", selection: $clearTimeframe, content: {
               Text("History.action-sheet.delete.timeframe.last-hour").tag(-3600)
-              Text("History.action-sheet.delete.timeframe.today").tag(-86400)
-              Text("History.action-sheet.delete.timeframe.today-and-yesterday").tag(-172800)
-              Text("History.action-sheet.delete.timeframe.all").tag(114514)
+              Text("History.action-sheet.delete.timeframe.last-24-hours").tag(-86400)
+              Text("History.action-sheet.delete.timeframe.today").tag(86400)
+              Text("History.action-sheet.delete.timeframe.today-and-yesterday").tag(172800)
+              Text("History.action-sheet.delete.timeframe.all").tag(0)
             })
             Button(action: {
               isAlertPresented = true
@@ -189,7 +190,7 @@ struct HistoryView: View {
             .foregroundStyle(.red)
             .alert("History.action-sheet.delete.alert", isPresented: $isAlertPresented, actions: {
               Button(role: .destructive, action: {
-                if clearTimeframe != 114514 {
+                if clearTimeframe < 0 {
                   var index = 0
                   while index < history.count {
                     if Int(history[index].1.timeIntervalSinceNow) >= clearTimeframe {
@@ -199,11 +200,23 @@ struct HistoryView: View {
                       index += 1
                     }
                   }
-                } else {
+                } else if clearTimeframe == 0 {
                   history.removeAll()
                   updateHistory(history)
                     UserDefaults.standard.set(0, forKey: "lastHistoryID")
                     lastHistoryID = 0
+                } else if clearTimeframe == 86400 || clearTimeframe == 172800 {
+                  var index = 0
+                  while index < history.count {
+                    //If it's today
+                    //Or it's in yesterday and yesterday is counted
+                    if Calendar.current.isDateInToday(history[index].1) || (clearTimeframe == 172800 && Calendar.current.isDateInYesterday(history[index].1)) {
+                      history.remove(at: index)
+                      updateHistory(history)
+                    } else {
+                      index += 1
+                    }
+                  }
                 }
                 historyListUpdator()
               }, label: {

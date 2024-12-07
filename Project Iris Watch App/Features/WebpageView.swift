@@ -8,8 +8,6 @@
 
 import AuthenticationServices
 import Cepheus
-import Dynamic
-import SaltUICore
 import SwiftUI
 import UIKit
 
@@ -28,6 +26,7 @@ struct SwiftWebView: View {
   @AppStorage("dimmingAtSpecificPeriod") var dimmingAtSpecificPeriod = false
   @AppStorage("AppearanceSchedule") var appearanceSchedule = 0
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
+  @AppStorage("quickExit") var quickExit = true
   @State var estimatedProgress: Double = 0
   @State var tintColorValues: [Any] = defaultColor
   @State var tintColor: Color = .blue
@@ -39,6 +38,9 @@ struct SwiftWebView: View {
   @State var bookmarksAdded = false
   @State var archiveAdded = false
   @State var archiveUpdated = false
+  @State var mediaLists: ([URL], [URL], [URL]) = ([], [], [])
+  @State var isEditedURLValid = false
+  //  @State var largeImageViewIsDisplaying = false
   
   
   //URL Edit
@@ -90,6 +92,29 @@ struct SwiftWebView: View {
         }
         .ignoresSafeArea()
       }
+      HStack {
+        VStack {
+          Button(action: {
+            webpageDetailsSheetIsDisplaying = true
+          }, label: {
+            ZStack {
+              Rectangle()
+                .fill(Color.gray)
+                .frame(width: 50, height: 50)
+                .opacity(0.0100000002421438702673861521)
+              Image(systemName: "ellipsis.circle")
+                .font(.system(size: 20, weight: .light))
+                .foregroundStyle(toolbarColor)
+                .saturation(1.05)
+              //x: 10, y: 10, width: 30, height: 30
+            }
+          })
+          .buttonStyle(.plain)
+          Spacer()
+        }
+        Spacer()
+      }
+              .ignoresSafeArea()
       //        .foregroundColor(toolbarColor)
       DimmingView()
     }
@@ -99,8 +124,12 @@ struct SwiftWebView: View {
     .onReceive(webView.publisher(for: \.url), perform: { _ in
       if _fastPath(webView.url != nil) {
         currentLinkCache = "\(webView.url!)"
+        editingURL = "\(webView.url!)"
         runningScripts = 0
         excuteExtensions()
+        getMediaList(webView.url!, completion: { value in
+          mediaLists = value
+        })
         
         if _fastPath(!isPrivateModeOn) {
           if _fastPath(delayedHistoryRecording) { //Delayed History-Recording
@@ -124,326 +153,362 @@ struct SwiftWebView: View {
     ._statusBarHidden(hideDigitalTime)
     .toolbar(.hidden)
     .sheet(isPresented: $webpageDetailsSheetIsDisplaying, content: {
-      ZStack {
-        List {
-          VStack(alignment: .leading) {
-            Text((webpageIsArchive && webpageArchiveTitle != nil) ? webpageArchiveTitle! : "\(webView.title ?? (webView.url?.absoluteString ?? String(localized: "Webpage.unknown")))")
-              .bold()
-              .lineLimit(2)
-            if webView.url != nil {
-              Text("\(webView.url!)")
-                .font(.footnote)
+      NavigationStack {
+        ZStack {
+          List {
+            VStack(alignment: .leading) {
+              Text((webpageIsArchive && webpageArchiveTitle != nil) ? webpageArchiveTitle! : "\(webView.title ?? (webView.url?.absoluteString ?? String(localized: "Webpage.unknown")))")
+                .bold()
                 .lineLimit(2)
-            }
-            if webpageIsArchive && webView.url?.absoluteString == webpageArchiveURL {
-              HStack {
-                Image(systemName: "archivebox")
-                Text("Webpage.is-archive")
-                Spacer()
+              if webView.url != nil {
+                Text("\(webView.url!)")
+                  .font(.footnote)
+                  .lineLimit(2)
               }
-              .foregroundColor(.secondary)
-              .font(.footnote)
-            }
-            if runningScripts > 0 {
-              HStack {
-                Image(systemName: "puzzlepiece.extension")
-                Text("Webpage.active-extensions.\(runningScripts)")
-                Spacer()
+              if webpageIsArchive && webView.url?.absoluteString == webpageArchiveURL {
+                HStack {
+                  Image(systemName: "archivebox")
+                  Text("Webpage.is-archive")
+                  Spacer()
+                }
+                .foregroundColor(.secondary)
+                .font(.footnote)
               }
-              .foregroundColor(.secondary)
-              .font(.footnote)
-            }
-          }
-          .listRowBackground(Color.clear)
-          .onTapGesture {
-            if !webpageIsArchive {
-              urlIsEditing = true
-            }
-          }
-          .sheet(isPresented: $urlIsEditing, content: {
-            List {
-              TextField("Webpage.go-to.url", text: $editingURL)
-                .autocorrectionDisabled()
-              Text(editingURL)
-                .font(.caption)
-              if #unavailable(watchOS 10) {
-                DismissButton(action: {
-                  let webpageURLRequest = URLRequest(url: URL(string: editingURL)!)
-                  webView.load(webpageURLRequest)
-                }, label: {
-                  Label("Webpage.go-to.go", systemImage: "arrow.up.right.circle")
-                })
+              if runningScripts > 0 {
+                HStack {
+                  Image(systemName: "puzzlepiece.extension")
+                  Text("Webpage.active-extensions.\(runningScripts)")
+                  Spacer()
+                }
+                .foregroundColor(.secondary)
+                .font(.footnote)
               }
             }
-            .navigationTitle("Webpage.go-to")
-            .toolbar {
-              if #available(watchOS 10, *) {
-                ToolbarItem(placement: .topBarTrailing, content: {
-                  DismissButton(action: {
-                    let webpageURLRequest = URLRequest(url: URL(string: editingURL)!)
-                    //                    webView.navigationDelegate = WebViewNavigationDelegate.shared
-                    //                    webView.uiDelegate = WebViewUIDelegate.shared
-                    webView.load(webpageURLRequest)
-                  }, label: {
-                    Image(systemName: "arrow.up.right")
-                  })
-                })
-                ToolbarItemGroup(placement: .bottomBar, content: {
-                  HStack {
-                    Spacer()
-                    Button(action: {
-                      pickersSheetIsDisplaying = true
-                    }, label: {
-                      Image(systemName: "book")
+            .listRowBackground(Color.clear)
+            .onTapGesture {
+              if !webpageIsArchive {
+                urlIsEditing = true
+              }
+            }
+            .sheet(isPresented: $urlIsEditing, content: {
+              NavigationStack {
+                List {
+                  TextField("Webpage.go-to.url", text: $editingURL)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .onSubmit {
+                      isEditedURLValid = editingURL.isURL()
+                    }
+                    .swipeActions(content: {
+                      Button(action: {
+                        editingURL = ""
+                      }, label: {
+                        Image(systemName: "xmark")
+                      })
                     })
-                    .sheet(isPresented: $pickersSheetIsDisplaying, content: {
-                      NavigationStack {
-                        List {
-                          if #available(watchOS 10, *) {
-                            NavigationLink(destination: {
-                              PasscodeView(destination: {
-                                BookmarkPickerView(editorSheetIsDisaplying: $bookmarkPickerIsDisplaying, seletedGroup: $selectedGroup, selectedBookmark: $selectedBookmark, groupIndexEqualingGoal: groupEqualIndex, bookmarkIndexEqualingGoal: itemEqualIndex, action: {
-                                  editingURL = getBookmarkLibrary()[selectedGroup].3[selectedBookmark].3
+                  if isEditedURLValid {
+                    Text(editingURL)
+                      .font(.caption)
+                  } else {
+                    Text("Webpage.go-to.search.\(getCurrentSearchEngineName()).\(editingURL)")
+                  }
+                  if #unavailable(watchOS 10) {
+                    DismissButton(action: {
+                      let webpageURLRequest = URLRequest(url: URL(string: (isEditedURLValid ? editingURL : createSearchLink(editingURL)))!)
+                      webView.load(webpageURLRequest)
+                    }, label: {
+                      Label("Webpage.go-to.go", systemImage: "arrow.up.right.circle")
+                    })
+                  }
+                }
+                .onAppear {
+                  isEditedURLValid = editingURL.isURL()
+                }
+                .navigationTitle("Webpage.go-to")
+                .toolbar {
+                  if #available(watchOS 10, *) {
+                    ToolbarItem(placement: .topBarTrailing, content: {
+                      DismissButton(action: {
+                        let webpageURLRequest = URLRequest(url: URL(string: (isEditedURLValid ? editingURL : createSearchLink(editingURL)))!)
+                        //                    webView.navigationDelegate = WebViewNavigationDelegate.shared
+                        //                    webView.uiDelegate = WebViewUIDelegate.shared
+                        webView.load(webpageURLRequest)
+                      }, label: {
+                        Image(systemName: "arrow.up.right")
+                      })
+                    })
+                    ToolbarItemGroup(placement: .bottomBar, content: {
+                      HStack {
+                        Spacer()
+                        Button(action: {
+                          pickersSheetIsDisplaying = true
+                        }, label: {
+                          Image(systemName: "book")
+                        })
+                        .sheet(isPresented: $pickersSheetIsDisplaying, content: {
+                          NavigationStack {
+                            List {
+                              if #available(watchOS 10, *) {
+                                NavigationLink(destination: {
+                                  PasscodeView(destination: {
+                                    BookmarkPickerView(editorSheetIsDisaplying: $bookmarkPickerIsDisplaying, seletedGroup: $selectedGroup, selectedBookmark: $selectedBookmark, groupIndexEqualingGoal: groupEqualIndex, bookmarkIndexEqualingGoal: itemEqualIndex, action: {
+                                      editingURL = getBookmarkLibrary()[selectedGroup].3[selectedBookmark].3
+                                    })
+                                  }, title: "Bookmark.picker", directPass: !lockBookmarks)
+                                }, label: {
+                                  HStack {
+                                    Label("Webpage.go-to.bookmark", systemImage: "bookmark")
+                                    Spacer()
+                                    if lockBookmarks {
+                                      LockIndicator(destination: "bookmarks")
+                                    }
+                                  }
                                 })
-                              }, title: "Bookmark.picker", directPass: !lockBookmarks)
-                            }, label: {
-                              HStack {
-                                Label("Webpage.go-to.bookmark", systemImage: "bookmark")
-                                Spacer()
-                                if lockBookmarks {
-                                  LockIndicator(destination: "bookmarks")
+                              }
+                              NavigationLink(destination: {
+                                PasscodeView(destination: {
+                                  HistoryPickerView(pickerSheetIsDisplaying: $historyPickerIsDisplaying, historyLink: $historyLink, historyID: $historyID, acceptNonLinkHistory: false, action: {
+                                    editingURL = historyLink
+                                  })
+                                }, title: "History.picker", directPass: !lockHistory)
+                              }, label: {
+                                HStack {
+                                  Label("Webpage.go-to.history", systemImage: "clock")
+                                  Spacer()
+                                  if lockHistory {
+                                    LockIndicator(destination: "history")
+                                  }
                                 }
-                              }
-                            })
-                          }
-                          NavigationLink(destination: {
-                            PasscodeView(destination: {
-                              HistoryPickerView(pickerSheetIsDisplaying: $historyPickerIsDisplaying, historyLink: $historyLink, historyID: $historyID, acceptNonLinkHistory: false, action: {
-                                editingURL = historyLink
                               })
-                            }, title: "History.picker", directPass: !lockHistory)
-                          }, label: {
-                            HStack {
-                              Label("Webpage.go-to.history", systemImage: "clock")
-                              Spacer()
-                              if lockHistory {
-                                LockIndicator(destination: "history")
-                              }
                             }
-                          })
-                        }
+                          }
+                        })
                       }
                     })
                   }
+                }
+              }
+            })
+            Section {
+              if webView.canGoBack {
+                DismissButton(action: {
+                  webView.goBack()
+                }, label: {
+                  Label("Webpage.back", systemImage: "chevron.backward")
+                }, doDismiss: dismissAfterAction)
+              }
+              if webView.canGoForward {
+                DismissButton(action: {
+                  webView.goForward()
+                }, label: {
+                  Label("Webpage.forward", systemImage: "chevron.forward")
+                }, doDismiss: dismissAfterAction)
+              }
+              if webView.isLoading {
+                Button(action: {
+                  webView.stopLoading()
+                }, label: {
+                  Label("Webpage.stop-loading", systemImage: "xmark")
+                })
+              } else {
+                DismissButton(action: {
+                  webView.reload()
+                }, label: {
+                  Label("Webpage.reload", systemImage: "arrow.clockwise")
                 })
               }
             }
-            .onAppear {
-              if webView.url != nil {
-                editingURL = "\(webView.url!)"
-              } else {
-                editingURL = ""
+            if !mediaLists.0.isEmpty || !mediaLists.1.isEmpty || !mediaLists.2.isEmpty {
+              Section {
+                if !mediaLists.0.isEmpty {
+                  NavigationLink(destination: {
+                    List {
+                      ForEach(0..<mediaLists.0.count, id: \.self) { imageIndex in
+                        NavigationLink(destination: {
+                          ImageView(url: mediaLists.0[imageIndex])
+                        }, label: {
+                          HStack {
+                            Text("\(mediaLists.0[imageIndex])")
+                              .font(.caption)
+                              .lineLimit(2)
+                              .truncationMode(.head)
+                            Spacer()
+                            AsyncImage(url: mediaLists.0[imageIndex]) { phase in
+                              switch phase {
+                                case .empty:
+                                  RoundedRectangle(cornerRadius: 5)
+                                    .foregroundStyle(.secondary)
+                                    .opacity(0.7)
+                                case .success(let image):
+                                  image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .mask {
+                                      Rectangle()
+                                        .cornerRadius(5)
+                                        .frame(width: 30, height: 30)
+                                    }
+                                @unknown default:
+                                  EmptyView()
+                              }
+                            }
+                            .frame(width: 30, height: 30)
+                          }
+                        })
+                      }
+                    }
+                    .navigationTitle("Webpage.media.images")
+                  }, label: {
+                    Label("Webpage.media.images.\(mediaLists.0.count)", systemImage: "photo.on.rectangle.angled")
+                  })
+                }
               }
             }
-          })
-          Section {
-            if webView.canGoBack {
-              DismissButton(action: {
-                webView.goBack()
-              }, label: {
-                Label("Webpage.back", systemImage: "chevron.backward")
-              }, doDismiss: dismissAfterAction)
-            }
-            if webView.canGoForward {
-              DismissButton(action: {
-                webView.goForward()
-              }, label: {
-                Label("Webpage.forward", systemImage: "chevron.forward")
-              }, doDismiss: dismissAfterAction)
-            }
-            if webView.isLoading {
-              Button(action: {
-                webView.stopLoading()
-              }, label: {
-                Label("Webpage.stop-loading", systemImage: "xmark")
-              })
-            } else {
-              DismissButton(action: {
-                webView.reload()
-              }, label: {
-                Label("Webpage.reload", systemImage: "arrow.clockwise")
-              })
-            }
-          }
-          Section {
-            if desktopWebsiteIsRequested {
-              Button(action: {
-                desktopWebsiteIsRequested.toggle()
-                webView.customUserAgent = mobileUserAgent
-                webView.reload()
-              }, label: {
-                Label("Webpage.request-mobile", systemImage: "applewatch")
-              })
-            } else {
-              Button(action: {
-                desktopWebsiteIsRequested.toggle()
-                webView.customUserAgent = desktopUserAgent
-                webView.reload()
-              }, label: {
-                Label("Webpage.request-desktop", systemImage: "desktopcomputer")
-              })
-            }
-            if webView.url != nil && !webpageIsArchive {
-              Button(action: {
-                addBookmarkSheetIsDisplaying = true
-              }, label: {
-                ZStack {
-                  HStack {
-                    Label("Webpage.add-to-bookmarks.added", systemImage: "checkmark.circle")
-                      .foregroundStyle(.green)
-                    Spacer()
+            Section {
+              if desktopWebsiteIsRequested {
+                Button(action: {
+                  desktopWebsiteIsRequested.toggle()
+                  webView.customUserAgent = mobileUserAgent
+                  webView.reload()
+                }, label: {
+                  Label("Webpage.request-mobile", systemImage: "applewatch")
+                })
+              } else {
+                Button(action: {
+                  desktopWebsiteIsRequested.toggle()
+                  webView.customUserAgent = desktopUserAgent
+                  webView.reload()
+                }, label: {
+                  Label("Webpage.request-desktop", systemImage: "desktopcomputer")
+                })
+              }
+              if webView.url != nil && !webpageIsArchive {
+                Button(action: {
+                  addBookmarkSheetIsDisplaying = true
+                }, label: {
+                  ZStack {
+                    HStack {
+                      Label("Webpage.add-to-bookmarks.added", systemImage: "checkmark.circle")
+                        .foregroundStyle(.green)
+                      Spacer()
+                    }
+                    .opacity(bookmarksAdded ? 1 : 0)
+                    HStack {
+                      Label("Webpage.add-to-bookmarks", systemImage: "bookmark")
+                      Spacer()
+                      LockIndicator(destination: "bookmarks")
+                    }
+                    .opacity(bookmarksAdded ? 0 : 1)
                   }
-                  .opacity(bookmarksAdded ? 1 : 0)
-                  HStack {
-                    Label("Webpage.add-to-bookmarks", systemImage: "bookmark")
-                    Spacer()
-                    LockIndicator(destination: "bookmarks")
+                  .animation(.easeInOut(duration: 0.3))
+                })
+                .sheet(isPresented: $addBookmarkSheetIsDisplaying, onDismiss: {
+                  if bookmarksAdded {
+                    Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                      bookmarksAdded = false
+                    }
                   }
-                  .opacity(bookmarksAdded ? 0 : 1)
-                }
-                .animation(.easeInOut(duration: 0.3))
-              })
-              .sheet(isPresented: $addBookmarkSheetIsDisplaying, onDismiss: {
-                if bookmarksAdded {
-                  Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
-                    bookmarksAdded = false
-                  }
-                }
-              }, content: {
-//                NavigationStack {
+                }, content: {
+                  //                NavigationStack {
                   PasscodeView(destination: {
                     NavigationStack {
                       NewBookmarkView(bookmarkLink: "\(webView.url!)", bookmarkIsAdded: $bookmarksAdded, bookmarkItemName: webView.title ?? "")
                     }
                   }, directPass: !lockBookmarks)
-//                }
-              })
-              Button(action: {
-                if !archiveAdded && !archiveUpdated {
-                  if archiveURLs.values.contains(webView.url?.absoluteString ?? "") {
-                    //UPDATE ARCHIVE
-                    var targetID = -1
-                    for (key, value) in archiveURLs {
-                      if value == webView.url?.absoluteString ?? "" {
-                        targetID = Int(key)!
-                      }
-                    }
-                    updateArchive(id: targetID)
-                    archiveUpdated = true
-                  } else {
-                    //CREATE ARCHIVE
-                    archiveIsCreating = true
-                    archiveData = nil
-                    archiveCurrentTitle = ""
-                    webView.createWebArchiveData(completionHandler: { data, error in
-                      archiveIsCreating = false
-                      if data != nil {
-                        archiveData = data
-                        archiveCurrentTitle = webView.title ?? (webView.url?.absoluteString ?? "")
-                        archiveSheetIsDisplaying = true
-                      } else {
-                        showTip("Webpage.archive.failure", symbol: "xmark")
-                      }
-                    })
-                  }
-                }
-              }, label: {
-                ZStack {
-                  //Archive Added
-                  HStack {
-                    Label("Webpage.archive.succeed", systemImage: "checkmark.circle")
-                      .foregroundStyle(.green)
-                    Spacer()
-                  }
-                  .opacity(archiveAdded ? 1 : 0)
-                  
-                  //Archive Updated
-                  HStack {
-                    Label("Webpage.update-archive.succeed", systemImage: "checkmark.circle")
-                      .foregroundStyle(.green)
-                    Spacer()
-                  }
-                  .opacity(archiveUpdated ? 1 : 0)
-                  
-                  //Archive
-                  HStack {
+                  //                }
+                })
+                Button(action: {
+                  if !archiveAdded && !archiveUpdated {
                     if archiveURLs.values.contains(webView.url?.absoluteString ?? "") {
-                      //Archived before (update)
-                      Label("Webpage.update-archive", systemImage: "archivebox")
-                      Spacer()
+                      //UPDATE ARCHIVE
+                      var targetID = -1
+                      for (key, value) in archiveURLs {
+                        if value == webView.url?.absoluteString ?? "" {
+                          targetID = Int(key)!
+                        }
+                      }
+                      updateArchive(id: targetID)
+                      archiveUpdated = true
                     } else {
-                      //Never archived (create)
-                      HStack {
-                        Label("Webpage.archive", systemImage: "archivebox")
+                      //CREATE ARCHIVE
+                      archiveIsCreating = true
+                      archiveData = nil
+                      archiveCurrentTitle = ""
+                      webView.createWebArchiveData(completionHandler: { data, error in
+                        archiveIsCreating = false
+                        if data != nil {
+                          archiveData = data
+                          archiveCurrentTitle = webView.title ?? (webView.url?.absoluteString ?? "")
+                          archiveSheetIsDisplaying = true
+                        } else {
+                          showTip("Webpage.archive.failure", symbol: "xmark")
+                        }
+                      })
+                    }
+                  }
+                }, label: {
+                  ZStack {
+                    //Archive Added
+                    HStack {
+                      Label("Webpage.archive.succeed", systemImage: "checkmark.circle")
+                        .foregroundStyle(.green)
+                      Spacer()
+                    }
+                    .opacity(archiveAdded ? 1 : 0)
+                    
+                    //Archive Updated
+                    HStack {
+                      Label("Webpage.update-archive.succeed", systemImage: "checkmark.circle")
+                        .foregroundStyle(.green)
+                      Spacer()
+                    }
+                    .opacity(archiveUpdated ? 1 : 0)
+                    
+                    //Archive
+                    HStack {
+                      if archiveURLs.values.contains(webView.url?.absoluteString ?? "") {
+                        //Archived before (update)
+                        Label("Webpage.update-archive", systemImage: "archivebox")
                         Spacer()
-                        if archiveIsCreating {
-                          ProgressView()
-                            .frame(width: 25)
+                      } else {
+                        //Never archived (create)
+                        HStack {
+                          Label("Webpage.archive", systemImage: "archivebox")
+                          Spacer()
+                          if archiveIsCreating {
+                            ProgressView()
+                              .frame(width: 25)
+                          }
                         }
                       }
                     }
+                    .opacity((!archiveAdded && !archiveUpdated) ? 1 : 0)
                   }
-                  .opacity((!archiveAdded && !archiveUpdated) ? 1 : 0)
-                }
-                .animation(.easeInOut(duration: 0.3))
-              })
-              .onChange(of: archiveAdded, perform: { value in
-                if archiveAdded {
-                  Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
-                    archiveAdded = false
-                  }
-                }
-              })
-              .onChange(of: archiveUpdated, perform: { value in
-                if archiveUpdated {
-                  Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
-                    archiveUpdated = false
-                  }
-                }
-              })
-              .sheet(isPresented: $archiveSheetIsDisplaying, content: {
-                Group {
-                  if archiveData != nil {
-                    List {
-                      Text("Webpage.archive.instruction")
-                      TextField("Webpage.archive.textfield", text: $archiveCurrentTitle)
-                      if #unavailable(watchOS 10) {
-                        DismissButton(action: {
-                          //MARK: FOLLOW THE TOOLBAR ONE
-                          lastArchiveID += 1
-                          archiveIDs.reverse()
-                          archiveIDs.append(lastArchiveID)
-                          archiveIDs.reverse()
-                          archiveTitles.updateValue(archiveCurrentTitle, forKey: String(lastArchiveID))
-                          archiveURLs.updateValue(webView.url?.absoluteString ?? "", forKey: String(lastArchiveID))
-                          archiveDates.updateValue(String(Int(Date.now.timeIntervalSince1970)), forKey: String(lastArchiveID))
-                          UserDefaults.standard.set(archiveIDs, forKey: "ArchiveIDs")
-                          UserDefaults.standard.set(archiveTitles, forKey: "ArchiveTitles")
-                          UserDefaults.standard.set(archiveURLs, forKey: "ArchiveURLs")
-                          UserDefaults.standard.set(archiveDates, forKey: "ArchiveDates")
-                          writeDataFile(archiveData!, to: "Archive#\(lastArchiveID)")
-                          //                            showTip("Webpage.archive.succeed", symbol: "archivebox")
-                          archiveAdded = true
-                          //MARK: FOLLOW THE TOOLBAR ONE
-                        }, label: {
-                          Label("Webpage.archive.save", systemImage: "square.and.arrow.down")
-                        })
-                      }
+                  .animation(.easeInOut(duration: 0.3))
+                })
+                .onChange(of: archiveAdded, perform: { value in
+                  if archiveAdded {
+                    Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                      archiveAdded = false
                     }
-                    .toolbar {
-                      if #available(watchOS 10, *) {
-                        ToolbarItem(placement: .topBarTrailing, content: {
+                  }
+                })
+                .onChange(of: archiveUpdated, perform: { value in
+                  if archiveUpdated {
+                    Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                      archiveUpdated = false
+                    }
+                  }
+                })
+                .sheet(isPresented: $archiveSheetIsDisplaying, content: {
+                  NavigationStack {
+                    if archiveData != nil {
+                      List {
+                        Text("Webpage.archive.instruction")
+                        TextField("Webpage.archive.textfield", text: $archiveCurrentTitle)
+                        if #unavailable(watchOS 10) {
                           DismissButton(action: {
+                            //MARK: FOLLOW THE TOOLBAR ONE
                             lastArchiveID += 1
                             archiveIDs.reverse()
                             archiveIDs.append(lastArchiveID)
@@ -456,126 +521,156 @@ struct SwiftWebView: View {
                             UserDefaults.standard.set(archiveURLs, forKey: "ArchiveURLs")
                             UserDefaults.standard.set(archiveDates, forKey: "ArchiveDates")
                             writeDataFile(archiveData!, to: "Archive#\(lastArchiveID)")
-                            //                              showTip("Webpage.archive.succeed", symbol: "archivebox")
+                            //                            showTip("Webpage.archive.succeed", symbol: "archivebox")
                             archiveAdded = true
+                            //MARK: FOLLOW THE TOOLBAR ONE
                           }, label: {
                             Label("Webpage.archive.save", systemImage: "square.and.arrow.down")
                           })
-                        })
+                        }
                       }
-                    }
-                  } else {
-                    if #available(watchOS 10, *) {
-                      ContentUnavailableView {
-                        Label("Webpage.archive.data-missing", systemImage: "questionmark.text.page")
-                      } description: {
-                        Text("Webpage.archive.data-missing.description")
+                      .toolbar {
+                        if #available(watchOS 10, *) {
+                          ToolbarItem(placement: .topBarTrailing, content: {
+                            DismissButton(action: {
+                              lastArchiveID += 1
+                              archiveIDs.reverse()
+                              archiveIDs.append(lastArchiveID)
+                              archiveIDs.reverse()
+                              archiveTitles.updateValue(archiveCurrentTitle, forKey: String(lastArchiveID))
+                              archiveURLs.updateValue(webView.url?.absoluteString ?? "", forKey: String(lastArchiveID))
+                              archiveDates.updateValue(String(Int(Date.now.timeIntervalSince1970)), forKey: String(lastArchiveID))
+                              UserDefaults.standard.set(archiveIDs, forKey: "ArchiveIDs")
+                              UserDefaults.standard.set(archiveTitles, forKey: "ArchiveTitles")
+                              UserDefaults.standard.set(archiveURLs, forKey: "ArchiveURLs")
+                              UserDefaults.standard.set(archiveDates, forKey: "ArchiveDates")
+                              writeDataFile(archiveData!, to: "Archive#\(lastArchiveID)")
+                              //                              showTip("Webpage.archive.succeed", symbol: "archivebox")
+                              archiveAdded = true
+                            }, label: {
+                              Label("Webpage.archive.save", systemImage: "square.and.arrow.down")
+                            })
+                          })
+                        }
                       }
                     } else {
-                      Image(systemName: "questionmark.text.page")
-                        .bold()
-                        .font(.largeTitle)
+                      if #available(watchOS 10, *) {
+                        ContentUnavailableView {
+                          Label("Webpage.archive.data-missing", systemImage: "questionmark.text.page")
+                        } description: {
+                          Text("Webpage.archive.data-missing.description")
+                        }
+                      } else {
+                        Image(systemName: "questionmark.text.page")
+                          .bold()
+                          .font(.largeTitle)
+                      }
                     }
                   }
-                }
-                .navigationTitle("Webpage.archive.title")
-              })
-              /*
-               .sheet(isPresented: $archiveAdded, content: {
-               if #available(watchOS 10, *) {
-               ContentUnavailableView {
-               Label("Webpage.archive.succeed", systemImage: "archivebox")
-               } description: {
-               Text("Webpage.archive.succeed.description")
-               }
-               } else {
-               List {
-               Text("Webpage.archive.succeed")
-               .bold()
-               .foregroundStyle(.secondary)
-               }
-               }
-               })
-               .sheet(isPresented: $archiveUpdated, content: {
-               Group {
-               if #available(watchOS 10, *) {
-               ContentUnavailableView {
-               Label("Webpage.update-archive.succeed", systemImage: "archivebox")
-               } description: {
-               Text("Webpage.update-archive.succeed.description")
-               }
-               
-               } else {
-               List {
-               Text("Webpage.update-archive.succeed")
-               .bold()
-               .foregroundStyle(.secondary)
-               }
-               }
-               }
-               })
-               */
-              Button(action: {
-                let session = ASWebAuthenticationSession(
-                  url: webView.url!,
-                  callbackURLScheme: nil
-                ) { _, _ in
-                  
-                }
-                session.start()
-              }, label: {
-                if #available(watchOS 10, *) {
-                  Label("Webpage.legacy-engine", systemImage: "macwindow.and.cursorarrow")
-                } else {
-                  Label("Webpage.legacy-engine", systemImage: "macwindow.badge.plus")
-                }
-              })
-            }
-            
-          }
-          if #unavailable(watchOS 10) {
-            Section {
-              Button(role: .destructive, action: {
-                webpageIsDisplaying = false
-              }, label: {
-                Label("Webpage.close", systemImage: "escape")
-                  .foregroundStyle(.red)
-              })
-            }
-          }
-        }
-        if estimatedProgress != 1 {
-          VStack {
-            HStack {
-              withAnimation {
-                toolbarColor
-                  .frame(width: screenWidth*estimatedProgress, height: 5)
-                  .animation(.linear)
+                  .navigationTitle("Webpage.archive.title")
+                })
+                /*
+                 .sheet(isPresented: $archiveAdded, content: {
+                 if #available(watchOS 10, *) {
+                 ContentUnavailableView {
+                 Label("Webpage.archive.succeed", systemImage: "archivebox")
+                 } description: {
+                 Text("Webpage.archive.succeed.description")
+                 }
+                 } else {
+                 List {
+                 Text("Webpage.archive.succeed")
+                 .bold()
+                 .foregroundStyle(.secondary)
+                 }
+                 }
+                 })
+                 .sheet(isPresented: $archiveUpdated, content: {
+                 Group {
+                 if #available(watchOS 10, *) {
+                 ContentUnavailableView {
+                 Label("Webpage.update-archive.succeed", systemImage: "archivebox")
+                 } description: {
+                 Text("Webpage.update-archive.succeed.description")
+                 }
+                 
+                 } else {
+                 List {
+                 Text("Webpage.update-archive.succeed")
+                 .bold()
+                 .foregroundStyle(.secondary)
+                 }
+                 }
+                 }
+                 })
+                 */
+                Button(action: {
+                  let session = ASWebAuthenticationSession(
+                    url: webView.url!,
+                    callbackURLScheme: nil
+                  ) { _, _ in
+                    
+                  }
+                  session.start()
+                }, label: {
+                  if #available(watchOS 10, *) {
+                    Label("Webpage.legacy-engine", systemImage: "macwindow.and.cursorarrow")
+                  } else {
+                    Label("Webpage.legacy-engine", systemImage: "macwindow.badge.plus")
+                  }
+                })
               }
-              Spacer(minLength: .zero)
+              
             }
-            Spacer()
+            if !quickExit {
+              Section {
+                Button(role: .destructive, action: {
+                  webpageIsDisplaying = false
+                }, label: {
+                  Label("Webpage.close", systemImage: "escape")
+                    .foregroundStyle(.red)
+                })
+              }
+            }
           }
-          .ignoresSafeArea()
+          if estimatedProgress != 1 {
+            VStack {
+              HStack {
+                withAnimation {
+                  toolbarColor
+                    .frame(width: screenWidth*estimatedProgress, height: 5)
+                    .animation(.linear)
+                }
+                Spacer(minLength: .zero)
+              }
+              Spacer()
+            }
+            .ignoresSafeArea()
+          }
+          DimmingView()
         }
-        DimmingView()
-      }
-      .toolbar {
-        if #available(watchOS 10, *) {
-          ToolbarItem(placement: .topBarTrailing, content: {
-            Button(role: .destructive, action: {
-              webpageIsDisplaying = false
-            }, label: {
-              Label("Webpage.close", systemImage: "escape")
-                .foregroundStyle(.red)
-            })
-          })
+        .toolbar {
+          if #available(watchOS 10, *) {
+            if quickExit {
+              ToolbarItem(placement: .topBarTrailing, content: {
+                Button(role: .destructive, action: {
+                  webpageIsDisplaying = false
+                }, label: {
+                  Label("Webpage.close", systemImage: "escape")
+                    .foregroundStyle(.red)
+                })
+              })
+            }
+          }
         }
       }
       //      .navigationTitle("\(webView.title ?? "\(webView.url as? String? ?? String(localized: "Webpage"))")")
     })
     .onAppear {
       //Toolbar Color
+      if #unavailable(watchOS 10) {
+        quickExit = false
+      }
       if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
         UserDefaults.standard.set(defaultColor, forKey: "tintColor")
       }
@@ -586,12 +681,7 @@ struct SwiftWebView: View {
       } else if toolbarTintColor == 1 {
         toolbarColor = .blue
       }
-      
-      //Render Button
-      Dynamic(webView).addSubview(SUICButton(systemImage: "ellipsis.circle", frame: .init(x: 10, y: 10, width: 30, height: 30), action: {
-        webpageDetailsSheetIsDisplaying = true
-      }).tintColor(toolbarColor).button())
-      
+
       //Config Webview
       webView.allowsBackForwardNavigationGestures = useNavigationGestures
       desktopWebsiteIsRequested = requestDesktopWebsiteAsDefault
@@ -681,3 +771,47 @@ func doesRegexMatch(_ regexPattern: String, text: String) -> Bool {
     return false
   }
 }
+
+func getMediaList(_ url: URL, completion: @escaping (([URL], [URL], [URL])) -> Void) {
+  fetchWebPageContent(urlString: url.absoluteString, completion: { result in
+    switch result {
+      case .success(let content):
+        
+        completion(parseMediasFromHTML(content, baseURL: url))
+      case .failure(_):
+        completion(([], [], []))
+    }
+  })
+}
+
+//struct UIButtonRepresentable: UIViewRepresentable {
+//    let title: String
+//    let action: () -> Void
+//
+//    func makeUIView(context: Context) -> UIButton {
+//        let button = UIButton(type: .system)
+//        button.setTitle(title, for: .normal)
+//        button.addTarget(context.coordinator, action: #selector(Coordinator.buttonTapped), for: .touchUpInside)
+//        return button
+//    }
+//
+//    func updateUIView(_ uiView: UIButton, context: Context) {
+//        uiView.setTitle(title, for: .normal)
+//    }
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(action: action)
+//    }
+//
+//    class Coordinator: NSObject {
+//        let action: () -> Void
+//
+//        init(action: @escaping () -> Void) {
+//            self.action = action
+//        }
+//
+//        @objc func buttonTapped() {
+//            action()
+//        }
+//    }
+//}

@@ -1,5 +1,5 @@
 {
-  "originHash" : "1ad213214761cbedba5560c4d4f83154e412cf561ba017c3b83c06e4583539c9",
+  "originHash" : "6ee90bebe071de3da3848d1b13d758649e460c01d690d4cb107771525de4eeb6",
   "pins" : [
     {
       "identity" : "cepheus",
@@ -7,16 +7,7 @@
       "location" : "https://github.com/Serene-Garden/Cepheus",
       "state" : {
         "branch" : "main",
-        "revision" : "8508ddae95de0300c9d45ebdc21078171779adcd"
-      }
-    },
-    {
-      "identity" : "dynamic",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mhdhejazi/Dynamic",
-      "state" : {
-        "revision" : "ab9a2570862d54aed2663691bb767f881226a12f",
-        "version" : "1.2.0"
+        "revision" : "04b049ba99021e821f3a3945aced4112c10bd0ae"
       }
     },
     {

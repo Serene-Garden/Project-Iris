@@ -14,6 +14,7 @@ struct SettingsBrowseView: View {
   @AppStorage("UseNavigationGestures") var useNavigationGestures = true
   @AppStorage("DelayedHistoryRecording") var delayedHistoryRecording = true
   @AppStorage("RequestDesktopWebsite") var requestDesktopWebsiteAsDefault = true
+  @AppStorage("quickExit") var quickExit = true
   @State var useLegacyBrowsingEngine: Bool = false
   var body: some View {
     List {
@@ -39,6 +40,9 @@ struct SettingsBrowseView: View {
           Toggle("Settings.browse.request-desktop-website", systemImage: "desktopcomputer", isOn: $requestDesktopWebsiteAsDefault)
           Toggle("Settings.browse.hide-clock", systemImage: "clock.badge.xmark", isOn: $hideDigitalTime)
           Toggle("Settings.browse.use-navigation-gestures", systemImage: "hand.draw", isOn: $useNavigationGestures)
+          if #available(watchOS 10, *) {
+            Toggle("Settings.browse.quick-exit", systemImage: "escape", isOn: $quickExit)
+          }
           Toggle("Settings.browse.delayed-historyed-recording", systemImage: "calendar.badge.clock", isOn: $delayedHistoryRecording)
         }, footer: {
           Text("Settings.browse.delayed-historyed-recording.footer")

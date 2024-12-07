@@ -5,9 +5,10 @@
 //  Created by ThreeManager785 on 9/15/24.
 //
 
-import SwiftUI
 import AuthenticationServices
 import Cepheus
+import SwiftUI
+import SwiftSoup
 import UIKit
 
 public final class WebViewUIDelegate: NSObject, WKUIDelegate {
@@ -98,6 +99,23 @@ public final class WebViewNavigationDelegate: NSObject, WKNavigationDelegate {
   }
 }
 
+@MainActor func createSearchLink(_ content: String) -> String {
+  let currentEngine = UserDefaults.standard.integer(forKey: "currentEngine")
+  let engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? defaultSearchEngineLinks) as! [String]
+  return engineLinks[currentEngine].replacingOccurrences(of: "\\iris", with: content)
+}
+
+@MainActor func getCurrentSearchEngineName() -> String {
+  let currentEngine = UserDefaults.standard.integer(forKey: "currentEngine")
+  let engineNames = (UserDefaults.standard.array(forKey: "engineNames") ?? defaultSearchEngineNames) as! [String]
+  let engineNameIsEditable = (UserDefaults.standard.array(forKey: "engineNameIsEditable") ?? defaultSearchEngineEditable) as! [Bool]
+  if !engineNameIsEditable[currentEngine] {
+    return String(localized: LocalizedStringResource(stringLiteral: engineNames[currentEngine]))
+  } else {
+    return engineNames[currentEngine]
+  }
+}
+
 @MainActor public func recordHistory(_ content: String) {
   //Record
   var history = getHistory()
@@ -159,6 +177,32 @@ func getTopLevel(from url: String) -> String? {
     }
   }
   return nil
+}
+
+func parseMediasFromHTML(_ htmlContent: String, baseURL: URL) -> ([URL], [URL], [URL]) {
+  do {
+    let document = try SwiftSoup.parse(htmlContent)
+    
+    let images = try document.select("img").array().compactMap { try $0.attr("src") }
+    let videos = try document.select("video").array().compactMap { try $0.attr("src") }
+    let audios = try document.select("audio").array().compactMap { try $0.attr("src") }
+    
+    let fullImageUrls = images.compactMap { getMediaCompleteURL(baseURL, $0) }
+    let fullVideoUrls = videos.compactMap { getMediaCompleteURL(baseURL, $0) }
+    let fullAudioUrls = audios.compactMap { getMediaCompleteURL(baseURL, $0) }
+    
+    //MARK: IMPORTANT
+//    print("Images:", fullImageUrls)
+//    print("Videos:", fullVideoUrls)
+//    print("Audios:", fullAudioUrls)
+    return (fullImageUrls, fullVideoUrls, fullAudioUrls)
+  } catch {
+    return ([], [], [])
+  }
+}
+
+func getMediaCompleteURL(_ base: URL, _ relativePath: String) -> URL? {
+  return URL(string: relativePath, relativeTo: base)?.absoluteURL
 }
 
 func arraySafeAccess<T>(_ array: Array<T>, element: Int) -> T? {
@@ -249,6 +293,48 @@ func getSettingsForAppdiagnose(dataProcessor: (inout [String: Any]) -> Void = { 
   }
   return nil
 }
+
+//func getSettingsValuesFromPlist() -> String? {
+//  let correctPasscode = UserDefaults.standard.string(forKey: "correctPasscode") ?? ""
+//  let prefPath = NSHomeDirectory() + "/Library/Preferences/\(Bundle.main.infoDictionary?["CFBundleIdentifier"] as! String).plist"
+//  do {
+//    var result = try String(contentsOfFile: prefPath, encoding: .utf8)
+////    if !correctPasscode.isEmpty {
+////      result = result.replacingOccurrences(of: correctPasscode, with: "")
+////    }
+////    print("11111")
+//    print(result)
+//    return result
+//  } catch {
+//    print(error)
+//  }
+//  return nil
+//}
+
+//func getSettingsValuesFromPlist() -> String? {
+//  guard let bundleID = Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String else {
+//    print("无法获取 CFBundleIdentifier")
+//    return nil
+//  }
+//  
+//  // 更稳妥地获取 Preferences plist 路径
+//  let prefPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?
+//    .appendingPathComponent("Preferences/\(bundleID).plist").path ?? ""
+//  
+//  do {
+//    var result = try String(contentsOfFile: prefPath, encoding: .utf8)
+//    if let correctPasscode = UserDefaults.standard.string(forKey: "correctPasscode"), !correctPasscode.isEmpty {
+//      result = result.replacingOccurrences(of: correctPasscode, with: "REDACTED") // 避免暴露敏感数据
+//    }
+//    print(result)
+//    return result
+//  } catch {
+//    print("读取文件失败:", error)
+//  }
+//  
+//  return nil
+//}
+
 
 func getStorageDictionary() -> [String: Any]? {
   let prefPath = NSHomeDirectory() + "/Library/Preferences/\(Bundle.main.infoDictionary?["CFBundleIdentifier"] as! String).plist"

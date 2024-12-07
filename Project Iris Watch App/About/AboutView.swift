@@ -12,47 +12,18 @@ struct AboutView: View {
       if #available(watchOS 10, *) {
         TabView {
           AboutViewMain()
-          AboutMoreView()
+          List {
+            AboutMoreView()
+          }
         }
         .tabViewStyle(.verticalPage)
       } else {
-        ScrollView {
+        List {
           AboutViewMain()
+            .listRowBackground(Color.clear)
           AboutMoreView()
         }
       }
-    }
-  }
-}
-
-struct AboutMoreView: View {
-  var body: some View {
-    List {
-      NavigationLink(destination: {
-        List {
-          Text(verbatim: "https://discord.gg/Qx5PXXEeW9")
-        }
-      }, label: {
-        Label("About.chat", systemImage: "bubble.left.and.bubble.right")
-      })
-      NavigationLink(destination: {
-        NewFeaturesListView().navigationTitle("About.whats-new")
-      }, label: {
-        Label("About.whats-new", systemImage: "sparkles")
-      })
-      NavigationLink(destination: CreditView(), label: {
-//        HStack {
-          Label("Settings.credits", systemImage: "fleuron")
-//          Spacer()
-//          Image(systemName: "chevron.forward")
-//            .foregroundStyle(.secondary)
-//        }
-      })
-      NavigationLink(destination: {
-        AboutPackagesView()
-      }, label: {
-        Label("About.acknowledgements", systemImage: "shippingbox")
-      })
     }
   }
 }
@@ -73,7 +44,7 @@ struct AboutViewMain: View {
         .font(.title3)
       Group {
         Text("ThreeManager785")
-        Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)").monospaced() + Text(" · ") + Text(verbatim: "GPL-3.0").monospaced()
+        Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)").monospaced() + Text(verbatim: " · ") + Text(verbatim: "GPL-3.0").monospaced()
         if countryCode == "CN" {
           Text(ICPFillingNumber).font(.system(size: 10))
             .onTapGesture {
@@ -119,15 +90,94 @@ struct AboutViewMain: View {
   }
 }
 
+struct AboutMoreView: View {
+  var body: some View {
+    NavigationLink(destination: {
+      AboutChatView()
+    }, label: {
+      Label("About.chat", systemImage: "bubble.left.and.bubble.right")
+    })
+    NavigationLink(destination: {
+      NewFeaturesListView().navigationTitle("About.whats-new")
+    }, label: {
+      Label("About.whats-new", systemImage: "sparkles")
+    })
+    NavigationLink(destination: CreditView(), label: {
+      Label("Settings.credits", systemImage: "fleuron")
+    })
+    if false {
+      NavigationLink(destination: {
+        PasscodeView(destination: {
+          MigrationView()
+        })
+      }, label: {
+        HStack {
+          Label("About.migration", systemImage: "square.on.square.badge.person.crop")
+          Spacer()
+          LockIndicator()
+        }
+      })
+    }
+    NavigationLink(destination: {
+      AboutPackagesView()
+    }, label: {
+      Label("About.acknowledgements", systemImage: "shippingbox")
+    })
+  }
+}
+
+struct AboutChatView: View {
+  var body: some View {
+    List {
+      Section(content: {
+        NavigationLink(destination: {
+          Image("QQ-QR")
+            .resizable()
+            .scaledToFit()
+            .navigationTitle("About.chat.qq")
+        }, label: {
+          HStack {
+            Image("QQ")
+              .resizable()
+              .scaledToFit()
+              .frame(width: 20)
+            Text(verbatim: "679036812")
+            Spacer()
+            Image(systemName: "qrcode")
+              .foregroundStyle(.secondary)
+          }
+        })
+        NavigationLink(destination: {
+          Image("Discord-QR")
+            .resizable()
+            .scaledToFit()
+            .navigationTitle("About.chat.discord")
+        }, label: {
+          HStack {
+            Image("Discord")
+              .resizable()
+              .scaledToFit()
+              .frame(width: 25)
+            Text(verbatim: "discord.gg/Qx5PXXEeW9")
+            Spacer()
+            Image(systemName: "qrcode")
+              .foregroundStyle(.secondary)
+          }
+        })
+      }, footer: {
+        Text("About.chat.copyright")
+      })
+    }
+    .navigationTitle("About.chat")
+  }
+}
 
 struct AboutPackagesView: View {
   var body: some View {
     List {
       AboutPackagesUnit(title: "Cepheus", footnote: "Apache-2.0")
-      AboutPackagesUnit(title: "Dynamic", footnote: "Apache-2.0")
       AboutPackagesUnit(title: "Pictor", footnote: "Apache-2.0")
       AboutPackagesUnit(title: "RadarKitCore", footnote: "Copyright 2024 Darock Studio. All rights reserved.", type: 1)
-      AboutPackagesUnit(title: "SaltUICore", footnote: "by WindowsMEMZ", type: 1)
       AboutPackagesUnit(title: "SolarTime", footnote: "MIT")
       AboutPackagesUnit(title: "SwiftSoup", footnote: "MIT")
       AboutPackagesUnit(title: "Vela", footnote: "Apache-2.0")

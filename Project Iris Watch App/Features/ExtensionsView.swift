@@ -52,10 +52,10 @@ struct ExtensionsView: View {
             }
             .swipeActions(edge: .trailing, content: {
               Button(role: .destructive, action: {
+                UserDefaults.standard.set("", forKey: "Extension\(extensionIIDs[extensionIIDIndex])")
                 extensionTitles.removeValue(forKey: String(extensionIIDs[extensionIIDIndex]))
                 extensionGIDs.removeValue(forKey: String(extensionIIDs[extensionIIDIndex]))
                 extensionIIDs.remove(at: extensionIIDIndex)
-                UserDefaults.standard.set("", forKey: "Extension\(extensionIIDs[extensionIIDIndex])")
                 UserDefaults.standard.set(extensionIIDs, forKey: "ExtensionIIDs")
                 UserDefaults.standard.set(extensionTitles, forKey: "ExtensionTitles")
                 UserDefaults.standard.set(extensionGIDs, forKey: "ExtensionGIDs")

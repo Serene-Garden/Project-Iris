@@ -26,6 +26,7 @@ public let countryCode = Locale.current.region!.identifier
 public let watchSize = WKInterfaceDevice.current().screenBounds
 public let systemVersion = WKInterfaceDevice.current().systemVersion
 public let currentIrisVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+public let currentLocale = Locale.current
 
 //UNNECESSARY
 public let timeZone = Locale.current.timeZone!.identifier
@@ -61,7 +62,6 @@ struct Project_Iris_Watch_AppApp: App {
   @State var mainIrisIsDisplaying = false
   @State var crashErrorViewShouldDisplay = false
   @State var irisStartedUpLastTime = true
-  let currentLocale = Locale.current
   let globalFont: [Font.Design?] = [nil, .rounded, .serif]
   var body: some Scene {
     WindowGroup {
@@ -355,7 +355,6 @@ struct MainView: View {
   }
 }
 
-
 class AppDelegate: NSObject, WKApplicationDelegate {
   // 此代理方法在用户同意通知权限后调用
   func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
@@ -363,6 +362,7 @@ class AppDelegate: NSObject, WKApplicationDelegate {
     UserDefaults.standard.set(tokenString, forKey: "UserNotificationToken")
   }
 }
+
 extension Data {
   struct HexEncodingOptions: OptionSet {
     let rawValue: Int

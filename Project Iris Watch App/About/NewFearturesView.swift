@@ -69,36 +69,23 @@ struct NewFeaturesTitleView: View {
           })
         }
       }
-    }*/
+     }*/
   }
 }
 
 struct NewFeaturesListView: View {
-//  let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
+    //    let showDetails = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String).hasSuffix(".0")
   var body: some View {
-    if showDetails {
-      List {
-        SingleNewFeature(symbol: "archivebox", title: "New.archive", description: "New.archive.description")
-        SingleNewFeature(symbol: "puzzlepiece.extension", title: "New.extension", description: "New.extension.description")
+    List {
+      Section(content: {
+        SingleNewFeature(symbol: "photo.on.rectangle.angled", title: "New.images", description: "New.images.description")
         SingleNewFeature(symbol: "exclamationmark.bubble", title: "New.carina", description: "New.carina.description")
-        SingleNewFeature(symbol: "sun.horizon", title: "New.appearance", description: "New.appearance.description")
-        SingleNewFeature(symbol: "lock", title: "New.architecture", description: "New.architecture.description")
-        SingleNewFeature(symbol: "megaphone", title: "New.bulletin", description: "New.bulletin.description")
-      }
-    } else {
-      if #available(watchOS 10, *) {
-        ContentUnavailableView {
-          Label("New.unavailable", systemImage: "list.bullet")
-        } description: {
-          Text("New.unavailable.description")
+        SingleNewFeature(symbol: "hammer", title: "New.bug-fixes", description: "New.bug-fixes.description")
+      }, header: {
+        if !showDetails {
+          Text("New.last-major-update")
         }
-      } else {
-        List {
-          Text("New.unavailable")
-            .bold()
-            .foregroundStyle(.secondary)
-        }
-      }
+      })
     }
   }
 }

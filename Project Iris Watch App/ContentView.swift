@@ -493,6 +493,7 @@ struct HomeCarinaLinkElement: View {
         Image(systemName: "exclamationmark.bubble")
       }
     })
+//    .disabled(Date.now.timeIntervalSince1970 >= 1733932800)
   }
 }
 
@@ -500,52 +501,62 @@ struct HomeUpdateIndicatorElement: View {
   var isInList: Bool
   @State var latestVer = ""
   @State var isImportant: Bool = false
+  @State var isReady = false
   var body: some View {
     Group {
-      if isInList { //List Style
-        if (latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) && !latestVer.isEmpty { //Need's update
-          if latestVer == "error" || latestVer == "failed" { //Failed
-            Text("Home.update.error")
-          } else { //Found
-            Text(isImportant ? "Home.update.\(latestVer).important" : "Home.update.\(latestVer)")
-              .foregroundStyle(isImportant ? .yellow : .primary)
-          }
-        }
-      } else { //Toolbar Style
-        if (latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) && !latestVer.isEmpty { //Need's update
-          if latestVer == "error" || latestVer == "failed" { //Failed
-            Button(action: {}, label: {
-              Image(systemName: "clock.badge.questionmark")
-            })
-          } else { //Found
-            Button(action: {}, label: {
-              Image(systemName: isImportant ? "clock.badge.exclamationmark" : "clock.badge")
+      if isReady {
+        if isInList { //List Style
+          if (latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) && !latestVer.isEmpty { //Need's update
+            if latestVer == "error" || latestVer == "failed" { //Failed
+              Text("Home.update.error")
+            } else { //Found
+              Text(isImportant ? "Home.update.\(latestVer).important" : "Home.update.\(latestVer)")
                 .foregroundStyle(isImportant ? .yellow : .primary)
-            })
+            }
           }
-        } else { //Doesn't need
-          if latestVer.isEmpty {
-            Button(action: {}, label: {
-              Image(systemName: "clock.badge.questionmark")
-            })
-          } else {
-            Button(action: {}, label: {
-              Image(systemName: "clock.badge.checkmark")
-            })
+        } else { //Toolbar Style
+          if (latestVer != Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String) && !latestVer.isEmpty { //Need's update
+            if latestVer == "error" || latestVer == "failed" { //Failed
+              Button(action: {}, label: {
+                Image(systemName: "clock.badge.questionmark")
+              })
+            } else { //Found
+              Button(action: {}, label: {
+                Image(systemName: isImportant ? "clock.badge.exclamationmark" : "clock.badge")
+                  .foregroundStyle(isImportant ? .yellow : .primary)
+              })
+            }
+          } else { //Doesn't need
+            if latestVer.isEmpty {
+              Button(action: {}, label: {
+                Image(systemName: "clock.badge.questionmark")
+              })
+            } else {
+              Button(action: {}, label: {
+                Image(systemName: "clock.badge.checkmark")
+              })
+            }
           }
         }
+      } else {
+        ProgressView()
       }
-    }.onAppear {
-      fetchWebPageContent(urlString: "https://fapi.darock.top:65535/iris/newver") { result in
-        switch result {
-        case .success(let content):
-          latestVer = content.components(separatedBy: "\"")[1]
-          if latestVer.contains("!") {
-            latestVer = latestVer.components(separatedBy: "!")[0]
-            isImportant = true
+    }
+    .onAppear {
+      if !isReady {
+        fetchWebPageContent(urlString: "https://fapi.darock.top:65535/iris/newver") { result in
+          switch result {
+            case .success(let content):
+              latestVer = content.components(separatedBy: "\"")[1]
+              if latestVer.contains("!") {
+                latestVer = latestVer.components(separatedBy: "!")[0]
+                isImportant = true
+              }
+              isReady = true
+            case .failure(_):
+              latestVer = "failed"
+              isReady = true
           }
-        case .failure(_):
-          latestVer = "failed"
         }
       }
     }

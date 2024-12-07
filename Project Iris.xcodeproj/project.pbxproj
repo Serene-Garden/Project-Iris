@@ -40,7 +40,6 @@
 		E91C97822CAAD7B1004494A0 /* ArchivesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91C97812CAAD7B1004494A0 /* ArchivesView.swift */; };
 		E91F28A72CB0ECC600AD88FD /* SettingsAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91F28A62CB0ECC600AD88FD /* SettingsAppearanceView.swift */; };
 		E91F28C12CB10AEA00AD88FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E91F28BF2CB10AEA00AD88FD /* InfoPlist.strings */; };
-		E93C6EAA2C9DCA5F007F7B7E /* Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = E93C6EA92C9DCA5F007F7B7E /* Dynamic */; };
 		E9450E752CC36F8700CEB35E /* StorageDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9450E742CC36F6400CEB35E /* StorageDataView.swift */; };
 		E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E94DE8B12C50EA1D00EE5500 /* Pictor */; };
 		E95A20AF2CBC0E90001B6336 /* RadarKitCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E95A20AE2CBC0E90001B6336 /* RadarKitCore.xcframework */; };
@@ -53,11 +52,14 @@
 		E96A05862C8D73830018FEB0 /* SettingsInterfaceAdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A05852C8D73780018FEB0 /* SettingsInterfaceAdvancedView.swift */; };
 		E96A05882C8D74CF0018FEB0 /* SettingsInterfaceHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96A05872C8D74C50018FEB0 /* SettingsInterfaceHomeView.swift */; };
 		E97CF4422C3D8075006E6A5B /* TopLevelDomainList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E97CF4412C3D8075006E6A5B /* TopLevelDomainList.txt */; };
+		E97FF7ED2CD4D8BD00C445F3 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97FF7EC2CD4D8BA00C445F3 /* ImageView.swift */; };
+		E9924AD42CF1B7A400446FA5 /* MigrationRecieve.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9924AD32CF1B79700446FA5 /* MigrationRecieve.swift */; };
+		E9924AD62CF1B7BB00446FA5 /* MigrationSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9924AD52CF1B7B800446FA5 /* MigrationSend.swift */; };
+		E9A4ABB42CD8CBF600207932 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A4ABB32CD8CBF000207932 /* Migration.swift */; };
+		E9A4ABB62CD90CE200207932 /* MigrationKeyList.txt in Resources */ = {isa = PBXBuildFile; fileRef = E9A4ABB52CD90CE200207932 /* MigrationKeyList.txt */; };
 		E9BA10182C8C9624007C83CC /* WebpageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BA10172C8C9624007C83CC /* WebpageView.swift */; };
 		E9BAFE322C5A0FF700B24FDE /* Pictor in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE312C5A0FF700B24FDE /* Pictor */; };
 		E9BAFE352C5A100D00B24FDE /* Vela in Frameworks */ = {isa = PBXBuildFile; productRef = E9BAFE342C5A100D00B24FDE /* Vela */; };
-		E9CB40942CA5BD10004708F1 /* SaltUICore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */; };
-		E9CB40952CA5BD10004708F1 /* SaltUICore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CB40932CA5BD10004708F1 /* SaltUICore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */ = {isa = PBXBuildFile; productRef = E9CE39E82C312B2F00C773A3 /* Cepheus */; };
 		E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */; };
 		E9EBFB8C2C39520C00E16268 /* CreditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EBFB8B2C39520C00E16268 /* CreditView.swift */; };
@@ -107,7 +109,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				E95A20B02CBC0E90001B6336 /* RadarKitCore.xcframework in Embed Frameworks */,
-				E9CB40952CA5BD10004708F1 /* SaltUICore.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,6 +176,11 @@
 		E97168D52CB1AC2500D5A5A9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E97CF4412C3D8075006E6A5B /* TopLevelDomainList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TopLevelDomainList.txt; sourceTree = "<group>"; };
 		E97CF4432C3DAA84006E6A5B /* Project Iris Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Project Iris Watch App.entitlements"; sourceTree = "<group>"; };
+		E97FF7EC2CD4D8BA00C445F3 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		E9924AD32CF1B79700446FA5 /* MigrationRecieve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationRecieve.swift; sourceTree = "<group>"; };
+		E9924AD52CF1B7B800446FA5 /* MigrationSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationSend.swift; sourceTree = "<group>"; };
+		E9A4ABB32CD8CBF000207932 /* Migration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migration.swift; sourceTree = "<group>"; };
+		E9A4ABB52CD90CE200207932 /* MigrationKeyList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = MigrationKeyList.txt; sourceTree = "<group>"; };
 		E9BA0E132C8C8818007C83CC /* Metal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Metal.h; sourceTree = "<group>"; };
 		E9BA0E142C8C8818007C83CC /* MTLAccelerationStructure.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLAccelerationStructure.h; sourceTree = "<group>"; };
 		E9BA0E152C8C8818007C83CC /* MTLAccelerationStructureCommandEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLAccelerationStructureCommandEncoder.h; sourceTree = "<group>"; };
@@ -694,10 +700,8 @@
 				E9BAFE322C5A0FF700B24FDE /* Pictor in Frameworks */,
 				E95A20AF2CBC0E90001B6336 /* RadarKitCore.xcframework in Frameworks */,
 				E9CE39E92C312B2F00C773A3 /* Cepheus in Frameworks */,
-				E9CB40942CA5BD10004708F1 /* SaltUICore.xcframework in Frameworks */,
 				E916B25C2CAE98E500327864 /* SwiftSoup in Frameworks */,
 				E9BAFE352C5A100D00B24FDE /* Vela in Frameworks */,
-				E93C6EAA2C9DCA5F007F7B7E /* Dynamic in Frameworks */,
 				E2ED59C22C305916007F04AD /* Vela in Frameworks */,
 				E25D1DB92C203C8800C06E19 /* Cepheus in Frameworks */,
 				E94DE8B22C50EA1D00EE5500 /* Pictor in Frameworks */,
@@ -759,6 +763,7 @@
 				E97CF4432C3DAA84006E6A5B /* Project Iris Watch App.entitlements */,
 				E2A6170F2C203B4500E5C1D6 /* Project-Iris-Watch-App-Info.plist */,
 				E97CF4412C3D8075006E6A5B /* TopLevelDomainList.txt */,
+				E9A4ABB52CD90CE200207932 /* MigrationKeyList.txt */,
 				E9F619BC2C4104DD00B754A3 /* unlockTip.wav */,
 				E29B83D62BB457FE003F1F24 /* PrivacyInfo.xcprivacy */,
 				E2B2A4F12AE16A4D005E73AB /* Assets.xcassets */,
@@ -767,7 +772,9 @@
 				E2B2A4ED2AE16A4C005E73AB /* Project_IrisApp.swift */,
 				E2B2A4EF2AE16A4C005E73AB /* ContentView.swift */,
 				E9639BE12C971AE000B83FF8 /* Core.swift */,
+				E97FF7EB2CD4D8A900C445F3 /* Medias */,
 				E9BA10162C8C9596007C83CC /* Features */,
+				E9BA10142C8C9578007C83CC /* Carina */,
 				E9BA10152C8C958A007C83CC /* Settings */,
 				E916B2632CAE9D5200327864 /* About */,
 				E9BA0E122C8C87C2007C83CC /* WebKit Group */,
@@ -808,8 +815,19 @@
 				E9EBFB8B2C39520C00E16268 /* CreditView.swift */,
 				E9E21FDB2C3AED4100C8161C /* NewFearturesView.swift */,
 				E916B2682CAE9E8800327864 /* BulletinView.swift */,
+				E9A4ABB32CD8CBF000207932 /* Migration.swift */,
+				E9924AD52CF1B7B800446FA5 /* MigrationSend.swift */,
+				E9924AD32CF1B79700446FA5 /* MigrationRecieve.swift */,
 			);
 			path = About;
+			sourceTree = "<group>";
+		};
+		E97FF7EB2CD4D8A900C445F3 /* Medias */ = {
+			isa = PBXGroup;
+			children = (
+				E97FF7EC2CD4D8BA00C445F3 /* ImageView.swift */,
+			);
+			path = Medias;
 			sourceTree = "<group>";
 		};
 		E9BA0E122C8C87C2007C83CC /* WebKit Group */ = {
@@ -1411,7 +1429,6 @@
 				E916B25D2CAE9D0B00327864 /* SettingsDebugView.swift */,
 				E9625B972C9D8DEC00604100 /* TroubleshooterView.swift */,
 				E9639BE52C972C8500B83FF8 /* VoteView.swift */,
-				E9BA10142C8C9578007C83CC /* Carina */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1471,7 +1488,6 @@
 				E94DE8B12C50EA1D00EE5500 /* Pictor */,
 				E9BAFE312C5A0FF700B24FDE /* Pictor */,
 				E9BAFE342C5A100D00B24FDE /* Vela */,
-				E93C6EA92C9DCA5F007F7B7E /* Dynamic */,
 				E962BDB02CAD9F9800764311 /* SolarTime */,
 				E916B25B2CAE98E500327864 /* SwiftSoup */,
 				E916B27E2CAECFBD00327864 /* Cepheus */,
@@ -1573,7 +1589,6 @@
 			packageReferences = (
 				E9BAFE302C5A0FF700B24FDE /* XCRemoteSwiftPackageReference "Pictor" */,
 				E9BAFE332C5A100D00B24FDE /* XCRemoteSwiftPackageReference "Vela" */,
-				E93C6EA82C9DCA5F007F7B7E /* XCRemoteSwiftPackageReference "Dynamic" */,
 				E962BDAF2CAD9F9800764311 /* XCRemoteSwiftPackageReference "SolarTime" */,
 				E916B25A2CAE98E500327864 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				E916B27D2CAECFBD00327864 /* XCRemoteSwiftPackageReference "Cepheus" */,
@@ -1604,6 +1619,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2B2A4F52AE16A4D005E73AB /* Preview Assets.xcassets in Resources */,
+				E9A4ABB62CD90CE200207932 /* MigrationKeyList.txt in Resources */,
 				E91F28C12CB10AEA00AD88FD /* InfoPlist.strings in Resources */,
 				E25EA8332B6C013500BFEC6E /* Localizable.xcstrings in Resources */,
 				E9F619BD2C4104DD00B754A3 /* unlockTip.wav in Resources */,
@@ -1634,10 +1650,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E97FF7ED2CD4D8BD00C445F3 /* ImageView.swift in Sources */,
 				E96A05882C8D74CF0018FEB0 /* SettingsInterfaceHomeView.swift in Sources */,
 				E9E21FDC2C3AED4100C8161C /* NewFearturesView.swift in Sources */,
 				E916B25E2CAE9D1000327864 /* SettingsDebugView.swift in Sources */,
+				E9924AD62CF1B7BB00446FA5 /* MigrationSend.swift in Sources */,
 				E9450E752CC36F8700CEB35E /* StorageDataView.swift in Sources */,
+				E9A4ABB42CD8CBF600207932 /* Migration.swift in Sources */,
 				E916B2692CAE9E8D00327864 /* BulletinView.swift in Sources */,
 				E9BA10182C8C9624007C83CC /* WebpageView.swift in Sources */,
 				E916B2652CAE9DAB00327864 /* SettingsPrivacyView.swift in Sources */,
@@ -1662,6 +1681,7 @@
 				E25EA8412B72013100BFEC6E /* CarinaDetailView.swift in Sources */,
 				E916B2602CAE9D1E00327864 /* SettingsSearchView.swift in Sources */,
 				E2B2A4EE2AE16A4C005E73AB /* Project_IrisApp.swift in Sources */,
+				E9924AD42CF1B7A400446FA5 /* MigrationRecieve.swift in Sources */,
 				E25EA83F2B71423A00BFEC6E /* CarinaNewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1875,7 +1895,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.4;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1912,7 +1932,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.4;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1935,7 +1955,7 @@
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.1.4;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1951,7 +1971,7 @@
 				DEVELOPMENT_TEAM = MU2GGQV46U;
 				INFOPLIST_KEY_CFBundleDisplayName = "Project Iris";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 3.1.4;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Arctic.Project-Iris";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -2107,14 +2127,6 @@
 				kind = branch;
 			};
 		};
-		E93C6EA82C9DCA5F007F7B7E /* XCRemoteSwiftPackageReference "Dynamic" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mhdhejazi/Dynamic";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
 		E962BDAF2CAD9F9800764311 /* XCRemoteSwiftPackageReference "SolarTime" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tgymnich/SolarTime";
@@ -2159,11 +2171,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E916B27D2CAECFBD00327864 /* XCRemoteSwiftPackageReference "Cepheus" */;
 			productName = Cepheus;
-		};
-		E93C6EA92C9DCA5F007F7B7E /* Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E93C6EA82C9DCA5F007F7B7E /* XCRemoteSwiftPackageReference "Dynamic" */;
-			productName = Dynamic;
 		};
 		E94DE8B12C50EA1D00EE5500 /* Pictor */ = {
 			isa = XCSwiftPackageProductDependency;

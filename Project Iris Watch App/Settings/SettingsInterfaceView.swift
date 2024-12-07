@@ -16,8 +16,8 @@ struct SettingsInterfaceView: View {
   let languageCode = Locale.current.language.languageCode
   let languageScript = Locale.current.language.script
   @Environment(\.layoutDirection) var layoutDirection
-  @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
-  @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
+//  @AppStorage("tipConfirmRequired") var tipConfirmRequired = false
+//  @AppStorage("tipAnimationSpeed") var tipAnimationSpeed = 1
 //  @AppStorage("homeToolbar1") var homeToolbar1: String = "nil"
 //  @AppStorage("homeToolbar2") var homeToolbar2: String = "nil"
 //  @AppStorage("homeToolbar3") var homeToolbar3: String = "nil"
@@ -29,6 +29,7 @@ struct SettingsInterfaceView: View {
   @AppStorage("homeToolbarBottomBlur") var homeToolbarBottomBlur = 0
   @AppStorage("leftSwipeSearchButton") var leftSwipeSearchButton = 4
   @AppStorage("rightSwipeSearchButton") var rightSwipeSearchButton = 3
+  @AppStorage("internalCepheusIsEnabled") var internalCepheusIsEnabled = false
 //  @AppStorage("appFont") var appFont = 0
 //  @AppStorage("appLanguage") var appLanguage = ""
   @State var tintColorValues: [Any] = defaultColor
@@ -56,6 +57,15 @@ struct SettingsInterfaceView: View {
             }, label: {
               Text("Settings.interface.home.list")
             })
+//            .swipeActions(content: {
+//              Button(role: .destructive, action: {
+//                UserDefaults.standard.set(defaultHomeList, forKey: "homeList")
+//                UserDefaults.standard.set(defaultHomeListValues, forKey: "homeListValues")
+//                showTip("Settings.interface.home.list.reseted", symbol: "")
+//              }, label: {
+//                Label("Settings.interface.home.list.error.reset", systemImage: "arrow.clockwise")
+//              })
+//            })
             //          if #available(watchOS 10.0, *) {
             NavigationLink(/*isActive: $showToolbarEditingSheet, */destination: {
               SettingsInterfaceHomeToolbarEditView()
@@ -80,7 +90,9 @@ struct SettingsInterfaceView: View {
         
         if #available(watchOS 10, *) {
           Section(content: {
-            CepheusEnablingToggle(showSymbol: true)
+            Toggle(isOn: $internalCepheusIsEnabled, label: {
+              Text("Settings.keyboard.enable")
+            })
             NavigationLink(destination: {
               CepheusSettingsView()
             }, label: {
@@ -120,19 +132,19 @@ struct SettingsInterfaceView: View {
           }
         }
         
-        Section("Settings.interface.tip") {
-          Toggle("Settings.interface.tip.confirm", isOn: $tipConfirmRequired)
-          Picker("Settings.interface.tip.speed", selection: $tipAnimationSpeed) {
-            Text("Settings.interface.tip.speed.fast")
-              .tag(0)
-            Text("Settings.interface.tip.speed.default")
-              .tag(1)
-            Text("Settings.interface.tip.speed.slow")
-              .tag(2)
-            Text("Settings.interface.tip.speed.very-slow")
-              .tag(3)
-          }
-        }
+//        Section("Settings.interface.tip") {
+//          Toggle("Settings.interface.tip.confirm", isOn: $tipConfirmRequired)
+//          Picker("Settings.interface.tip.speed", selection: $tipAnimationSpeed) {
+//            Text("Settings.interface.tip.speed.fast")
+//              .tag(0)
+//            Text("Settings.interface.tip.speed.default")
+//              .tag(1)
+//            Text("Settings.interface.tip.speed.slow")
+//              .tag(2)
+//            Text("Settings.interface.tip.speed.very-slow")
+//              .tag(3)
+//          }
+//        }
         
         if #available(watchOS 10.0, *) {
           Section("Settings.interface.others") {
