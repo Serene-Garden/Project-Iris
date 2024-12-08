@@ -15,17 +15,17 @@ struct NewFearturesView: View {
     if #available(watchOS 10, *) {
       TabView {
         NewFeaturesTitleView()
-        if showDetails {
+//        if showDetails {
           NewFeaturesListView()
-        }
+//        }
       }
       .tabViewStyle(.verticalPage)
     } else {
       ScrollView {
         NewFeaturesTitleView()
-        if showDetails {
+//        if showDetails {
           NewFeaturesListView()
-        }
+//        }
       }
     }
   }
