@@ -158,41 +158,47 @@ NotificationToken：\(UserDefaults.standard.string(forKey: "UserNotificationToke
           }
         }
       } else {
-        if #available(watchOS 10, *) {
-          ContentUnavailableView(label: {
-            Label("Carina.new.succeed", systemImage: "checkmark")
-          }, description: {
-            Text("Carina.new.succeed.description.\(String(carinaID))")
-          }, actions: {
-            NavigationLink(destination: {
-              CarinaDetailView(id: String(carinaID))
-            }, label: {
-              HStack {
-                Spacer()
-                Label("Carina.new.navigate", systemImage: "richtext.page")
-                Spacer()
-              }
+        Group {
+          if #available(watchOS 10, *) {
+            ContentUnavailableView(label: {
+              Label("Carina.new.succeed", systemImage: "checkmark")
+            }, description: {
+              Text("Carina.new.succeed.description.\(String(carinaID))")
+            }, actions: {
+              NavigationLink(destination: {
+                CarinaDetailView(id: String(carinaID))
+              }, label: {
+                HStack {
+                  Spacer()
+                  Label("Carina.new.navigate", systemImage: "richtext.page")
+                  Spacer()
+                }
+              })
             })
-          })
-        } else {
-          VStack {
-            Image(systemName: "checkmark")
-              .bold()
-            Text("Carina.new.succeed")
-            NavigationLink(destination: {
-              CarinaDetailView(id: String(carinaID))
-            }, label: {
-              HStack {
-                Spacer()
-                Label("Carina.new.navigate", systemImage: "richtext.page")
-                Spacer()
-              }
-            })
+          } else {
+            VStack {
+              Image(systemName: "checkmark")
+                .bold()
+              Text("Carina.new.succeed")
+              NavigationLink(destination: {
+                CarinaDetailView(id: String(carinaID))
+              }, label: {
+                HStack {
+                  Spacer()
+                  Label("Carina.new.navigate", systemImage: "richtext.page")
+                  Spacer()
+                }
+              })
+            }
+            .onAppear {
+              feedbackTitle = ""
+              feedbackContent = ""
+            }
           }
-          .onAppear {
-            feedbackTitle = ""
-            feedbackContent = ""
-          }
+        }
+        .onAppear {
+          feedbackTitle = ""
+          feedbackContent = ""
         }
       }
     }

@@ -39,7 +39,7 @@ struct AboutViewMain: View {
         .resizable()
         .frame(width: AppIconLength, height: AppIconLength)
         .mask(Circle())
-      Text("Project Iris")
+      Text(verbatim: "Project Iris")
         .bold()
         .font(.title3)
       Group {

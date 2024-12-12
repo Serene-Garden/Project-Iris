@@ -5,6 +5,7 @@
 //  Created by 雷美淳 on 2024/2/6.
 //
 
+import Foundation
 import RadarKitCore
 import SwiftUI
 
@@ -204,8 +205,22 @@ func currentVersionIsOutOfDate(_ latestVersion: String) -> Bool {
   return latestVersionSections[0] > currentVersionSections[0] || latestVersionSections[1] > currentVersionSections[1] || latestVersionSections[2] > currentVersionSections[2]
 }
 
+func getCurrentTimezone() -> String {
+  var currentTimezone = TimeZone.current
+  var result = currentTimezone.identifier
+//  var gmtOffsetHours = currentTimezone.secondsFromGMT()/3600
+//  if gmtOffsetHours > 0 {
+//    result += "(+\(gmtOffsetHours))"
+//  } else if gmtOffsetHours < 0 {
+//    result += "(-\(abs(gmtOffsetHours)))"
+//  } else {
+//    result += "(GMT)"
+//  }
+  return result
+}
 
-let newCarinaStateColors: [String: Color] = ["UNMARKED": .secondary, "UNDER_INVESTIGATION": .orange, "WORK_AS_EXPECTED": .red, "UNABLE_TO_FIX": .red, "DUPLICATE": .red, "FUTURE_CONSIDERATION": .orange, "LONG_TERM_PLAN": .orange, "FIXING": .orange, "FIX_PENDING_RELEASE": .orange, "FIX_COMPLETED": .green, "CANNOT_REPRODUCE": .red, "DETAILS_REQUIRED": .orange, "UNRELATED": .gray, "UNDEFINED": .gray]
+
+let newCarinaStateColors: [String: Color] = ["UNMARKED": .secondary, "UNDER_INVESTIGATION": .orange, "WORK_AS_EXPECTED": .red, "UNABLE_TO_FIX": .red, "DUPLICATE": .red, "FUTURE_CONSIDERATION": .orange, "LONG_TERM_PLAN": .orange, "FIXING": .orange, "FIX_PENDING_RELEASE": .orange, "FIX_COMPLETED": .green, "CANNOT_REPRODUCE": .red, "DETAILS_REQUIRED": .orange, "UNRELATED": .red, "UNDEFINED": .gray]
 let newCarinaStateLocalizedKeys: [String: LocalizedStringKey] = ["UNMARKED": "Carina.new-states.unmarked", "UNDER_INVESTIGATION": "Carina.new-states.under-investigation", "WORK_AS_EXPECTED": "Carina.new-states.work-as-expected", "UNABLE_TO_FIX": "Carina.new-states.unable-to-fix", "DUPLICATE": "Carina.new-states.duplicate", "FUTURE_CONSIDERATION": "Carina.new-states.future-consideration", "LONG_TERM_PLAN": "Carina.new-states.long-term-plan", "FIXING": "Carina.new-states.fixing", "FIX_PENDING_RELEASE": "Carina.new-states.fix-pending-release", "FIX_COMPLETED": "Carina.new-states.fix-completed", "CANNOT_REPRODUCE": "Carina.new-states.cannot-reproduce", "DETAILS_REQUIRED": "Carina.new-states.details-required", "UNRELATED": "Carina.new-states.unrelated", "UNDEFINED": "Carina.new-states.undefined"]
 let newCarinaStateLocalizedDescriptions: [String: LocalizedStringKey] = ["UNMARKED": "Carina.new-states.unmarked.description", "UNDER_INVESTIGATION": "Carina.new-states.under-investigation.description", "WORK_AS_EXPECTED": "Carina.new-states.work-as-expected.description.description", "UNABLE_TO_FIX": "Carina.new-states.unable-to-fix.description", "DUPLICATE": "Carina.new-states.duplicate.description", "FUTURE_CONSIDERATION": "Carina.new-states.future-consideration.description", "LONG_TERM_PLAN": "Carina.new-states.long-term-plan.description", "FIXING": "Carina.new-states.fixing.description", "FIX_PENDING_RELEASE": "Carina.new-states.fix-pending-release.description", "FIX_COMPLETED": "Carina.new-states.fix-completed.description", "CANNOT_REPRODUCE": "Carina.new-states.cannot-reproduce.description", "DETAILS_REQUIRED": "Carina.new-states.details-required.description", "UNRELATED": "Carina.new-states.unrelated.description", "UNDEFINED": "Carina.new-states.undefined.description"]
 let newCarinaStateIcons: [String: String] = ["UNMARKED": "minus", "UNDER_INVESTIGATION": "magnifyingglass", "WORK_AS_EXPECTED": "curlybraces", "UNABLE_TO_FIX": "xmark", "DUPLICATE": "arrow.triangle.pull", "FUTURE_CONSIDERATION": "bolt.badge.clock", "LONG_TERM_PLAN": "books.vertical", "FIXING": "hammer", "FIX_PENDING_RELEASE": "clock.badge.checkmark", "FIX_COMPLETED": "checkmark", "CANNOT_REPRODUCE": "questionmark", "DETAILS_REQUIRED": "arrowshape.turn.up.backward.badge.clock", "UNRELATED": "bolt.horizontal", "UNDEFINED": "ellipsis.curlybraces"]

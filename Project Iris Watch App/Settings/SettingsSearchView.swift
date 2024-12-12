@@ -129,8 +129,10 @@ struct SettingsSearchView: View {
         engineNameIsEditable.remove(atOffsets: index)
         if currentEngine == (index.first)! {
           currentEngine = 0
+          secondaryEngine = 0
         } else if currentEngine > (index.first)! {
           currentEngine -= 1
+          secondaryEngine -= 1
         }
       })
       .onMove(perform: { oldIndex, newIndex in

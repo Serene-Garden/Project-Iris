@@ -665,7 +665,7 @@ DeviceSize：\(watchSize)
   //MARK: Region
   let languageCode = Locale.current.language.languageCode
   let countryCode = Locale.current.region!.identifier
-  let timeZone = Locale.current.timeZone!.identifier
+  let timeZone = getCurrentTimezone()
   if sendRegionInfos {
     package.append("""
 
