@@ -294,6 +294,7 @@ func createMigrationPackage(_ encryption: (String, String)) -> String {
   var package = String(Date.now.timeIntervalSince1970) + "|" + content
   package = package.replacingOccurrences(of: "/", with: "@").replacingOccurrences(of: "+", with: "-")
   
+  print(package)
   return package
 }
 

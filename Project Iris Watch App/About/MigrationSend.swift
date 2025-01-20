@@ -23,7 +23,7 @@ struct MigrationSendView: View {
     .onAppear {
       passkey = createRandomPasskey()
     }
-    .navigationTitle(!preparingPackaging ? "Migration.send.package.title" : "Migration.send")
+    .navigationTitle(preparingPackaging ? "Migration.send.package.title" : "Migration.send")
   }
 }
 

@@ -27,6 +27,7 @@ struct SwiftWebView: View {
   @AppStorage("AppearanceSchedule") var appearanceSchedule = 0
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
   @AppStorage("quickExit") var quickExit = true
+  @AppStorage("debug") var debug = false
   @State var estimatedProgress: Double = 0
   @State var tintColorValues: [Any] = defaultColor
   @State var tintColor: Color = .blue
@@ -193,6 +194,7 @@ struct SwiftWebView: View {
             .sheet(isPresented: $urlIsEditing, content: {
               NavigationStack {
                 List {
+//                  Text("\(getSearchingKeywordFromURL(source: editingURL))")
                   TextField("Webpage.go-to.url", text: $editingURL)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
@@ -223,6 +225,9 @@ struct SwiftWebView: View {
                 }
                 .onAppear {
                   isEditedURLValid = editingURL.isURL()
+                  if getSearchingKeywordFromURL(source: editingURL) != nil {
+                    editingURL = getSearchingKeywordFromURL(source: editingURL)!
+                  }
                 }
                 .navigationTitle("Webpage.go-to")
                 .toolbar {
@@ -313,6 +318,7 @@ struct SwiftWebView: View {
               } else {
                 DismissButton(action: {
                   webView.reload()
+                  webView.pageZoom = 1.0
                 }, label: {
                   Label("Webpage.reload", systemImage: "arrow.clockwise")
                 })
@@ -323,9 +329,10 @@ struct SwiftWebView: View {
                 if !mediaLists.0.isEmpty {
                   NavigationLink(destination: {
                     List {
+                      Section(content: {
                       ForEach(0..<mediaLists.0.count, id: \.self) { imageIndex in
                         NavigationLink(destination: {
-                          ImageView(url: mediaLists.0[imageIndex])
+                          ImageView(urlSet: mediaLists.0, urlIndex: imageIndex)
                         }, label: {
                           HStack {
                             Text("\(mediaLists.0[imageIndex])")
@@ -356,11 +363,23 @@ struct SwiftWebView: View {
                           }
                         })
                       }
+                      }, footer: {
+//                        Text("Webpage.media.images.count.\(mediaLists.0.count)")
+                      })
                     }
                     .navigationTitle("Webpage.media.images")
                   }, label: {
                     Label("Webpage.media.images.\(mediaLists.0.count)", systemImage: "photo.on.rectangle.angled")
                   })
+                }
+                if !mediaLists.1.isEmpty {
+                  if debug {
+//                    NavigationLink(destination: {
+//                      
+//                    }, label: {
+////                      Label("Webpage.media.videos.\(mediaLists.1.count)", systemImage: "film.stack")
+//                    })
+                  }
                 }
               }
             }
@@ -417,6 +436,8 @@ struct SwiftWebView: View {
                   }, directPass: !lockBookmarks)
                   //                }
                 })
+                
+                
                 Button(action: {
                   if !archiveAdded && !archiveUpdated {
                     if archiveURLs.values.contains(webView.url?.absoluteString ?? "") {

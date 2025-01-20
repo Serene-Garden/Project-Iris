@@ -82,7 +82,7 @@ struct HistoryView: View {
                     }
                   }
                   updateHistory(history)
-                  historyListUpdator()
+                  historyListUpdator(updateExpansion: false)
                 }
               }
             }, header: {
@@ -236,13 +236,13 @@ struct HistoryView: View {
       }
     })
   }
-  func historyListUpdator() {
-    
-    
+  func historyListUpdator(updateExpansion: Bool = true) {
     //MARK: Updator
     historyDates = []
     historyInDate = [:]
-    historyDatesAreExpanded = [:]
+    if updateExpansion {
+      historyDatesAreExpanded = [:]
+    }
     for singleHistory in history {
       if searchContent.isEmpty ? true : (singleHistory.0.lowercased().contains(searchContent.lowercased())) {
         print(searchContent)
@@ -253,9 +253,11 @@ struct HistoryView: View {
         historyInDate.updateValue(tempArray, forKey: date)
         if !historyDates.contains(date) {
           historyDates.append(date)
-          historyDatesAreExpanded.updateValue((expansionCount < 3), forKey: date)
-          if expansionCount < 3 {
-            expansionCount += 1
+          if updateExpansion {
+            historyDatesAreExpanded.updateValue((expansionCount < 3), forKey: date)
+            if expansionCount < 3 {
+              expansionCount += 1
+            }
           }
         }
       }

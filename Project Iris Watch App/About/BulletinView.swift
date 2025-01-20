@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BulletinView: View {
   var bulletinContent: String
+  @AppStorage("lastBulletin") var lastBulletin: String = ""
   @AppStorage("bulletinIsNew") var bulletinIsNew = false
   var body: some View {
     Group {
@@ -46,6 +47,7 @@ struct BulletinView: View {
     }
     .navigationTitle("Bulletin")
     .onAppear {
+      lastBulletin = bulletinContent
       bulletinIsNew = false
     }
   }

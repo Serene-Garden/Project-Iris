@@ -78,8 +78,8 @@ struct NewFeaturesListView: View {
   var body: some View {
     List {
       Section(content: {
-        SingleNewFeature(symbol: "photo.on.rectangle.angled", title: "New.images", description: "New.images.description")
-        SingleNewFeature(symbol: "exclamationmark.bubble", title: "New.carina", description: "New.carina.description")
+        SingleNewFeature(symbol: "photo.on.rectangle.angled", title: "New.images-updated", description: "New.images-updated.description")
+        SingleNewFeature(symbol: "magnifyingglass", title: "New.search", description: "New.search.description")
         SingleNewFeature(symbol: "hammer", title: "New.bug-fixes", description: "New.bug-fixes.description")
       }, header: {
         if !showDetails {
@@ -116,8 +116,4 @@ struct SingleNewFeature: View {
       tintColor = Color(hue: (tintColorValues[0] as! Double)/359, saturation: (tintColorValues[1] as! Double)/100, brightness: (tintColorValues[2] as! Double)/100)
     }
   }
-}
-
-#Preview {
-  NewFearturesView()
 }

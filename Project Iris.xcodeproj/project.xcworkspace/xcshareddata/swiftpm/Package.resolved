@@ -1,5 +1,5 @@
 {
-  "originHash" : "6ee90bebe071de3da3848d1b13d758649e460c01d690d4cb107771525de4eeb6",
+  "originHash" : "e47c88cd8dddd980858d873697e975e118500056ff51038b67b832bacd14759d",
   "pins" : [
     {
       "identity" : "cepheus",
@@ -17,6 +17,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "b8a34956d3dc99e2b2b8b504df14c7a1e9d8948f"
+      }
+    },
+    {
+      "identity" : "radarkitcore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Darock-Studio/RadarKitCore",
+      "state" : {
+        "branch" : "main",
+        "revision" : "0edc2cf9d07a0c52490060c95a7f44c94bf25ec1"
       }
     },
     {

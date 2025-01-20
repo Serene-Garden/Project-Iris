@@ -8,6 +8,7 @@
 import SwiftUI
 import Cepheus
 import Vela
+import Foundation
 
 let screenWidth = WKInterfaceDevice.current().screenBounds.size.width
 let screenHeight = WKInterfaceDevice.current().screenBounds.size.height
@@ -29,6 +30,29 @@ struct SettingsView: View {
   var body: some View {
     NavigationStack {
       Form {
+        if todayIsSpecificDate(month: 1, day: 1) {
+          HStack {
+            Text(verbatim: "🎉")
+              .font(.title3)
+            Text("Settings.holiday.new-year.\(String(getCurrentYear()))")
+            Spacer()
+          }
+        } else if todayIsSpecificDate(month: 12, day: 25) {
+          HStack {
+            Text(verbatim: "🎄")
+              .font(.title3)
+            Text("Settings.holiday.christmas")
+            Spacer()
+          }
+        } else if todayIsChineseNewYear() && "\(languageCode)".contains("zh") {
+          HStack {
+            Text(verbatim: "🎆")
+              .font(.title3)
+            Text("Settings.holiday.spring-festival")
+            Spacer()
+          }
+        }
+        
         NavigationLink(destination: {
           SettingsBrowseView()
         }, label: {
@@ -166,11 +190,31 @@ struct SettingsView: View {
               bulletinContent = ""
           }
           if !bulletinIsNew && lastBulletin != bulletinContent {
-            lastBulletin = bulletinContent
             bulletinIsNew = true
           }
         }
       }
     }
   }
+}
+
+func todayIsSpecificDate(month: Int, day: Int) -> Bool {
+  let today = Date()
+  let calendar = Calendar.current
+  let components = calendar.dateComponents([.month, .day], from: today)
+  return components.month == month && components.day == day
+}
+  
+func todayIsChineseNewYear() -> Bool {
+  let today = Date()
+  let chineseCalendar = Calendar(identifier: .chinese)
+  let components = chineseCalendar.dateComponents([.month, .day], from: today)
+  return components.month == 1 && components.day == 1
+}
+
+func getCurrentYear() -> Int {
+  let today = Date()
+  let gregorianCalendar = Calendar(identifier: .gregorian)
+  let gregorianYear = gregorianCalendar.component(.year, from: today)
+  return gregorianYear
 }

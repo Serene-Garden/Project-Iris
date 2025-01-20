@@ -412,3 +412,40 @@ extension Color {
     return (Int(hue*359), Int(saturation*100), Int(brightness*100), opacity)
   }
 }
+
+public func getSearchingKeywordFromURL(source: String) -> String? {
+  //Initialization
+  var engineLinks: [String] = defaultSearchEngineLinks as! [String]
+  engineLinks = (UserDefaults.standard.array(forKey: "engineLinks") ?? defaultSearchEngineLinks) as! [String]
+  engineLinks.append("https://cn.bing.com/search?q=")
+  var output: String? = nil
+  
+  //Get URL with domain and keyword only
+  let splittedSource = source.split(separator: "&").first
+  
+  //Check through every engine
+  for i in 0..<engineLinks.count {
+    //Keep domain and keywords before \\iris only
+    engineLinks[i] = removeSubstringAndAfter(mainString: engineLinks[i].lowercased(), substring: "\\iris")
+    
+    //If engine matches the URL
+    if source.hasPrefix(engineLinks[i]) {
+      //Remove the domain and prefix
+      output = source
+      output?.removeFirst(engineLinks[i].count)
+      
+      //And decode the keyword
+      output = output?.urlDecoded()
+      break
+    }
+  }
+  return output
+}
+
+func removeSubstringAndAfter(mainString: String, substring: String) -> String {
+    if let range = mainString.range(of: substring) {
+        let startIndex = range.lowerBound
+        return String(mainString[..<startIndex])
+    }
+    return mainString
+}

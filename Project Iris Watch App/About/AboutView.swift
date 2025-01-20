@@ -105,17 +105,17 @@ struct AboutMoreView: View {
     NavigationLink(destination: CreditView(), label: {
       Label("Settings.credits", systemImage: "fleuron")
     })
-    NavigationLink(destination: {
-      PasscodeView(destination: {
-        MigrationView()
-      })
-    }, label: {
-      HStack {
-        Label("About.migration", systemImage: "square.on.square.badge.person.crop")
-        Spacer()
-        LockIndicator()
-      }
-    })
+//    NavigationLink(destination: {
+//      PasscodeView(destination: {
+//        MigrationView()
+//      })
+//    }, label: {
+//      HStack {
+//        Label("About.migration", systemImage: "square.on.square.badge.person.crop")
+//        Spacer()
+//        LockIndicator()
+//      }
+//    })
     NavigationLink(destination: {
       AboutPackagesView()
     }, label: {
