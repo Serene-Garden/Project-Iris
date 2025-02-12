@@ -44,6 +44,8 @@ Your stored datas (homepage, bookmarks, history, archive, extensions, etc.) will
 
 When Iris crashes, you can choose to report. The report will carry on all the attachments by default, you cannot track the report.
 
+In order to confirm sender, your feedback will be appended with a token when sending. This token is unique per device, and we a re unable to know your identity.
+
 ## Votings
 You might see votings sometimes. Votings is a major reference for Iris future updates.
 
