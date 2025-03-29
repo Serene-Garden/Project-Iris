@@ -17,6 +17,7 @@
 
 //2024.02.03
 
+import CorvusKit
 import SwiftUI
 import UIKit
 import RadarKitCore
@@ -82,6 +83,34 @@ struct Project_Iris_Watch_AppApp: App {
           SwiftWebView(webView: webpageContent)
         })
         .onAppear {
+            Task {
+              do {
+                let checker = COKChecker(caller: .garden)
+                try await checker.checkAndApplyWatermark(content: {
+                  VStack {
+                    ForEach(0..<20, id: \.self) { i in
+                      HStack {
+                        ForEach(0..<20, id: \.self) { i in
+                          Text("Corvus.watermark")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .opacity(0.7)
+                            .bold()
+                            .lineLimit(1)
+                        }
+                      }
+                    }
+                  }
+                  .ignoresSafeArea()
+                  .frame(width: 1000000, height: 1000000)
+                  .rotationEffect(Angle(degrees: -45))
+                })
+//                try await checker.checkAndApplyWatermark()
+              } catch {
+                print(error)
+              }
+            }
+          
           if statsCollectionIsAllowed {
             fetchWebPageContent(urlString: "https://fapi.darock.top:65535/analyze/add/garden_iris_login/\(Date.now.timeIntervalSince1970)") { result in}
           }

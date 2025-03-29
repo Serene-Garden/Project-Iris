@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AVFoundation
+//import AVFoundation
 
 struct PasscodeView<L: View>: View {
   var destination: () -> L
@@ -164,7 +164,7 @@ struct PasscodeInputView<L: View>: View {
   @State var offset: CGFloat = 500
   @State var timer: Timer? = Timer()
   //  @State var rotation1: Double = 0.0
-  let player = AVPlayer(url: Bundle.main.url(forResource: "unlockTip", withExtension: "wav")!)
+//  let player = AVPlayer(url: Bundle.main.url(forResource: "unlockTip", withExtension: "wav")!)
   var body: some View {
     Group {
       if isCorrect {
@@ -316,9 +316,6 @@ struct PasscodeInputView<L: View>: View {
                 if passcodeIsCorrect(enteredPasscode, correctPasscode: correctPasscode, expectedNumber: expectedNumber) {
                   //MARK: PASS
                   isCorrect = true
-                  if expectedNumber == "def" && !hideUnlockTip {
-                    player.play()
-                  }
                 } else {
                   //MARK: FAILURE
                   isCorrect = false

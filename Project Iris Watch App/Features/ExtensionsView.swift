@@ -169,12 +169,19 @@ struct ExtensionsAddView: View {
                   Label("Extension.add.empty", systemImage: "magnifyingglass")
                 } description: {
                   Text("Extension.add.empty.description")
+                  if countryCode.contains("cn") {
+                    Text("Extension.add.cn-connection")
+                  }
                 }
               } else {
                 List {
                   Text("Extension.add.empty")
                     .bold()
                     .foregroundStyle(.secondary)
+                  if countryCode.contains("cn") {
+                    Text("Extension.add.cn-connection")
+                      .foregroundStyle(.secondary)
+                  }
                 }
               }
             } else {

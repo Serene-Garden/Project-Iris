@@ -14,7 +14,7 @@ struct SettingsBrowseView: View {
   @AppStorage("UseNavigationGestures") var useNavigationGestures = true
   @AppStorage("DelayedHistoryRecording") var delayedHistoryRecording = true
   @AppStorage("RequestDesktopWebsite") var requestDesktopWebsiteAsDefault = true
-  @AppStorage("quickExit") var quickExit = true
+  @AppStorage("exitButtonPos") var exitButtonPos = 0
   @State var useLegacyBrowsingEngine: Bool = false
   var body: some View {
     List {
@@ -37,12 +37,18 @@ struct SettingsBrowseView: View {
           }, label: {
             Text("Settings.browse.tint")
           })
+          Picker(selection: $exitButtonPos, content: {
+            if #available(watchOS 10, *) {
+              Text("Settings.browse.exit.default").tag(0)
+            }
+            Text("Settings.browse.exit.bottom").tag(1)
+            Text("Settings.browse.exit.quick").tag(2)
+          }, label: {
+            Text("Settings.browse.exit")
+          })
           Toggle("Settings.browse.request-desktop-website", systemImage: "desktopcomputer", isOn: $requestDesktopWebsiteAsDefault)
           Toggle("Settings.browse.hide-clock", systemImage: "clock.badge.xmark", isOn: $hideDigitalTime)
           Toggle("Settings.browse.use-navigation-gestures", systemImage: "hand.draw", isOn: $useNavigationGestures)
-          if #available(watchOS 10, *) {
-            Toggle("Settings.browse.quick-exit", systemImage: "escape", isOn: $quickExit)
-          }
           Toggle("Settings.browse.delayed-historyed-recording", systemImage: "calendar.badge.clock", isOn: $delayedHistoryRecording)
         }, footer: {
           Text("Settings.browse.delayed-historyed-recording.footer")
@@ -51,6 +57,11 @@ struct SettingsBrowseView: View {
     }
     .onAppear {
       useLegacyBrowsingEngine = UserDefaults.standard.bool(forKey: "UseLegacyBrowsingEngine")
+      if #unavailable(watchOS 10) {
+        if exitButtonPos == 0 {
+          exitButtonPos = 1
+        }
+      }
     }
     .navigationTitle("Settings.browse")
   }

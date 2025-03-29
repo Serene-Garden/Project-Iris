@@ -26,8 +26,9 @@ struct SwiftWebView: View {
   @AppStorage("dimmingAtSpecificPeriod") var dimmingAtSpecificPeriod = false
   @AppStorage("AppearanceSchedule") var appearanceSchedule = 0
   @AppStorage("isPrivateModeOn") var isPrivateModeOn = false
-  @AppStorage("quickExit") var quickExit = true
+  @AppStorage("exitButtonPos") var exitButtonPos = 0
   @AppStorage("debug") var debug = false
+  @AppStorage("gotoTipShouldDisplay") var gotoTipShouldDisplay = true
   @State var estimatedProgress: Double = 0
   @State var tintColorValues: [Any] = defaultColor
   @State var tintColor: Color = .blue
@@ -113,6 +114,28 @@ struct SwiftWebView: View {
           .buttonStyle(.plain)
           Spacer()
         }
+        VStack {
+          if exitButtonPos == 2 {
+            Button(action: {
+              webpageIsDisplaying = false
+            }, label: {
+              ZStack {
+                Rectangle()
+                  .fill(Color.gray)
+                  .frame(width: 50, height: 50)
+                  .opacity(0.0100000002421438702673861521)
+                Image(systemName: "escape")
+                  .font(.system(size: 20, weight: .light))
+                  .foregroundStyle(.red)
+                  .saturation(1.05)
+                //x: 10, y: 10, width: 30, height: 30
+              }
+            })
+            .buttonStyle(.plain)
+            .offset(x: -25)
+          }
+          Spacer()
+        }
         Spacer()
       }
               .ignoresSafeArea()
@@ -184,6 +207,11 @@ struct SwiftWebView: View {
                 .foregroundColor(.secondary)
                 .font(.footnote)
               }
+              if gotoTipShouldDisplay && !webpageIsArchive {
+                Text("Webpage.go-to.tip")
+                  .foregroundColor(.secondary)
+                  .font(.footnote)
+              }
             }
             .listRowBackground(Color.clear)
             .onTapGesture {
@@ -224,6 +252,7 @@ struct SwiftWebView: View {
                   }
                 }
                 .onAppear {
+                  gotoTipShouldDisplay = false
                   isEditedURLValid = editingURL.isURL()
                   if getSearchingKeywordFromURL(source: editingURL) != nil {
                     editingURL = getSearchingKeywordFromURL(source: editingURL)!
@@ -643,7 +672,7 @@ struct SwiftWebView: View {
               }
               
             }
-            if !quickExit {
+            if exitButtonPos == 1 {
               Section {
                 Button(role: .destructive, action: {
                   webpageIsDisplaying = false
@@ -672,7 +701,7 @@ struct SwiftWebView: View {
         }
         .toolbar {
           if #available(watchOS 10, *) {
-            if quickExit {
+            if exitButtonPos == 0 {
               ToolbarItem(placement: .topBarTrailing, content: {
                 Button(role: .destructive, action: {
                   webpageIsDisplaying = false
@@ -690,7 +719,9 @@ struct SwiftWebView: View {
     .onAppear {
       //Toolbar Color
       if #unavailable(watchOS 10) {
-        quickExit = false
+        if exitButtonPos == 0 {
+          exitButtonPos = 1
+        }
       }
       if (UserDefaults.standard.array(forKey: "tintColor") ?? []).isEmpty {
         UserDefaults.standard.set(defaultColor, forKey: "tintColor")

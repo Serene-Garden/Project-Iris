@@ -174,8 +174,9 @@ struct AboutPackagesView: View {
   var body: some View {
     List {
       AboutPackagesUnit(title: "Cepheus", footnote: "Apache-2.0")
+      AboutPackagesUnit(title: "CorvusKit", footnote: "Copyright 2024-2025 Darock Studio. All rights reserved.")
       AboutPackagesUnit(title: "Pictor", footnote: "Apache-2.0")
-      AboutPackagesUnit(title: "RadarKitCore", footnote: "Copyright 2024 Darock Studio. All rights reserved.", type: 1)
+      AboutPackagesUnit(title: "RadarKitCore", footnote: "Copyright 2024-2025 Darock Studio. All rights reserved.")
       AboutPackagesUnit(title: "SolarTime", footnote: "MIT")
       AboutPackagesUnit(title: "SwiftSoup", footnote: "MIT")
       AboutPackagesUnit(title: "Vela", footnote: "Apache-2.0")

@@ -60,6 +60,11 @@ struct DebugView: View {
         }, label: {
           Label(String("View"), systemImage: "exclamationmark.bubble")
         })
+        NavigationLink(destination: {
+          CorvusReportView()
+        }, label: {
+          Label(String("Corvus Report"), systemImage: "exclamationmark.arrow.trianglehead.2.clockwise.rotate.90")
+        })
       }, header: {
         Text(verbatim: "Carina")
       })

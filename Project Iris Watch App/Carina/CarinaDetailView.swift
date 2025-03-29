@@ -152,7 +152,7 @@ struct CarinaDetailView: View {
         if feedbackBasics != nil {
           var feedback = RKCFileFormatter(for: feedbackBasics!)
           feedbackContent = feedback.content()
-          feedbackReplies = feedback.replies()
+          feedbackReplies = feedback.replies().filtered()
         }
         feedbackState = feedbackBasics?.state.rawValue ?? "UNMARKED"
       }
@@ -193,7 +193,7 @@ struct CarinaRepliesView: View {
             ForEach(0..<replies.count, id: \.self) { replyIndex in
               Section(content: {
                 if repliesExpanding[replyIndex] ?? true {
-                  //MARK: State
+                    //MARK: State
                   if replies[replyIndex].State != nil {
                     NavigationLink(destination: {
                       CarinaStateDescriptionView(feedbackState: replies[replyIndex].State!)
@@ -213,7 +213,7 @@ struct CarinaRepliesView: View {
                   if replies[replyIndex].Content != nil {
                     Label(replies[replyIndex].Content!, systemImage: "text.bubble")
                   }
-                  //MARK: Links
+                    //MARK: Links
                   if replies[replyIndex].AttachedLinks != nil {
                     if stringToStringArray(replies[replyIndex].AttachedLinks!)!.count > 1 {
                       NavigationLink(destination: {
@@ -243,7 +243,7 @@ struct CarinaRepliesView: View {
                       })
                     }
                   }
-                  //MARK: Attachments
+                    //MARK: Attachments
                   if contentHasAttachments(replies[replyIndex]) {
                     Label("Carina.has-attachments", systemImage: "paperclip")
                   }
@@ -279,26 +279,30 @@ struct CarinaRepliesView: View {
             }
           }
         } else {
-          if #available(watchOS 10, *) {
-            ContentUnavailableView {
-              Label("Carina.reply.none", systemImage: "bubble.and.pencil")
-            } description: {
-              Text("Carina.reply.none.description")
+          if isReady {
+            if #available(watchOS 10, *) {
+              ContentUnavailableView {
+                Label("Carina.reply.none", systemImage: "bubble.and.pencil")
+              } description: {
+                Text("Carina.reply.none.description")
+              }
+            } else {
+              List {
+                if #unavailable(watchOS 10) {
+                  Button(action: {
+                    replySheetIsDisplaying = true
+                  }, label: {
+                    Label("Carina.reply.send.title", systemImage: "paperplane")
+                  })
+                }
+                Text("Carina.reply.none")
+                  .bold()
+                Text("Carina.reply.none.description")
+              }
+              .foregroundStyle(.secondary)
             }
           } else {
-            List {
-              if #unavailable(watchOS 10) {
-                Button(action: {
-                  replySheetIsDisplaying = true
-                }, label: {
-                  Label("Carina.reply.send.title", systemImage: "paperplane")
-                })
-              }
-              Text("Carina.reply.none")
-                .bold()
-              Text("Carina.reply.none.description")
-            }
-            .foregroundStyle(.secondary)
+            ProgressView()
           }
         }
       } else {
@@ -343,7 +347,7 @@ struct CarinaRepliesView: View {
       var feedbackBasics = await projectManager.getFeedback(byId: id)
       if feedbackBasics != nil {
         var feedback = RKCFileFormatter(for: feedbackBasics!)
-        replies = feedback.replies().reversed()
+        replies = feedback.replies().reversed().filtered()
         feedbackIsClosed = feedbackBasics!.shouldDisableUserReply
       }
     }

@@ -15,7 +15,7 @@ let longPressFlippingInterval = 0.1
 public struct ImageView: View {
   var caption: Text?
   var aspectRatic: Binding<CGFloat>?
-//  var url: URL
+    //  var url: URL
   var urlSet: [URL]
   @State var urlIndex: Int = 0
   @State var image: Image?
@@ -23,6 +23,8 @@ public struct ImageView: View {
   
   @State var dragOffset: CGSize = CGSize.zero
   @State var digitalCrownRotation: CGFloat = 0.7
+  @State var offset = CGSize.zero
+  @State var lastOffset = CGSize.zero
   
   @State var controllerTimer: Timer?
   @State var showController = false
@@ -37,15 +39,29 @@ public struct ImageView: View {
           .resizable()
           .scaledToFit()
           .scaleEffect(digitalCrownRotation)
-          .offset(x: self.dragOffset.width, y: self.dragOffset.height)
-          .gesture(DragGesture()
-            .onChanged { value in
-              dragOffset.width = dragOffset.width + value.location.x - value.startLocation.x
-              dragOffset.height = dragOffset.height + value.location.y - value.startLocation.y
-              dragOffset = value.translation
-            }
-          )
-          .ignoresSafeArea()
+.offset(x: offset.width, y: offset.height)
+.gesture(DragGesture()
+  .onChanged { gesture in
+    offset = CGSize(width: gesture.translation.width + lastOffset.width, height: gesture.translation.height + lastOffset.height)
+  }
+  .onEnded { _ in
+    lastOffset = offset
+  }
+         //
+         //            .onChange(of: scale) { value in
+         //              if value < 2.0 {
+         //                withAnimation(.easeInOut(duration: 0.3)) {
+         //                  offset = CGSize.zero
+         //                  lastOffset = CGSize.zero
+         //                }
+         //              }
+         //            }
+)
+.onDisappear {
+  offset = CGSize.zero
+  lastOffset = CGSize.zero
+}
+.ignoresSafeArea()
       }, placeholder: {
         ProgressView()
       })
@@ -92,7 +108,7 @@ public struct ImageView: View {
                   flipperTimer?.invalidate()
                 }
               }, perform: {
-                //I am an easter egg.
+                  //I am an easter egg.
               })
               Spacer()
               
@@ -133,7 +149,7 @@ public struct ImageView: View {
                   flipperTimer?.invalidate()
                 }
               }, perform: {
-                //I guess @WindowsMEMZ would find this.
+                  //I guess @WindowsMEMZ would find this.
               })
             }
             .opacity(showController ? 1 : 0)

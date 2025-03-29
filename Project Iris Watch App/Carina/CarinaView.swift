@@ -111,6 +111,9 @@ struct CarinaView: View {
     }
     .onAppear {
       personalFeedbacks = (UserDefaults.standard.array(forKey: "personalFeedbacks") ?? []) as! [Int]
+      if ((UserDefaults.standard.array(forKey: "personalFeedbacksStorage") ?? []) as! [Int]).isEmpty && !personalFeedbacks.isEmpty {
+        UserDefaults.standard.set(personalFeedbacks, forKey: "personalFeedbacksStorage")
+      }
       personalFeedbackTitles = (UserDefaults.standard.dictionary(forKey: "personalFeedbackTitles") ?? [:]) as! [Int: String]
       fetchWebPageContent(urlString: "https://fapi.darock.top:65535/iris/newver") { result in
         switch result {
@@ -148,52 +151,6 @@ struct CarinaView: View {
   }
 }
 
-struct CarinaNewNavigationView: View {
-  @State var latestVer = ""
-  var body: some View {
-    Group {
-      if !currentVersionIsOutOfDate(latestVer) {
-        CarinaNewView()
-      } else {
-        VStack {
-          if #available(watchOS 10, *) {
-            Image(systemName: "arrowshape.up.fill")
-              .font(.largeTitle)
-              .bold()
-          } else {
-            Image(systemName: "clock.arrow.circlepath")
-              .font(.largeTitle)
-              .bold()
-          }
-          Text("Carina.update")
-          HStack {
-            Text(currentIrisVersion)
-              .monospaced()
-            Image(systemName: "chevron.forward")
-            //Image(systemName: "arrow.right")
-            Text("\(latestVer.isEmpty ? "[ERROR]" : latestVer)")
-              .monospaced()
-          }
-          .font(.caption)
-          .foregroundStyle(.secondary)
-        }
-      }
-    }
-    .onAppear {
-      fetchWebPageContent(urlString: "https://fapi.darock.top:65535/iris/newver") { result in
-        switch result {
-          case .success(let content):
-            latestVer = content.components(separatedBy: "\"")[1]
-            if latestVer.contains("!") {
-              latestVer = latestVer.components(separatedBy: "!")[0]
-            }
-          case .failure(let error):
-            latestVer = currentIrisVersion
-        }
-      }
-    }
-  }
-}
 //  }
 
 func currentVersionIsOutOfDate(_ latestVersion: String) -> Bool {
@@ -228,3 +185,23 @@ let newCarinaStateIcons: [String: String] = ["UNMARKED": "minus", "UNDER_INVESTI
 let carinaBusyStateTitle: [Int: LocalizedStringKey] = [0: "Carina.busy-state.efficient", 1: "Carina.busy-state.delayed", 2: "Carina.busy-state.busy", 3: "Carina.busy-state.standstill", 4: "Carina.busy-state.service-interruption"]
 let carinaBusyDescription: [Int: LocalizedStringKey] = [0: "Carina.busy-state.efficient.description", 1: "Carina.busy-state.delayed.description", 2: "Carina.busy-state.busy.description", 3: "Carina.busy-state.standstill.description", 4: "Carina.busy-state.service-interruption.description"]
 let carinaBusyStateColor: [Int: Color] = [0: .green, 1: .orange, 2: .orange, 3: .red, 4: .orange]
+
+
+
+extension Array<RKCFormattedFile> {
+  func filtered() -> Array<RKCFormattedFile> {
+    var output: [RKCFormattedFile] = []
+    if !self.isEmpty {
+      for i in 0..<self.count {
+        if self[i].isInternalHidden {
+          continue
+        } else if !((self[i].State != nil) || (self[i].Content != nil) || (self[i].AttachedLinks != nil) || (self[i].AttachedLinks != nil)) {
+          continue
+        } else {
+          output.append(self[i])
+        }
+      }
+    }
+    return output
+  }
+}

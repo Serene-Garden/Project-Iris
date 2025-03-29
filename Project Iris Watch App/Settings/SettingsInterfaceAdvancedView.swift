@@ -37,8 +37,10 @@ struct SettingsInterfaceAdvancedView: View {
   //  @State var editingToolbar = 0
   //  @Environment(\.dismiss) var dismiss
   let fontDesign: [Int: Font.Design] = [0: .default, 1: .rounded, 2: .monospaced, 3: .serif]
-  let availableLanguages = ["", "ar", "zh-Hans", "zh-Hant", "nl", "en", "fr", "de", "hi", "id", "it", "ja", "ko", "pl", "pt", "ru", "es", "th", "tr", "uk", "vi"]
-  let presentationText = ["∗", "عر", "简", "繁", "Nl", "En", "Fr", "De", "हि", "Id", "It", "日", "한", "Pl", "Pt", "Ру", "Es", "ทย", "Tr", "Ук", "Vi"]
+  let availableLanguages = ["", "zh-Hans", "zh-Hant","en"]
+  let presentationText = ["∗", "简", "繁", "En"]
+    //  let availableLanguages = ["", "ar", "zh-Hans", "zh-Hant", "nl", "en", "fr", "de", "hi", "id", "it", "ja", "ko", "pl", "pt", "ru", "es", "th", "tr", "uk", "vi"]
+    //  let presentationText = ["∗", "عر", "简", "繁", "Nl", "En", "Fr", "De", "हि", "Id", "It", "日", "한", "Pl", "Pt", "Ру", "Es", "ทย", "Tr", "Ук", "Vi"]
   var body: some View {
       //MARK: --- Advanced ---
       List {
@@ -117,8 +119,12 @@ struct SettingsInterfaceAdvancedView: View {
                   })
                 }
               }, footer: {
-                Text("Settings.interface.advanced.languange.footer")
+//                if false {
+                  Text("Settings.interface.advanced.languange.footer")
+//                }
+//                Text("Settings.interface.advanced.languange.footer.description")
               })
+//              .disabled()
             }
             .navigationTitle("Settings.interface.advanced.languange")
             .onAppear {

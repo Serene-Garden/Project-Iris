@@ -30,21 +30,28 @@ struct SettingsView: View {
   var body: some View {
     NavigationStack {
       Form {
-        if todayIsSpecificDate(month: 1, day: 1) {
+        if todaysHoliday() == "NewYear" {
           HStack {
             Text(verbatim: "🎉")
               .font(.title3)
             Text("Settings.holiday.new-year.\(String(getCurrentYear()))")
             Spacer()
           }
-        } else if todayIsSpecificDate(month: 12, day: 25) {
+        } else if todaysHoliday() == "Christmas" {
           HStack {
             Text(verbatim: "🎄")
               .font(.title3)
             Text("Settings.holiday.christmas")
             Spacer()
           }
-        } else if todayIsChineseNewYear() && "\(languageCode)".contains("zh") {
+        } else if todaysHoliday() == "AprilFools" {
+          HStack {
+            Text(verbatim: "🗿")
+              .font(.title3)
+            Text("Settings.holiday.april-fools")
+            Spacer()
+          }
+        } else if todaysHoliday() == "ChineseNewYear" {
           HStack {
             Text(verbatim: "🎆")
               .font(.title3)
@@ -198,23 +205,30 @@ struct SettingsView: View {
   }
 }
 
-func todayIsSpecificDate(month: Int, day: Int) -> Bool {
-  let today = Date()
-  let calendar = Calendar.current
-  let components = calendar.dateComponents([.month, .day], from: today)
-  return components.month == month && components.day == day
-}
-  
-func todayIsChineseNewYear() -> Bool {
-  let today = Date()
-  let chineseCalendar = Calendar(identifier: .chinese)
-  let components = chineseCalendar.dateComponents([.month, .day], from: today)
-  return components.month == 1 && components.day == 1
-}
-
 func getCurrentYear() -> Int {
   let today = Date()
   let gregorianCalendar = Calendar(identifier: .gregorian)
   let gregorianYear = gregorianCalendar.component(.year, from: today)
   return gregorianYear
+}
+
+
+func todaysHoliday() -> String {
+  let today = Date()
+  let calendar = Calendar.current
+  let todaysComponents = calendar.dateComponents([.month, .day], from: today)
+  let chineseCalendar = Calendar(identifier: .chinese)
+  let chineseComponents = chineseCalendar.dateComponents([.month, .day], from: today)
+  
+  if todaysComponents.month == 1 && todaysComponents.day == 1 {
+    return "NewYear"
+  } else if todaysComponents.month == 12 && todaysComponents.day == 25 {
+    return "Christmas"
+  } else if todaysComponents.month == 4 && todaysComponents.day == 1 {
+    return "AprilFools"
+  } else if chineseComponents.month == 1 && chineseComponents.day == 1 && "\(languageCode)".contains("zh") {
+    return "ChineseNewYear"
+  } else {
+    return "nil"
+  }
 }

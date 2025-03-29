@@ -13,7 +13,6 @@ import UIKit
 
 public final class WebViewUIDelegate: NSObject, WKUIDelegate {
   public static let shared = WebViewUIDelegate()
-  
   public func webView(
     _ webView: WKWebView,
     createWebViewWith configuration: WKWebViewConfiguration,
@@ -159,6 +158,7 @@ func getTopLevel(from url: String) -> String? {
   if !url.contains(".") {
     return nil
   }
+  
   let noScheme: String
   if url.hasPrefix("http://")
       || url.hasPrefix("https://")
@@ -168,6 +168,7 @@ func getTopLevel(from url: String) -> String? {
   } else {
     noScheme = url
   }
+  
   if let dotSpd = noScheme.split(separator: "/").first {
     let specialCharacters: [Character] = ["/", "."]
     if let splashSpd = dotSpd.split(separator: ".").last, let colonSpd = splashSpd.split(separator: ":").first {
@@ -205,12 +206,12 @@ func getMediaCompleteURL(_ base: URL, _ relativePath: String) -> URL? {
   return URL(string: relativePath, relativeTo: base)?.absoluteURL
 }
 
-func arraySafeAccess<T>(_ array: Array<T>, element: Int) -> T? {
+func arraySafeAccess<T>(_ array: Array<T>, element: Int, defaultAs: T? = nil) -> T? {
   //This function avoids index out of range error when accessing a range.
   //If out, then it will return nil instead of throwing an error.
   //Normally it will just return the content, but in optional.
   if element >= array.count || element < 0 { //Index out of range
-    return nil
+    return defaultAs
   } else { //Index in range
     //    print(array)
     //    print(element)
@@ -362,6 +363,10 @@ extension String {
   }
   
   func isURL() -> Bool {
+    if self.contains("site:") {
+      return false
+    }
+    
     var topLevelDomainList = (try! String(contentsOf: Bundle.main.url(forResource: "TopLevelDomainList", withExtension: "txt")!, encoding: .utf8))
       .split(separator: "\n")
       .map { String($0) }
