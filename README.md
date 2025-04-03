@@ -27,3 +27,6 @@ If you have found any issues or you have a suggestion, you can:
 - Send me or others an email, which could be found in Credits
 
 My email address is mallets02.plums@icloud.com
+
+## Notes
+**2025/04/03** Updated License from GPL-3.0 to AGPL-3.0
