@@ -29,4 +29,4 @@ If you have found any issues or you have a suggestion, you can:
 My email address is mallets02.plums@icloud.com
 
 ## Notes
-**2025/04/03** Updated License from GPL-3.0 to AGPL-3.0
+**2025/04/03** Updated License from GPL-3.0 to AGPL-3.0. Attributes are displayed in-app.
